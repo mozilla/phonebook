@@ -1,0 +1,155 @@
+
+body {
+  font-family: Georgia, serif;
+  font-size: 12px;
+  padding: 15px;
+  margin: 0;
+  background: url(background.jpg) repeat-x fixed;
+}
+
+a:link, a:visited {
+  color: #0489B7;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+#phonebook-label {
+  font-weight: bold;
+  font-size: 2em;
+  margin-right: 1em;
+  display: inline;
+}
+
+#links, #links li {
+  display: inline;
+}
+
+#links li {
+  border-right: 1px solid black;
+  padding: 0 1em 0 1em;
+}
+
+#links li:last-child {
+  border-right: none;
+}
+
+div.vcard {
+  width: 26em;
+  padding: 1em;
+  margin: 0.5em;
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(64, 64, 64, 0.5);
+  -moz-border-radius: 0.5em;
+  display: inline-block;
+  vertical-align: top;
+  min-height: 18em;
+}
+
+div.vcard img.photo {
+  float: right;
+  margin-left: 1em;
+}
+
+div.vcard p.fn {
+  margin: 0;
+  font-size: 1.25em;
+  font-weight: bold;
+}
+
+div.vcard p.title {
+  font-size: 1.2em;
+}
+
+div.vcard p.title, div.vcard p.employee-type, div.vcard p.manager {
+  margin: 0;
+  color: #555;
+}
+
+div.adr {
+  
+}
+
+div.telecommunications ul {
+  padding-left: 0;
+  list-style-type: none;
+}
+
+li.tel {
+  background: url(../img/phone.png) no-repeat;
+  height: 16px;
+  padding-left: 16px;
+}
+
+a[href^="mailto:"] {
+  background: url(../img/email.png) no-repeat;
+  height: 16px;
+  padding-left: 18px;
+}
+
+div.vcard hr {
+  height: 1px;
+  color: #555;
+  background-color: #555;
+  border: none;
+}
+
+table.edit-table tr td {
+  padding-bottom: 1em;
+}
+
+#email-alias-add, #phone-number-add, #im-add {
+  padding-left: 18px;
+  background: url(../img/add.png) no-repeat;
+}
+
+a.remove-link {
+  padding-left: 16px;
+  background: url(../img/remove.png) no-repeat;
+}
+
+td input + a {
+  margin-left: 0.5em;
+}
+
+.autocomplete-w1 {
+  background:url(../img/shadow.png) no-repeat bottom right;
+  position: absolute;
+  top: 4px;
+  left: 3px;
+  /* IE6 fix:  */
+  _background: none;_top: 1px;
+}
+
+.autocomplete {
+  width: 300px;
+  border: 1px solid #999;
+  background: #FFF;
+  cursor: default;
+  text-align: left;
+  max-height: 350px;
+  overflow: auto;
+  margin: -6px 6px 6px -6px;
+  /* IE specific:  */
+  _height: 350px;
+  _margin: 0px 6px 6px 0;
+  overflow-x: hidden;
+}
+
+.autocomplete .selected {
+  background: #CCC;
+}
+
+.autocomplete div {
+  padding: 2px 5px;
+  white-space: nowrap;
+}
+
+.autocomplete strong {
+  font-weight: normal;
+  color: #0489B7;
+}
+
+

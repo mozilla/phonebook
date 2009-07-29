@@ -1,0 +1,96 @@
+
+div#egglaunch {
+    background: #fff url('../img/triggeregg.gif') no-repeat;
+    position: fixed;
+    right: 0px;
+    bottom: 0px;
+    width: 60px;
+    height: 60px;
+}
+
+div#egglaunch a {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+/* Giant Eggs */
+div#easteregg {
+    position:absolute;
+    top: 25px;
+    margin: auto;
+    width: 95%;
+    min-width: 1200px;
+    height: 750px;
+    display:none;
+}
+
+div#easteregg div#firstegg {
+    background: #fff url('../img/firstegg.png') no-repeat scroll bottom;
+    width:640px;
+}
+div#easteregg div#secondegg {
+    background: #fff url('../img/secondegg.png') no-repeat scroll bottom;
+    width:400px;
+    font-family:sans-serif;
+}
+div#easteregg div#firstegg,
+div#easteregg div#secondegg {
+    height: 750px; /* 100% doesn't work.wtf. */
+    float:left;
+    padding-left: 20px;
+}
+div#easteregg div div.lights {
+    padding: 30px 30px 30px 30px;
+    background-image: url('../img/lights.gif');
+}
+div#easteregg div div.lights div.frame {
+    background-color: #aaa;
+    min-height: 400px;
+}
+
+/* Message */
+div#easteregg div#message {
+    position:fixed;
+    bottom: 30px;
+    width:50%;
+    left:25%;
+    border:2px dashed #00f;
+    background-color: #aaf;
+    font-weight:bold;
+    padding: 15px;
+}
+
+/* Picture Egg */
+div#easteregg img#mystery {
+    display:block;
+    max-width: 580px;
+    max-height: 400px;
+    min-width:100px;
+    margin:auto;
+}
+
+/* Names Egg */
+div#easteregg h1 {
+    margin: 0px auto 5px auto;
+    width:70%;
+}
+
+div#easteregg ul#options {
+    list-style-type:none;
+}
+
+div#easteregg ul#options li{
+    background-image: url('../img/namebg.png');
+    background-repeat: no-repeat;
+    width:360px;
+    height:50px;
+    padding: 15px 0px 0px 15px;
+    font-weight:bold;
+}
+
+div#easteregg div#score {
+    width: 70%;
+    margin: 0px auto 5px auto;
+    font-weight:bold;
+}

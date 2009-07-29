@@ -1,0 +1,28 @@
+table.edit_table tr td {
+	padding-bottom: 1em;
+
+}
+
+.fullwidth-table {
+	border: solid #666 1px;
+	border-collapse: collapse;
+	width: 100%;
+	margin-bottom: 10px;
+	background: #FFF;
+}
+
+.fullwidth-table td {
+	text-align: left;
+	vertical-align: top;
+	padding: 5px 15px 5px 15px;
+	border: solid #BBB 1px;
+}
+
+.fullwidth-table td.header, .fullwidth-table th {
+	background: #DDD;
+	border: solid #BBB 1px;
+	font-weight: bold;
+	font-size: 1.2em;
+	text-align: left;
+	padding: 0px 5px 0px 5px;
+}
