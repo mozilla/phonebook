@@ -68,29 +68,32 @@
       });
       
       var listify = function(a) {
-        return "<ul>" + $A(a).map(function(x) {
+        return $A(a).map(function(x) {
           return "<li>" + x + "</li>";
-        }).join('') + "</ul>";
+        }).join('');
       };
       var emailLinkify = function(s) {
-        return '<a class="value" href="mailto:#{s}">#{s}</a>'.interpolate({s: s});
+        return '<li><a class="value" href="mailto:#{s}">#{s}</a></li>'.interpolate({s: s});
       };
       var processors = $H({
         "email": emailLinkify,
         "emailalias": emailLinkify.wrap(function(original, email) {
           email = Object.isString(email) ? [email] : $A(email);
-          return ", " + email.map(original).join(", ");
+          return email.map(original);
         }),
         "employeetype": function(l) { return l.join(", "); },
-        "im": listify,
+        "im": listify.wrap(function(original, im) {
+          return im ? ('<ul class="im">' + original(im) + '</ul>') : '';
+        }),
         "mobile": listify.wrap(function(original, list) {
-          return original(list).replace(/<li>/, '<li class="tel">');
+          return '<ul class="telecommunications">' +
+                 original(list).replace(/<li>/, '<li class="tel">') + '</ul>';
         }),
         "description": function(s) {
-          return '<p class="note">I work on: #{s}</p>'.interpolate({s: s});
+          return '<div class="note">I work on: #{s}</div>'.interpolate({s: s});
         },
         "other": function(s) {
-          return "<hr />" + s;
+          return '<div class="other">' + s + '</div>';
         },
         "manager": function(m) {
           return '<p class="manager">Manager: <a href="#search/#{email}">#{name}</a></p>'.interpolate({
@@ -98,7 +101,10 @@
             name: m.cn
           });
         },
-        "telephonenumber": function(x) { return "ext. " + x; }
+        "telephonenumber": function(x) { return "ext. " + x; },
+        "bugzillaemail": function(s) {
+          return '<ul class="bugmail"><li><a title="Bugmail">#{s}</a></li></ul>'.interpolate({s: s});
+        }
       });
 
       function startSearch() {
@@ -139,22 +145,24 @@
 
       function template(person) {
         return [
-        '#{picture}<p class="fn">#{cn}</p>',
-        '<p class="title">#{title}</p>',
-        '<p class="employee-type">#{employeetype}</p>',
-        '<div class="adr">#{telephonenumber} @ ',
-          '<span class="locality">#{physicaldeliveryofficename}</span>',
-        '</div>',
-        '#{manager}',
-        '<div class="telecommunications">',
+        '<div class="header"><h2 class="fn">#{cn}</h2></div>',
+        '<div class="body">#{picture}',
+          '<div class="employee">',
+            '<p class="title">#{title}</p>',
+            '<p class="employee-type">#{employeetype}</p>',
+            '#{manager}',
+          '</div>',
+          '<ul class="adr"><li>#{telephonenumber} @ ',
+            '<span class="locality">#{physicaldeliveryofficename}</span>',
+          '</li></ul>',
+        // '#{bugzillaemail}',
           '#{mobile}',
-          '<p class="email">',
-            '#{email}#{emailalias}',
-          '</p>',
+          '<ul class="email">#{email}#{emailalias}</ul>',
+          '#{bugzillaemail}',
           '#{im}',
-        '</div>',
-        '#{description}',
-        '#{other}'
+          '#{description}',
+          '#{other}',
+        '</div><div class="footer"></div>'
         ].join('').interpolate(person);
       }
     });
@@ -164,14 +172,16 @@
   <body>
     <div id="header">
       <form action="search.php" method="get" id="phonebook-search">
-        <label for="text" id="phonebook-label">Phonebook</label>
-        <input type="text" name="query" id="text" />
-        <input type="submit" value="Search" id="search" />
-        <ul id="links">
+        <h1>Phonebook</h1>
+        <div id="search-region">
+          <input type="text" name="query" id="text" />
+          <input type="submit" value="Search" id="search" />
+        </div>
+        <ul id="menu">
           <li><a href="./#search/*">Everyone</a></li>
           <li><a href="https://intranet.mozilla.org/">Intranet</a></li>
-          <li><a href="https://intranet.mozilla.org/OfficeLocations">Office Locations</a></li>
-          <li><a href="edit.php" id="edit-entry">Edit Entry</a></li>
+          <li><a href="https://intranet.mozilla.org/OfficeLocations">Offices</a></li>
+          <li class="edit"><a href="edit.php" id="edit-entry">Edit My Entry</a></li>
         </ul>
       </form>
     </div>

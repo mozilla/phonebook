@@ -1,14 +1,34 @@
 <?php
 
+function ask() {
+  header('WWW-Authenticate: Basic realm="Mozilla Corporation - LDAP Login"');
+}
+
+function wail_and_bail() {
+  header('HTTP/1.0 401 Unauthorized');
+  ask();
+  print "<h1>401 Unauthorized</h1>";
+  die; 
+}
+
 function get_ldap_connection() {
   $ldapconn = ldap_connect(LDAP_HOST);
   
   if (!isset($_SERVER["PHP_AUTH_USER"])) {
-    header('WWW-Authenticate: Basic realm="Mozilla Corporation - LDAP Login"');
+    ask();
+    wail_and_bail();
+  } else {
+    // Check for validity of login
+    if (preg_match("/[a-z]+@mozilla\\.com/", $_SERVER["PHP_AUTH_USER"])) {
+      $user_dn = "mail=". $_SERVER["PHP_AUTH_USER"] .",o=com,dc=mozilla";
+      $password = $_SERVER["PHP_AUTH_PW"];
+    } else {
+      wail_and_bail();
+    }
   }
-  $user_dn = "mail=". $_SERVER["PHP_AUTH_USER"] .",o=com,dc=mozilla";
 
   if (!ldap_bind($ldapconn, $user_dn, $_SERVER['PHP_AUTH_PW'])) {
+    wail_and_bail();
     die(ldap_error($ldapconn));
   }
 

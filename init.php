@@ -3,7 +3,7 @@ ini_set("include_path", ini_get("include_path").':'.dirname(dirname(__FILE__)));
 
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
-ini_set("memory_limit", "32M");
+ini_set("memory_limit", "64M");
 define("MEMCACHE_ENABLED", true);
 $easteregg = false;
 $prototype = false;

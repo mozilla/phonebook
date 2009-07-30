@@ -1,118 +1,207 @@
 
-body {
-  font-family: Georgia, serif;
-  font-size: 12px;
-  padding: 15px;
+* {
   margin: 0;
-  background: url(background.jpg) repeat-x fixed;
-}
-
-a:link, a:visited {
-  color: #0489B7;
+  padding: 0;
+  font-family: inherit;
+  font-size: 100%;
+  font-weight: inherit;
+  font-style: inherit;
   text-decoration: none;
-}
+  list-style: none;
+  }
 
+html {
+  font: 16px "Lucida Grande", "Lucida Sans Unicode", sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  background: url(../img/bg.png) #67a7c7 repeat-x fixed;
+  color: #fff;
+  }
+  
 a:hover {
   text-decoration: underline;
-}
+  }
 
-#phonebook-label {
-  font-weight: bold;
-  font-size: 2em;
-  margin-right: 1em;
-  display: inline;
-}
 
-#links, #links li {
-  display: inline;
-}
-
-#links li {
-  border-right: 1px solid black;
-  padding: 0 1em 0 1em;
-}
-
-#links li:last-child {
-  border-right: none;
-}
-
-div.vcard {
-  width: 26em;
-  padding: 1em;
-  margin: 0.5em;
-  background: rgba(255, 255, 255, 0.25);
-  border: 1px solid rgba(64, 64, 64, 0.5);
-  -moz-border-radius: 0.5em;
-  display: inline-block;
-  vertical-align: top;
-  min-height: 18em;
-}
-
-div.vcard img.photo {
-  float: right;
-  margin-left: 1em;
-}
-
-div.vcard p.fn {
-  margin: 0;
-  font-size: 1.25em;
-  font-weight: bold;
-}
-
-div.vcard p.title {
-  font-size: 1.2em;
-}
-
-div.vcard p.title, div.vcard p.employee-type, div.vcard p.manager {
-  margin: 0;
-  color: #555;
-}
-
-div.adr {
+#header {
+  position: relative;
+  width: 60em;
+  margin: 1.5em auto 1.5em auto;
+  }
+  #header h1 {
+    position: absolute;
+    width: 220px;
+    height: 44px;
+    left: 0;
+    top: -11px;
+    background: url(../img/phonebook.png) no-repeat;
+    text-indent: -1000em;
+  }
   
-}
+#search-region {
+  display: inline;
+  margin-left: 240px;
+  font-size: .875em;
+  }
 
-div.telecommunications ul {
-  padding-left: 0;
-  list-style-type: none;
-}
+#menu {
+  display: inline;
+  margin-left: 2em;
+  }
+  #menu li {
+    display: inline;
+    margin-left: 1.5em;
+    font-size: .857em;
+    }
+  #menu a {
+    color: #acd1e3;
+    }
+  #menu li.edit {
+    float: right;
+    padding-left: 24px;
+    background: url(../img/edit.png) no-repeat 0 center;
+    }
 
-li.tel {
-  background: url(../img/phone.png) no-repeat;
-  height: 16px;
-  padding-left: 16px;
-}
 
-a[href^="mailto:"] {
-  background: url(../img/email.png) no-repeat;
-  height: 16px;
-  padding-left: 18px;
-}
-
-div.vcard hr {
-  height: 1px;
-  color: #555;
-  background-color: #555;
-  border: none;
-}
-
-table.edit-table tr td {
-  padding-bottom: 1em;
-}
-
+#results {
+  overflow: auto;
+  width: 62em;
+  margin: 0 auto;
+  }
+  
+.vcard {
+  display: block;
+  display: inline-block;
+  width: 31em;
+  vertical-align: top;
+  margin-top: 1em;
+  }
+  .vcard .header,
+  .vcard .body,
+  .vcard .footer {
+    width: 434px;
+    padding: 0 20px;
+    margin: 0 auto;
+  }
+  .vcard .header {
+    position: relative;
+    height: 45px;
+    background: url(../img/vcard_header.png) no-repeat;
+    }
+    .vcard .header h2 {
+      position: absolute;
+      left: 20px;
+      top: 12px;
+      font-family: georgia, sans-serif;
+      font-size: 1.31em;
+      color: #fff;
+    }
+  .vcard .body {
+    overflow: auto;
+    min-height: 200px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: url(../img/vcard_body.png) repeat-y;
+    font-size: .875em;
+    color: #343434;
+    line-height: 1.3;
+    }
+    .vcard .body a {
+      color: #276787;
+      }
+    .vcard .body div,
+    .vcard .body ul {
+      padding: .375em 0;
+      padding-left: 24px;
+      border-bottom: 1px dotted #acd1e3;
+      background-repeat: no-repeat;
+      background-position: 0 .375em;
+      }
+    .vcard .body div:first-child {
+      padding-top: 0;
+      }
+    .vcard .body div:last-child {
+      padding-bottom: 0;
+      border-bottom: none;
+      }
+    .vcard .body li,
+    .vcard .body p {
+      }
+    .vcard .photo {
+      float: right;
+      padding: 0 0 1em 1em;
+      background: #fff;
+      }
+    .vcard .body div.employee {
+      padding-left: 0;
+      padding-top: 0;
+      padding-bottom: .75em;
+      border-bottom: none;
+      }
+    .vcard .title {
+      font-family: georgia, serif;
+      font-size: 1.28em;
+      color: #000;
+      }
+    .vcard .employee-type {
+      font-family: georgia, serif;
+      color: #686868;
+      }
+    .vcard .manager {
+      font-family: georgia, serif;
+      }
+    .vcard .adr {
+      background-image: url(../img/world.png);
+      }
+    .vcard .telecommunications {
+      background-image: url(../img/telephone.png);
+      }
+    .vcard .email {
+      background-image: url(../img/email.png);
+      }
+    .vcard .bugmail {
+      background-image: url(../img/bugzilla.png);
+      }
+    .vcard .im {
+      background-image: url(../img/im.png);
+      }
+    .vcard .note {
+      background-image: url(../img/work.png);
+      }
+  .vcard .footer {
+    height: 36px;
+    background: url(../img/vcard_footer.png) no-repeat;
+    }
+  
 #email-alias-add, #phone-number-add, #im-add {
   padding-left: 18px;
   background: url(../img/add.png) no-repeat;
-}
+  }
 
-a.remove-link {
+a.remove-link { 
   padding-left: 16px;
   background: url(../img/remove.png) no-repeat;
-}
+  }
 
-td input + a {
-  margin-left: 0.5em;
-}
+table.edit-table {
+  font-size: 12px;
+  }
+
+  table.edit-table a {
+    color: #acd1e3
+    }
+
+  table.edit-table td {
+    padding: 0.5em;
+    }
+
+  table.edit-table tr td:first-child {
+    vertical-align: top;
+    }
+
+  td input + a { 
+    margin-left: 0.5em;
+  }
 
 .autocomplete-w1 {
   background:url(../img/shadow.png) no-repeat bottom right;
@@ -120,8 +209,9 @@ td input + a {
   top: 4px;
   left: 3px;
   /* IE6 fix:  */
-  _background: none;_top: 1px;
-}
+  _background: none;
+  _top: 1px;
+  }
 
 .autocomplete {
   width: 300px;
@@ -136,20 +226,19 @@ td input + a {
   _height: 350px;
   _margin: 0px 6px 6px 0;
   overflow-x: hidden;
-}
+  }
 
-.autocomplete .selected {
-  background: #CCC;
-}
+  .autocomplete .selected {
+    background: #CCC;
+    }
 
-.autocomplete div {
-  padding: 2px 5px;
-  white-space: nowrap;
-}
+  .autocomplete div {
+    padding: 2px 5px;
+    white-space: nowrap;
+    }
 
-.autocomplete strong {
-  font-weight: normal;
-  color: #0489B7;
-}
-
+  .autocomplete strong {
+    font-weight: normal;
+    color: #0489B7;
+    }
 

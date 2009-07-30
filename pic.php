@@ -3,8 +3,11 @@
 require_once('init.php');
 define("NULL_PIC", dirname(__FILE__) . "/img/null.jpg");
 
-$width = "120"; 
-$height = "150";
+// $width = "120"; 
+// $height = "150";
+
+$width = "140";
+$height = "175";
 
 //if (!empty($_GET['width']) {
 //  $width = $_GET['width']);

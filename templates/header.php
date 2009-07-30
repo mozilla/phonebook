@@ -88,14 +88,16 @@
 
 <div id="header">
   <form action="search.php" method="get" id="phonebook-search">
-    <label for="text" id="phonebook-label">Phonebook</label>
-    <input type="text" name="search" id="text" />
-    <input type="submit" value="Search" id="search" />
-    <ul id="links">
+    <h1>Phonebook</h1>
+    <div id="search-region">
+      <input type="text" name="query" id="text" />
+      <input type="submit" value="Search" id="search" />
+    </div>
+    <ul id="menu">
       <li><a href="./#search/*">Everyone</a></li>
       <li><a href="https://intranet.mozilla.org/">Intranet</a></li>
-      <li><a href="https://intranet.mozilla.org/OfficeLocations">Office Locations</a></li>
-      <li><a href="edit.php" id="edit-entry">Edit Entry</a></li>
+      <li><a href="https://intranet.mozilla.org/OfficeLocations">Offices</a></li>
+      <li class="edit"><a href="edit.php" id="edit-entry">Edit My Entry</a></li>
     </ul>
   </form>
 </div>
