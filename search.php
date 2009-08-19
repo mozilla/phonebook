@@ -1,6 +1,5 @@
 <?php
 require_once("init.php");
-require_once("output.inc");
 
 $keyword = isset($_GET["query"]) ? $_GET["query"] : '*';
 $entries = normalize(search_users($ldapconn, $keyword));
@@ -22,10 +21,15 @@ foreach ($entries as &$entry) {
     }
   }
   if (preg_match("/mail=(\w+@mozilla.*),o=/", $entry["dn"], $m)) {
-    $entry["picture"] = BASEPATH ."pic.php?type=thumb&mail=". $m[1];
+    $entry["picture"] = BASEPATH ."pic.php?mail=". $m[1];
   }
 }
 
 $format = isset($_GET["format"]) ? $_GET["format"] : "json";
+if (!file_exists("output-$format.inc")) {
+  $format = "json";
+}
+require_once("output-$format.inc");
 $function = "output_$format";
-call_user_func($function, $entries);
+$user = $_SERVER["PHP_AUTH_USER"];
+call_user_func($function, $entries, is_phonebook_admin($ldapconn, $user));

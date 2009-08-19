@@ -76,27 +76,6 @@ function employee_status($status) {
   }
 }
 
-/*function get_manager($ldapconn, $manager_dn) {
-  global $memcache_on, $memcache;
-  if ($memcache_on && ($manager = $memcache->get($manager_dn))) {
-      return $manager;
-  }
-  $manager_search = ldap_search($ldapconn, $manager_dn, '(mail=*)', array('cn','mail'));
-  if ($manager_search) { 
-    $entry = ldap_first_entry($ldapconn, $manager_search);
-    if ($entry) { 
-      $attrs = ldap_get_attributes($ldapconn, $entry);
-      $manager_string = '<a href="search.php?search='. $attrs['mail'][0] .'">' .$attrs['cn'][0] . '</a>'; 
-    } else {
-      $manager_string =  "Invalid Manager";
-    }
-    if ($memcache_on) {
-      $memcache->set($manager_dn, $manager_string);
-    }
-    return $manager_string;
-  }
-}*/
-
 function get_manager($manager_dn) {
   global $ldapconn, $memcache_on, $memcache;
   if ($memcache_on && ($manager = $memcache->get($manager_dn))) {
@@ -155,21 +134,9 @@ function mobile_normalizer($m) {
   return array_map("wikilinks", $m);
 }
 
-/*function emaillinks($string) {
-  $matches = array();
-  if (preg_match('/[A-z0-9\._%+-]+@[A-z0-9\.-]+\.[A-z]{2,4}/', $string, $matches)) {
-    $string = str_replace(
-      $matches[0],
-      '<a href="mailto:'. $matches[0] .'">'. $matches[0] .'</a>',
-      $string
-    );  
-  }
-  return $string;
-}*/
-
 // The logic here is that failure to find out who has permissions to edit
 // someone else's entry implies that you aren't one of them.
-function phonebookadmin($ldapconn, $mail) {
+function is_phonebook_admin($ldapconn, $mail) {
   $dn = get_dn_from_email($ldapconn, $mail);
   $search = ldap_list(
     $ldapconn, 
@@ -213,6 +180,10 @@ function manager_list($ldapconn) {
   $search = ldap_search($ldapconn, 'o=com,dc=mozilla', 'objectClass=mozComPerson');
   ldap_sort($ldapconn, $search, 'cn');
   return ldap_get_entries($ldapconn, $search);
+}
+
+function escape($s) {
+  return htmlspecialchars($s, ENT_QUOTES);
 }
 
 // Normalizes an LDAP entry data structure to a JSON-friendly structure

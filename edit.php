@@ -26,7 +26,7 @@ function print_status_edit($status, $is_manager, $admin) {
 }
 
 $prototype = true;
-$is_admin = phonebookadmin($ldapconn, $_SERVER["PHP_AUTH_USER"]) == 1;
+$is_admin = is_phonebook_admin($ldapconn, $_SERVER["PHP_AUTH_USER"]) == 1;
 if (!empty($_REQUEST) && !empty($_REQUEST["edit_mail"]) && $is_admin) {
   $edit_user = $_REQUEST["edit_mail"];
 }

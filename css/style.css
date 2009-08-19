@@ -17,6 +17,10 @@ html {
   background: url(../img/bg.png) #67a7c7 repeat-x fixed;
   color: #fff;
   }
+
+em {
+  font-style: italic;
+  }
   
 a:hover {
   text-decoration: underline;
@@ -26,42 +30,118 @@ a:hover {
 #header {
   position: relative;
   width: 60em;
-  margin: 1.5em auto 1.5em auto;
+  margin: 0.5em auto 2em auto;
+  z-index: 1;
   }
   #header h1 {
-    position: absolute;
+    display: inline-block;
+    width: 214px;
+    }
+  #header h1 a {
+    /*position: absolute;
     width: 220px;
     height: 44px;
     left: 0;
     top: -11px;
+    text-indent: -1000em;*/
+    display: inline-block;
+    height: 0;
+    padding-top: 47px;
+    width: 214px;
+    overflow: hidden;
     background: url(../img/phonebook.png) no-repeat;
-    text-indent: -1000em;
+    margin-bottom: -18px;
   }
   
 #search-region {
-  display: inline;
-  margin-left: 240px;
+  display: inline-block;
+  margin-left: 1em;
   font-size: .875em;
   }
 
+  #search-region input {
+    padding: .125em .5em;
+    border: 2px solid #fff;
+    border-right: none;
+    background: #fff;
+    -moz-border-radius: .5em 0 0 .5em;
+    }
+  #search-region button {
+    -moz-border-radius: 0 .5em .5em 0;
+    background: transparent url(../img/button.png) repeat-x scroll left center;
+    border: 1px solid #FFF;
+    cursor: pointer;
+    padding: 0.125em 0.5em;
+    text-shadow: 0 1px 0 #FFF;
+    }
+
 #menu {
-  display: inline;
+  display: inline-block;
   margin-left: 2em;
   }
   #menu li {
     display: inline;
-    margin-left: 1.5em;
-    font-size: .857em;
+    font-size: 0.857em;
     }
   #menu a {
     color: #acd1e3;
+    padding: 0.25em 0.75em;
+    -moz-border-radius: 0.5em;
+    }
+  #menu a:hover {
+    background-color: rgba(172, 209, 227, 0.25);
+    text-decoration: none;
+    }
+  #menu a.selected {
+    color: #FFF;
+    background-color: rgba(172, 209, 227, 0.5);
     }
   #menu li.edit {
-    float: right;
-    padding-left: 24px;
-    background: url(../img/edit.png) no-repeat 0 center;
+    margin-left: 2em;
     }
 
+#phonebook-search.large {
+  width: 30em;
+  margin: 0 auto;
+  }
+
+#phonebook-search.large h1,
+#phonebook-search.large #search-region,
+#phonebook-search.large #menu {
+  display: block;
+  margin: 0 auto;
+  }
+
+#phonebook-search.large h1 {
+  margin-bottom: 2em;
+  width: 372px;
+  }
+
+#phonebook-search.large h1 a {
+  background: url(../img/phonebook-large.png) no-repeat;
+  padding-top: 77px;
+  width: 372px;
+  }
+
+#phonebook-search.large #search-region {
+  text-align: center;
+  }
+
+#phonebook-search.large #text {
+  width: 20em;
+  }
+
+#phonebook-search.large #text, 
+#phonebook-search.large button {
+  display: inline-block;
+  font-size: 1.33em;
+  }
+
+#phonebook-search.large #menu {
+  margin-top: 1em;
+  }
+  
+/* Card view */
 
 #results {
   overflow: auto;
@@ -79,14 +159,12 @@ a:hover {
   .vcard .header,
   .vcard .body,
   .vcard .footer {
-    width: 434px;
-    padding: 0 20px;
-    margin: 0 auto;
   }
   .vcard .header {
-    position: relative;
+    -moz-border-image: url(../img/vcard_header_bg.png) 0 132 0 16 repeat stretch;
+    border-width: 0 132px 0 16px;
     height: 45px;
-    background: url(../img/vcard_header.png) no-repeat;
+    position: relative;
     }
     .vcard .header h2 {
       position: absolute;
@@ -96,15 +174,20 @@ a:hover {
       font-size: 1.31em;
       color: #fff;
     }
+    .vcard .header a {
+      color: #ACD1E3;
+      font-size: 0.763em;
+      margin-top: 1.5em;
+      float: right;
+      }
   .vcard .body {
-    overflow: auto;
-    min-height: 200px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    background: url(../img/vcard_body.png) repeat-y;
-    font-size: .875em;
+    -moz-border-image: url(../img/vcard_body_bg.png) 0 16 0 16 repeat repeat;
+    border-width: 0 16px;
     color: #343434;
+    font-size: 0.875em;
     line-height: 1.3;
+    overflow: auto;
+    padding: 1em 0.5em;
     }
     .vcard .body a {
       color: #276787;
@@ -127,10 +210,31 @@ a:hover {
     .vcard .body li,
     .vcard .body p {
       }
-    .vcard .photo {
+    .vcard .body .side {
       float: right;
+      border-bottom: none;
+      font-size: 0.857em;
       padding: 0 0 1em 1em;
-      background: #fff;
+      text-align: center;
+      width: 140px;
+      background: transparent url(../img/vcard_body.png) repeat-y scroll -230px 0;
+      }
+    .vcard img.photo {
+      border: none;
+      /*padding: 0 0 1em 1em;*/
+      display: block;
+      margin-bottom: 0.5em;
+      }
+    .vcard .vcard-export {
+      background-image: url(../img/vcard.png);
+      }
+    .vcard .bugmail {
+      background-image: url(../img/bugzilla.png);
+      }
+    .vcard .vcard-export, 
+    .vcard .bugmail {
+      background-repeat: no-repeat;
+      padding-left: 20px;
       }
     .vcard .body div.employee {
       padding-left: 0;
@@ -146,9 +250,15 @@ a:hover {
     .vcard .employee-type {
       font-family: georgia, serif;
       color: #686868;
+      display: inline;
       }
     .vcard .manager {
       font-family: georgia, serif;
+      }
+    .vcard .org-chart {
+      font-family: georgia, serif;
+      font-size: 0.833em;
+      margin-left: 0.5em;
       }
     .vcard .adr {
       background-image: url(../img/world.png);
@@ -159,9 +269,6 @@ a:hover {
     .vcard .email {
       background-image: url(../img/email.png);
       }
-    .vcard .bugmail {
-      background-image: url(../img/bugzilla.png);
-      }
     .vcard .im {
       background-image: url(../img/im.png);
       }
@@ -170,10 +277,60 @@ a:hover {
       }
   .vcard .footer {
     height: 36px;
-    background: url(../img/vcard_footer.png) no-repeat;
+    position: relative;
     }
-  
-#email-alias-add, #phone-number-add, #im-add {
+    .vcard .footer > span {
+      background-repeat: no-repeat;
+      height: 36px;
+      position: absolute;
+      top: 0;
+      }
+    .vcard .footer .l {
+      background-image: url(../img/vcard_footer_edge.png);
+      background-position: left top;
+      left: 0;
+      width: 1em;
+      }
+    .vcard .footer .m {
+      background-image: url(../img/vcard_footer_middle.png);
+      background-position: center top;
+      left: 1em;
+      right: 1em;
+      }
+    .vcard .footer .r {
+      background-image: url(../img/vcard_footer_edge.png);
+      background-position: right top;
+      right: 0;
+      width: 1em;
+      }
+
+/* Editing view */
+
+form#edit {
+  /*width: 85%;
+  margin: 0 auto 1em auto;
+  padding: 1em;
+  background-color: #FFF;
+  -moz-border-radius: 0.5em;
+  font-size: 0.75em;*/
+  text-align: center;
+  }
+
+#edit div.vcard {
+  width: 45em;
+  text-align: left;
+  }
+
+  #edit div.vcard .body div,
+  #edit div.vcard .body ul {
+    background: none;
+    border: none;
+    padding: 0;
+    }
+
+#email-alias-add,
+#phone-number-add,
+#im-add {
   padding-left: 18px;
   background: url(../img/add.png) no-repeat;
   }
@@ -184,33 +341,66 @@ a.remove-link {
   }
 
 table.edit-table {
-  font-size: 12px;
+  color: #000;
   }
 
   table.edit-table a {
-    color: #acd1e3
+    color: #0489B7;
     }
 
-  table.edit-table td {
+  table.edit-table tr td {
     padding: 0.5em;
+    border-top: 1px dotted #ACD1E3;
+    }
+
+  table.edit-table tbody > tr:first-child td, 
+  table.edit-table tbody > tr:last-child td {
+    border-top: none;
     }
 
   table.edit-table tr td:first-child {
+    width: 10em;
     vertical-align: top;
     }
 
-  td input + a { 
+  table.edit-table tr label {
+    font-weight: bold;
+    }
+
+  table.edit-table td input + a { 
     margin-left: 0.5em;
   }
 
+  table.edit-table img.photo {
+    float: left;
+    margin-right: 1.5em;
+    }
+
+  table.edit-table em.description {
+    font-size: 0.857em;
+    color: #686868;
+    }
+
+  table.edit-table button[type="submit"] {
+    margin-top: 2em;
+    -moz-border-radius: 0.5em;
+    background: transparent url(../img/button.png) repeat-x scroll left center;
+    border: 1px solid #999999;
+    cursor: pointer;
+    font-size: 1.28em;
+    padding: 0.125em 0.5em;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    }
+
 .autocomplete-w1 {
-  background:url(../img/shadow.png) no-repeat bottom right;
+  /*background:url(../img/shadow.png) no-repeat bottom right;*/
   position: absolute;
-  top: 4px;
-  left: 3px;
+  -moz-box-shadow: #000 0 0 16px -2px;
+  /*top: 4px;
+  left: 3px;*/
   /* IE6 fix:  */
-  _background: none;
-  _top: 1px;
+  /*_background: none;
+  _top: 1px;*/
   }
 
 .autocomplete {
@@ -221,10 +411,10 @@ table.edit-table {
   text-align: left;
   max-height: 350px;
   overflow: auto;
-  margin: -6px 6px 6px -6px;
+  /*margin: -6px 6px 6px -6px;*/
   /* IE specific:  */
-  _height: 350px;
-  _margin: 0px 6px 6px 0;
+  /*_height: 350px;
+  _margin: 0px 6px 6px 0;*/
   overflow-x: hidden;
   }
 
@@ -235,10 +425,183 @@ table.edit-table {
   .autocomplete div {
     padding: 2px 5px;
     white-space: nowrap;
+    color: #666;
+    font-size: 12px;
     }
 
   .autocomplete strong {
     font-weight: normal;
     color: #0489B7;
     }
+
+/* Tree view */
+
+#orgchart,
+#orphans {
+  color: #ccc;
+  margin: 1em;
+  padding: 0.5em;
+  width: 32em;
+  background-color: #FFF;
+  -moz-border-radius: 0.5em;
+  -moz-box-shadow: 0 0 16px -2px #000;
+  }
+  
+  #orgchart.filter-view,
+  #orphans.filter-view {
+    background-color: #333;
+    }
+
+#person {
+  position: fixed;
+  width: 31em;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  }
+  #person div.vcard {
+    margin: 0 auto;
+    }
+
+span.title {
+  color: #666;
+  }
+
+div.tree > ul {
+  /*-moz-border-image: url(../img/org_bg.png) 21 24 25 24 repeat repeat;
+  border-width: 21px 24px 25px;*/
+  }
+
+div.tree ul {
+  padding-left: 20px;
+  }
+
+  div.tree ul li {
+    list-style-type: disc;
+    cursor: default;
+    -moz-user-select: none;
+    padding: 0.25em 0 0.25em 4px;
+    margin-top: 1px;
+    font-size: 14px;
+    /*border-top: 1px dotted #98C6DD;*/
+    }
+
+    div.tree > ul > li:first-child {
+      border-top: none;
+      }
+
+    div.tree ul li.hr-node:hover {
+      background-color: rgba(39, 103, 135, 0.125);
+      }
+
+    div.tree ul li a {
+      color: #276787;
+      margin-left: 0.2em;
+      }
+
+    div.tree ul li span.title {
+      margin-left: 1em;
+      font-size: 0.857em;
+      }
+
+    div.tree ul li.highlighted {
+      -moz-box-shadow: #FFF 0 0 16px 1px;
+      -moz-border-radius: 0.4em;
+      background-color: #FFF;
+      }
+
+    div.tree ul li.selected {
+      background-color: #276787;
+      }
+
+      div.tree ul li.selected a, 
+      div.tree ul li.selected span.title {
+        color: #FFF;
+        }
+
+    div.tree ul li.expanded {
+      list-style-image: url(../img/expanded.png);
+      }
+
+    div.tree ul li.collapsed {
+      list-style-image: url(../img/collapsed.png);
+      }
+    
+    div.tree ul li.leaf {
+      list-style-image: none;
+      }
+
+/* Facewall View */
+div.photo-frame {
+  display: inline-block;
+  margin: 2em;
+  cursor: pointer;
+  -moz-user-select: none;
+  position: relative;
+  padding: 0;
+  }
+
+  div.photo-frame span {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.66);
+    color: #FFF;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 0.687em;
+    padding: 0.5em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: center;
+    display: none;
+    }
+  div.photo-frame:hover span {
+    display: block;
+    }
+
+  div.photo-frame img {
+    -moz-box-shadow: #333 0 0 16px 1px;
+    }
+
+#overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  background-color: rgba(32, 32, 32, 0.5);
+  text-align: center;
+  vertical-align: center;
+  display: none;
+  overflow: hidden;
+  z-index: 2;
+  }
+
+  #overlay div.vcard {
+    display: inline-block;
+    text-align: left;
+    }
+
+  #overlay div.vcard div.close-button {
+    position: absolute;
+    left: -30px;
+    top: -15px;
+    width: 42px;
+    height: 42px;
+    background: transparent url(../img/close-button.png);
+    cursor: pointer;
+  }
+
+body.lightbox #overlay {
+  display: block;
+  }
+
+body.lightbox #header,
+body.lightbox #results {
+  filter: url(effects.svg#blur);
+  }
 

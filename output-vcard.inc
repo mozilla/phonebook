@@ -33,6 +33,14 @@ function vcard_picture($url) {
   return "PHOTO;VALUE=URL:". str_replace(':', "\:", $url) ."\n";
 }
 
+function vcard_employeetype($a) {
+  return "ORG:;{$a[0]}\n";
+}
+
+function vcard_extension($n) {
+  return "TEL;WORK:650-903-0800 x$n\n";
+}
+
 function output_vcard($entries) {
   $mappings = array(
     "cn" => "vcard_cn",
@@ -40,10 +48,14 @@ function output_vcard($entries) {
     "emailalias" => "vcard_emails",
     "mobile" => "vcard_phone_numbers",
     "title" => "TITLE",
-    "picture" => "vcard_picture"
+    "picture" => "vcard_picture",
+    "employeetype" => "vcard_employeetype",
+    "telephonenumber" => "vcard_extension"
   );
-  header('Content-Type: text/x-vcard; charset=utf-8');
+  header("Content-Disposition: attachment; filename=\"export.vcf\"");
+  header('Content-Type: text/x-vcard');
   foreach ($entries as $entry) {
+    fb($entry);
     print "BEGIN:VCARD\nVERSION:2.1\n";
     foreach (array_keys($mappings) as $attr) {
       if (!isset($entry[$attr])) {

@@ -32,7 +32,9 @@ if ($memcache_on && ($cached_pic = $memcache->get($_GET['mail']. $_GET['type']))
   exit;
 } 
 
-$search = ldap_search($ldapconn, 'dc=mozilla', "(mail=".$_GET['mail'].")", array('jpegPhoto'));
+$search = ldap_search(
+  $ldapconn, 'dc=mozilla', "(mail=". $_GET['mail'] .")", array('jpegPhoto')
+);
 
 if ($search) {
   $entry = ldap_first_entry($ldapconn, $search);

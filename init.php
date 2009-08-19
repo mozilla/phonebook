@@ -11,6 +11,8 @@ $prototype = false;
 require_once("settings/settings.php");
 require_once("functions.php");
 require_once("constants.php");
+require_once("FirePHPCore/fb.php");
+ob_start();
 
 if (class_exists("Memcache") && MEMCACHE_ENABLED) {
   $memcache_on = true;
