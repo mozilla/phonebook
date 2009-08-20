@@ -1,4 +1,8 @@
-<?php require_once('templates/header.php'); ?>
+<?php
+require_once('init.php');
+get_ldap_connection();
+require_once('templates/header.php');
+?>
 <div id="results">
 </div>
 
@@ -38,9 +42,6 @@ $(document).observe("keypress", function(e) {
 });
 
 $(document).observe("dom:loaded", function() {
-  // Just this one special treatment, Safari
-  Prototype.Browser.WebKit && $("text").searchify() && $("search").hide(); 
-
   $(document).observe("hash:changed", function() {
     $("text").value = window.location.hash.replace("#search/", '');
     startSearch();
