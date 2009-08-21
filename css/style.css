@@ -511,7 +511,11 @@ div.tree ul {
 
     div.tree ul li.disabled {
       opacity: 0.65;
+      filter: url(effects.svg#fog);
       }
+      div.tree ul li.disabled a {
+        color: #666;
+        }
 
     div.tree ul li a {
       color: #276787;
