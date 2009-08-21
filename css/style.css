@@ -95,7 +95,7 @@ a:hover {
   margin-left: 0.25em;
   }
   #menu li {
-    display: inline;
+    display: inline-block;
     font-size: 0.857em;
     }
   #menu a {
@@ -154,6 +154,7 @@ a:hover {
 
 #phonebook-search.large #menu {
   margin-top: 1em;
+  text-align: center;
   }
   
 /* Card view */
