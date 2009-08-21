@@ -75,9 +75,24 @@ a:hover {
     text-shadow: 0 1px 0 #FFF;
     }
 
+#throbber {
+  background: transparent url(../img/spin.png) no-repeat;
+  width: 16px;
+  height: 16px;
+  margin-top: 0.7em;
+  margin-bottom: -0.1em;
+  margin-left: 0.5em;
+  margin-right: 0;
+  display: inline-block;
+  visibility: hidden;
+  }
+  #throbber.loading {
+    visibility: visible;
+    }
+
 #menu {
   display: inline-block;
-  margin-left: 2em;
+  margin-left: 0.25em;
   }
   #menu li {
     display: inline;
@@ -491,7 +506,11 @@ div.tree ul {
       }
 
     div.tree ul li.hr-node:hover {
-      background-color: rgba(39, 103, 135, 0.125);
+      background-color: rgba(39, 103, 135, 0.5);
+      }
+
+    div.tree ul li.disabled {
+      opacity: 0.65;
       }
 
     div.tree ul li a {

@@ -67,6 +67,11 @@
       var m = this.match(/mail=(\w+@mozilla.*),o=/);
       return (m ? m[1] : null);
     };
+
+    Ajax.Responders.register({
+      onCreate: function() { $("throbber").addClassName("loading"); },
+      onComplete: function() { $("throbber").removeClassName("loading"); }
+    });
     </script>
   </head>
 
@@ -79,6 +84,7 @@
       <input type="hidden" name="format" value="html" />
       <input type="text" name="query" id="text" size="18" /><button type="submit" id="search">Search</button>
     </div>
+    <div id="throbber"></div>
     <ul id="menu">
       <li><a class="card" href="./#search/*">Everyone</a></li>
       <li><a class="tree" href="./tree.php">Org Chart</a></li>

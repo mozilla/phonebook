@@ -5,7 +5,7 @@ $search = ldap_search(
   $ldapconn,
   "o=com, dc=mozilla",
   "mail=*",
-  array('cn','manager','title','mail')
+  array("cn", "manager", "title", "mail", "employeeType")
 );
 $data = ldap_get_entries($ldapconn, $search);
 
@@ -17,7 +17,9 @@ foreach ($data as $person) {
   $mail = $person['mail'][0];
   $everyone[$mail] = array(
     "title" => !empty($person["title"][0]) ? $person["title"][0] : null,
-    "name" => !empty($person["cn"][0]) ? $person["cn"][0] : null
+    "name" => !empty($person["cn"][0]) ? $person["cn"][0] : null,
+    "disabled" => $person["employeeType"][0][0] == 'D' ||
+                  $person["employeeType"][0][1] == 'D'
   );
 
   // If a user has a manager, try to find their place in the tree.
@@ -46,7 +48,8 @@ function item($email, $leaf=FALSE) {
   $name = htmlspecialchars($everyone[$email]["name"]);
   $title = htmlspecialchars($everyone[$email]["title"]);
   $leaf = $leaf ? " leaf" : '';
-  return "<li id=\"$id\" class=\"hr-node expanded$leaf\">".
+  $disabled = $everyone[$email]["disabled"] ? " disabled" : '';
+  return "<li id=\"$id\" class=\"hr-node expanded$leaf$disabled\">".
            "<a href=\"#person/$email\" class=\"hr-link\">$name</a> ".
            "<span class=\"title\">$title</span>".
          "</li>";

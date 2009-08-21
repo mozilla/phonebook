@@ -120,7 +120,10 @@
 
   <tr>
     <td><label>Bugzilla Email</label></td>
-    <td><input type="text" name="bugzillaEmail[]" value="<?= escape($user_data['bugzillaemail'][0]) ?>"/></td>
+    <td>
+      <input type="text" name="bugzillaEmail[]" value="<?= escape($user_data['bugzillaemail'][0]) ?>"/><br />
+      <em class="description">Your full Bugzilla email address with no extra cruft</em>
+    </td>
   </tr>
 
   <tr>
