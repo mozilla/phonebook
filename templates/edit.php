@@ -197,6 +197,9 @@ $(document).observe("dom:loaded", function() {
   });
 
   $("edit-entry").addClassName("selected").removeAttribute("href");
+  if (window.location.search.toQueryParams().edit_mail) {
+    $("edit-entry").update("Edit Entry");
+  }
 
   $("office-city-select").observe("change", function(e) {
     var city = $F("office-city-select");
