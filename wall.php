@@ -62,8 +62,8 @@ $(document).observe("dom:loaded", function() {
   $("results").setStyle({width: "880px"});
   $("menu").down("a.wall").addClassName("selected");
 
-  $(document).observe("hash:changed", function() {
-    $("text").value = window.location.hash.replace("#search/", '');
+  $(document).observe("hash:changed", function(e) {
+    $("text").value = e.memo.hash.replace("search/", '');
     startSearch();
   });
 

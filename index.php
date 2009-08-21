@@ -42,8 +42,9 @@ $(document).observe("keypress", function(e) {
 });
 
 $(document).observe("dom:loaded", function() {
-  $(document).observe("hash:changed", function() {
-    $("text").value = window.location.hash.replace("#search/", '');
+  $("menu").down("a.card").addClassName("selected");
+  $(document).observe("hash:changed", function(e) {
+    $("text").value = e.memo.hash.replace("search/", '');
     startSearch();
   });
 

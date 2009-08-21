@@ -72,6 +72,17 @@
       onCreate: function() { $("throbber").addClassName("loading"); },
       onComplete: function() { $("throbber").removeClassName("loading"); }
     });
+
+    $(document).observe("dom:loaded", function() {
+      $$("#menu a.persist").each(function(link) {
+        link.store("originalLink", link.readAttribute("href"));
+      });
+    });
+    $(document).observe("hash:changed", function(e) {
+      $$("#menu a.persist").each(function(link) {
+        link.writeAttribute("href", link.retrieve("originalLink") + "#" + e.memo.hash);
+      });
+    });
     </script>
   </head>
 
@@ -86,9 +97,9 @@
     </div>
     <div id="throbber"></div>
     <ul id="menu">
-      <li><a class="card" href="./#search/*">Everyone</a></li>
+      <li><a class="card persist" href="./">Cards</a></li>
+      <li><a class="wall persist" href="./wall.php">Facewall</a></li>
       <li><a class="tree" href="./tree.php">Org Chart</a></li>
-      <li><a class="wall" href="./wall.php">Facewall</a></li>
       <li class="edit"><a class="edit" href="./edit.php" id="edit-entry">Edit My Entry</a></li>
     </ul>
   </form>

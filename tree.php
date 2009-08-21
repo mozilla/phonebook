@@ -51,7 +51,7 @@ function item($email, $leaf=FALSE) {
   $leaf = $leaf ? " leaf" : '';
   $disabled = $everyone[$email]["disabled"] ? " disabled" : '';
   return "<li id=\"$id\" class=\"hr-node expanded$leaf$disabled\">".
-           "<a href=\"#person/$email\" class=\"hr-link\">$name</a> ".
+           "<a href=\"#search/$email\" class=\"hr-link\">$name</a> ".
            "<span class=\"title\">$title</span>".
          "</li>";
 }
@@ -81,6 +81,8 @@ function make_tree($level, $root, $nodes=null) {
 require_once "templates/header.php";
 ?>
 
+<div id="page">
+
 <div id="orgchart" class="tree">
 <ul>
 <?= make_tree(0, 'mitchell@mozilla.com'); ?>
@@ -102,6 +104,8 @@ print "\n". item($orphan, TRUE);
 </div>
 
 <div id="person">
+</div>
+
 </div>
 
 <script type="text/javascript">
@@ -140,6 +144,18 @@ Element.addMethods("li", {
 $(document).observe("dom:loaded", function() {
   $("search").update("Filter");
   $("menu").down("a.tree").addClassName("selected");
+  var region = $("person");
+
+  $(document).observe("scroll", function() {
+    var card = region.down("div.vcard");
+    var tree = $("orgchart");
+    if (!card || !tree) { return; }
+    if (!card.retrieve("originalTop")) {
+      card.store("originalTop", card.getStyle("marginTop"));
+    }
+    var refTop = tree.viewportOffset().top;
+    card[refTop >= 5 ? "removeClassName" : "addClassName"]("snap-to-top");
+  });
 
   $$("div li.hr-node").invoke("observe", "click", function(e) {
     !e.element().match("a") && $(this).toggleTree();
@@ -225,15 +241,11 @@ $(document).observe("dom:loaded", function() {
   function select(node) {
     selected && selected.removeClassName("selected");
     selected = $(node).addClassName("selected");
-    window.location.hash = "#person/" + selected.id.replace("-at-", '@');
+    window.location.hash = "#search/" + selected.id.replace("-at-", '@');
   }
   
-  Event.observe(Prototype.resizeTarget, "resize", function() {
-    $$("div.vcard").invoke("verticallyCenter", 0.5);
-  });
-
   $(document).observe("hash:changed", function(e) {
-    showPerson(e.memo.hash.replace("person/", ''));
+    showPerson(e.memo.hash.replace("search/", ''));
   });
   var hash = window.location.hash;
   if (hash.startsWith("#search/")) {
@@ -246,11 +258,9 @@ $(document).observe("dom:loaded", function() {
   function showPerson(email) {
     new Ajax.Request("search.php", {
       method: "get",
-      parameters: {
-        query: email, format: "html"
-      },
+      parameters: {query: email, format: "html"},
       onSuccess: function(r) {
-        $("person").update(r.responseText).down(".vcard").verticallyCenter(0.5);
+        $("person").update(r.responseText).down(".vcard");
       }
     });
   }
