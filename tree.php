@@ -18,8 +18,9 @@ foreach ($data as $person) {
   $everyone[$mail] = array(
     "title" => !empty($person["title"][0]) ? $person["title"][0] : null,
     "name" => !empty($person["cn"][0]) ? $person["cn"][0] : null,
-    "disabled" => $person["employeetype"][0][0] == 'D' ||
-                  $person["employeetype"][0][1] == 'D'
+    "disabled" => isset($person["employeetype"]) ?
+                    strpos($person["employeetype"][0], 'D') !== FALSE: 
+                    FALSE
   );
 
   // If a user has a manager, try to find their place in the tree.
