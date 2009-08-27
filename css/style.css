@@ -504,7 +504,6 @@ div.tree ul {
   div.tree ul li {
     list-style-type: disc;
     cursor: default;
-    -moz-user-select: none;
     padding: 0.25em 0 0.25em 4px;
     margin-top: 1px;
     font-size: 14px;
@@ -596,6 +595,10 @@ div.photo-frame {
 
   div.photo-frame img {
     -moz-box-shadow: #333 0 0 16px 1px;
+    }
+
+  div.photo-frame.disabled {
+    filter: url(effects.svg#fog);
     }
 
 #overlay {

@@ -115,6 +115,9 @@ $(document).observe("dom:loaded", function() {
           }).observe("click", function() { showPerson(person.dn); });
           var name = new Element("span").update(person.cn);
           container.insert(name).insert(face);
+          if (person.employeetype.indexOf("DISABLED") != -1) {
+            container.addClassName("disabled");
+          }
           $("results").insert(container);
         });
         adjustLayout();
@@ -133,6 +136,9 @@ $(document).observe("dom:loaded", function() {
         $("overlay").update('').update(r.responseText).
                      down("div.vcard").verticallyCenter().
                      down("div.header").insert(close);
+        $("overlay").down(".vcard p.manager a").observe("click", function() {
+          $(document.body).removeClassName("lightbox");
+        });
       }
     });
   }

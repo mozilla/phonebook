@@ -146,16 +146,7 @@ $(document).observe("dom:loaded", function() {
   $("menu").down("a.tree").addClassName("selected");
   var region = $("person");
 
-  $(document).observe("scroll", function() {
-    var card = region.down("div.vcard");
-    var tree = $("orgchart");
-    if (!card || !tree) { return; }
-    if (!card.retrieve("originalTop")) {
-      card.store("originalTop", card.getStyle("marginTop"));
-    }
-    var refTop = tree.viewportOffset().top;
-    card[refTop >= 5 ? "removeClassName" : "addClassName"]("snap-to-top");
-  });
+  $(document).observe("scroll", scrollSnap);
 
   $$("div li.hr-node").invoke("observe", "click", function(e) {
     !e.element().match("a") && $(this).toggleTree();
@@ -196,6 +187,17 @@ $(document).observe("dom:loaded", function() {
     filter();
   });
 
+  function scrollSnap() {
+    var card = region.down("div.vcard");
+    var tree = $("orgchart");
+    if (!card || !tree) { return; }
+    if (!card.retrieve("originalTop")) {
+      card.store("originalTop", card.getStyle("marginTop"));
+    }
+    var refTop = tree.viewportOffset().top;
+    card[refTop >= 5 ? "removeClassName" : "addClassName"]("snap-to-top");
+  }
+
   function filter() {
     $("phonebook-search").request({
       parameters: {format: "json"},
@@ -213,7 +215,7 @@ $(document).observe("dom:loaded", function() {
           console.log("  " + x.id);
           var rootwards = x.ancestors().find("ul").compact().invoke("previous", "li");
           console.log("  Post rootwards");
-          var leafwards = [];//x.next();
+          var leafwards = [];
           console.log("  Post leafwards");
           // leafwards = leafwards && leafwards.match("ul") ? leafwards.select("li") : [];
           console.log("  Post leafing");
@@ -261,6 +263,7 @@ $(document).observe("dom:loaded", function() {
       parameters: {query: email, format: "html"},
       onSuccess: function(r) {
         $("person").update(r.responseText).down(".vcard");
+        scrollSnap();
       }
     });
   }
