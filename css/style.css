@@ -64,10 +64,26 @@ a:hover {
     border: 2px solid #fff;
     border-right: none;
     background: #fff;
+    border-radius: .5em 0 0 .5em;
     -moz-border-radius: .5em 0 0 .5em;
+    -webkit-border-top-left-radius: .5em;
+    -webkit-border-top-right-radius: 0;
+    -webkit-border-bottom-right-radius: 0;
+    -webkit-border-bottom-left-radius: .5em;
     }
+    /* Awful hack to fix WebKit's off-by-one border */
+    @media screen and (-webkit-min-device-pixel-ratio:0) {
+      #search-region input {
+        border-width: 1px;
+        }
+      }
   #search-region button {
+    border-radius: 0 .5em .5em 0;
     -moz-border-radius: 0 .5em .5em 0;
+    -webkit-border-top-left-radius: 0;
+    -webkit-border-top-right-radius: .5em;
+    -webkit-border-bottom-right-radius: .5em;
+    -webkit-border-bottom-left-radius: 0;
     background: transparent url(../img/button.png) repeat-x scroll left center;
     border: 1px solid #FFF;
     cursor: pointer;
@@ -101,7 +117,9 @@ a:hover {
   #menu a {
     color: #acd1e3;
     padding: 0.25em 0.75em;
+    border-radius: 0.5em;
     -moz-border-radius: 0.5em;
+    -webkit-border-radius: 0.5em;
     }
   #menu a:hover {
     background-color: rgba(172, 209, 227, 0.25);
@@ -177,7 +195,9 @@ a:hover {
   .vcard .footer {
   }
   .vcard .header {
+    border-image: url(../img/vcard_header_bg.png) 0 132 0 16 repeat stretch;
     -moz-border-image: url(../img/vcard_header_bg.png) 0 132 0 16 repeat stretch;
+    -webkit-border-image: url(../img/vcard_header_bg.png) 0 132 0 16 repeat stretch;
     border-width: 0 132px 0 16px;
     height: 45px;
     position: relative;
@@ -197,7 +217,9 @@ a:hover {
       float: right;
       }
   .vcard .body {
+    border-image: url(../img/vcard_body_bg.png) 0 16 0 16 repeat repeat;
     -moz-border-image: url(../img/vcard_body_bg.png) 0 16 0 16 repeat repeat;
+    -webkit-border-image: url(../img/vcard_body_bg.png) 0 16 0 16 repeat repeat;
     border-width: 0 16px;
     color: #343434;
     font-size: 0.875em;
@@ -327,7 +349,9 @@ form#edit {
   margin: 0 auto 1em auto;
   padding: 1em;
   background-color: #FFF;
+  border-radius: 0.5em;
   -moz-border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
   font-size: 0.75em;*/
   text-align: center;
   }
@@ -399,7 +423,9 @@ table.edit-table {
 
   table.edit-table button[type="submit"] {
     margin-top: 2em;
+    border-radius: 0.5em;
     -moz-border-radius: 0.5em;
+    -webkit-border-radius: 0.5em;
     background: transparent url(../img/button.png) repeat-x scroll left center;
     border: 1px solid #999999;
     cursor: pointer;
@@ -411,7 +437,9 @@ table.edit-table {
 .autocomplete-w1 {
   /*background:url(../img/shadow.png) no-repeat bottom right;*/
   position: absolute;
-  -moz-box-shadow: #000 0 0 16px -2px;
+  box-shadow: 0 0 16px #000;
+  -webkit-box-shadow: 0 0 16px #000;
+  -moz-box-shadow: 0 0 16px #000;
   /*top: 4px;
   left: 3px;*/
   /* IE6 fix:  */
@@ -463,8 +491,12 @@ table.edit-table {
   padding: 0.5em;
   width: 32em;
   background-color: #FFF;
+  border-radius: 0.5em;
   -moz-border-radius: 0.5em;
-  -moz-box-shadow: 0 0 16px -2px #000;
+  -webkit-border-radius: 0.5em;
+  box-shadow: 0 0 16px #000;
+  -moz-box-shadow: 0 0 16px #000;
+  -webkit-box-shadow: 0 0 16px #000;
   }
   
   #orgchart.filter-view,
@@ -493,8 +525,12 @@ span.title {
   }
 
 div.tree > ul {
-  /*-moz-border-image: url(../img/org_bg.png) 21 24 25 24 repeat repeat;
-  border-width: 21px 24px 25px;*/
+  /*
+  border-image: url(../img/org_bg.png) 21 24 25 24 repeat repeat;
+  -moz-border-image: url(../img/org_bg.png) 21 24 25 24 repeat repeat;
+  -webkit-border-image: url(../img/org_bg.png) 21 24 25 24 repeat repeat;
+  border-width: 21px 24px 25px;
+  */
   }
 
 div.tree ul {
@@ -537,8 +573,12 @@ div.tree ul {
       }
 
     div.tree ul li.highlighted {
-      -moz-box-shadow: #FFF 0 0 16px 1px;
+      box-shadow: 0 0 16px #FFF;
+      -moz-box-shadow: 0 0 16px #FFF;
+      -webkit-box-shadow: 0 0 16px #FFF;
+      border-radius: 0.4em;
       -moz-border-radius: 0.4em;
+      -webkit-border-radius: 0.4em;
       background-color: #FFF;
       }
 
@@ -594,7 +634,9 @@ div.photo-frame {
     }
 
   div.photo-frame img {
-    -moz-box-shadow: #333 0 0 16px 1px;
+    box-shadow: 0 0 16px #333;
+    -moz-box-shadow: 0 0 16px #333;
+    -webkit-box-shadow: 0 0 16px #333;
     }
 
   div.photo-frame.disabled {
