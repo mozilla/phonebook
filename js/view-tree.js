@@ -151,7 +151,6 @@ Object.extend(SearchManager, {
 $(document).observe("dom:loaded", function() {
   $("search").update("Filter");
   $("menu").down("a.tree").addClassName("selected");
-
   BehaviorManager.enable("scrollSnap");
   BehaviorManager.enable("treeNodeToggling");
   BehaviorManager.enable("slashSearch");

@@ -57,9 +57,7 @@ BehaviorManager.enable("slashSearch");
 
 $(document).observe("dom:loaded", function() {
   $("menu").down("a.wall").addClassName("selected");
-
   BehaviorManager.enable("centerVCard");
-  BehaviorManager.enable("submitOnEnter");
   
   $("overlay").observe("click", function(e) {
     if (e.element() == this) {

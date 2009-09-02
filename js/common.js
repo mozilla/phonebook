@@ -206,8 +206,6 @@ var SearchManager = {
   },
 
   onHashChange: function(e) {
-  console.log("hash");
-  console.log(this);
     $("text").value = e.memo.hash.replace("search/", '');
     this.startSearch.bind(this)();
   },

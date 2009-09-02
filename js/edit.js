@@ -2,7 +2,6 @@
 BehaviorManager.enable("slashSearch");
 
 $(document).observe("dom:loaded", function() {
-
   $("edit-entry").addClassName("selected").removeAttribute("href");
   if (window.location.search.toQueryParams().edit_mail) {
     $("edit-entry").update("Edit Entry");
