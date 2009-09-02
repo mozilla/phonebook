@@ -97,6 +97,6 @@ if (!empty($_POST)) {
 }
 
 $user_data = clean_userdata($user_data);
-$managerlist = manager_list($ldapconn);
+$managerlist = everyone_list($ldapconn);
 
 require_once 'templates/edit.php';

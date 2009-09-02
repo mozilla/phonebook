@@ -178,17 +178,16 @@ a:hover {
 /* Card view */
 
 #results {
-  overflow: auto;
-  width: 62em;
-  margin: 0 auto;
+  margin: 0 1em 1em;
+  text-align: center;
   }
   
 .vcard {
-  display: block;
+  text-align: left;
   display: inline-block;
   width: 31em;
   vertical-align: top;
-  margin-top: 1em;
+  margin: 1em 1em 0 1em;
   }
   .vcard .header,
   .vcard .body,
@@ -345,14 +344,6 @@ a:hover {
 /* Editing view */
 
 form#edit {
-  /*width: 85%;
-  margin: 0 auto 1em auto;
-  padding: 1em;
-  background-color: #FFF;
-  border-radius: 0.5em;
-  -moz-border-radius: 0.5em;
-  -webkit-border-radius: 0.5em;
-  font-size: 0.75em;*/
   text-align: center;
   }
 

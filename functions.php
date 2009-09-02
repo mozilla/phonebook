@@ -57,83 +57,6 @@ function search_users($ldapconn, $search) {
   return ldap_get_entries($ldapconn, $search);
 }
 
-function employee_status($status) {
-  global $orgs, $emp_type;
-  $current_org = $current_emp_type = "";
-  if ($status != "") {
-    $current_org = $status[0];
-    $current_emp_type = $status[1];
-  }
-  if ($status == "DISABLED") {
-    return array('DISABLED');
-  } else {
-    if (array_key_exists($current_org, $orgs) &&
-        array_key_exists($current_emp_type, $emp_type)) {
-      return array($orgs[$current_org], $emp_type[$current_emp_type]);
-    } else {
-      return array('Unknown');
-    }
-  }
-}
-
-function get_manager($manager_dn) {
-  global $ldapconn, $memcache_on, $memcache;
-  if ($memcache_on && ($manager = $memcache->get($manager_dn))) {
-    return $manager;
-  }
-  $manager_search = @ldap_search($ldapconn, $manager_dn, '(mail=*)', array('cn','mail'));
-  if (ldap_errno($ldapconn) == 32) { // No manager found
-    return null;
-  }
-  if ($manager_search) { 
-    $entry = ldap_first_entry($ldapconn, $manager_search);
-    if ($entry) { 
-      $attrs = ldap_get_attributes($ldapconn, $entry);
-      $manager = array(
-        "cn" => $attrs['cn'][0],
-        "dn" => $manager_dn
-      );
-    } else {
-      $manager = null;
-    }
-    if ($memcache_on) {
-      $memcache->set($manager_dn, $manager);
-    }
-    return $manager;
-  }
-}
-
-function wikilinks($string) { 
-  $matches = array();
-  $string = nl2br(htmlspecialchars($string));
-  if (preg_match_all('/\[(.+?)(?:\s(.+?))?\]/', $string, $matches)) {
-    foreach ($matches[1] as $key => $value) {
-      if (!empty($matches[2][$key])) {
-        $title = $matches[2][$key];
-      } else {
-        $title = $value;
-      }
-      $string = str_replace(
-        $matches[0][$key],
-        '<a href="'. $value .'">'. $title .'</a>',
-        $string
-      );
-    }
-  }
-  return $string;
-}
-
-function location_formatter($location) {
-  return str_replace(":::", "/", $location);
-}
-
-function mobile_normalizer($m) {
-  if (!is_array($m)) {
-    $m = array($m);
-  }
-  return array_map("wikilinks", $m);
-}
-
 // The logic here is that failure to find out who has permissions to edit
 // someone else's entry implies that you aren't one of them.
 function is_phonebook_admin($ldapconn, $mail) {
@@ -176,7 +99,7 @@ function clean_userdata($user_data) {
   return $user_data;
 }
 
-function manager_list($ldapconn) {
+function everyone_list($ldapconn) {
   $search = ldap_search($ldapconn, 'o=com,dc=mozilla', 'objectClass=mozComPerson');
   ldap_sort($ldapconn, $search, 'cn');
   return ldap_get_entries($ldapconn, $search);
