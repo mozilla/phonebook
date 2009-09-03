@@ -1,12 +1,11 @@
 <?php
 require_once "init.php";
-require_once "config.php";
 
 $search = ldap_search(
   $ldapconn,
-  $tree_config["ldap"]["search_base"],
-  $tree_config["ldap"]["search_filter"],
-  $tree_config["ldap"]["search_attributes"]
+  $tree_conf["ldap_search_base"],
+  $tree_conf["ldap_search_filter"],
+  $tree_conf["ldap_search_attributes"]
 );
 $data = ldap_get_entries($ldapconn, $search);
 

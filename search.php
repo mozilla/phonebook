@@ -6,14 +6,20 @@ $keyword = isset($_GET["query"]) ? $_GET["query"] : '*';
 $entries = normalize(search_users($ldapconn, $keyword));
 $filters = get_filters();
 
+$preprocess = function_exists("preprocess_entry");
+$filter_functions = array();
 foreach ($entries as &$entry) {
   foreach ($entry as $name => $attribute) {
-    if (isset($filters[$name]) && function_exists($filter = $filters[$name])) {
+    $filter = isset($filters[$name]) ? $filters[$name] : NULL;
+    if (!isset($filter_functions[$filter])) {
+      $filter_functions[$filter] = function_exists($filter);
+    }
+    if ($filter_functions[$filter]) {
       $entry[$name] = call_user_func($filter, $attribute);
     }
   }
-  if (preg_match("/mail=(\w+@mozilla.*),o=/", $entry["dn"], $m)) {
-    $entry["picture"] = BASEPATH ."pic.php?mail=". $m[1];
+  if ($preprocess) {
+    preprocess_entry($entry);
   }
 }
 

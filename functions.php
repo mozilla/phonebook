@@ -19,8 +19,8 @@ function get_ldap_connection() {
     wail_and_bail();
   } else {
     // Check for validity of login
-    if (preg_match("/[a-z]+@mozilla\\.com/", $_SERVER["PHP_AUTH_USER"])) {
-      $user_dn = "mail=". $_SERVER["PHP_AUTH_USER"] .",o=com,dc=mozilla";
+    if (check_valid_user($_SERVER["PHP_AUTH_USER"])) {
+      $user_dn = user_to_dn($_SERVER["PHP_AUTH_USER"]);
       $password = $_SERVER["PHP_AUTH_PW"];
     } else {
       wail_and_bail();

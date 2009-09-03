@@ -8,7 +8,7 @@ define("MEMCACHE_ENABLED", true);
 $easteregg = false;
 $prototype = false;
 
-require_once("settings/settings.php");
+require_once("config.php");
 require_once("functions.php");
 require_once("constants.php");
 require_once("FirePHPCore/fb.php");

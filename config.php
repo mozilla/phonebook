@@ -1,12 +1,42 @@
 <?php
 
-$tree_config = array(
-  "ldap" => array(
-    "search_base" => "o=com, dc=mozilla",
-    "search_filter" => "mail=*",
-    "search_attributes" => array(
-      "cn", "manager", "title", "mail", "employeeType"
-    )
+define('LDAP_HOST', 'pm-ns.mozilla.org');
+
+
+function check_valid_user($user) {
+  return preg_match('/^[a-z]+@(.+?)\.(.+)$|^[a-z]+$/', $user);
+}
+
+function user_to_dn($user) {
+  if (preg_match('/^[a-z]+$/', $user)) {
+    return "mail=$user@mozilla.com,o=com,dc=mozilla";
+  }
+  preg_match('/^[a-z]+@(.+?)\.(.+)$/', $user, $m);
+  if ($m[1] == "mozilla" && $m[2] == "com") {
+    // o=com,dc=mozilla
+  } elseif (strpos($m[1], "mozilla") === 0 && $m[2] == "org") {
+    $m[1] = "mozilla";
+    $m[2] = "org";
+  } else {
+    $m[1] = "mozilla";
+    $m[2] = "net";
+  }
+  return "mail=$user,o={$m[2]},dc={$m[1]}";
+}
+
+
+function preprocess_entry(&$entry) {
+  if (preg_match("/mail=(\w+@mozilla.*),o=/", $entry["dn"], $m)) {
+    $entry["picture"] = BASEPATH ."pic.php?mail=". $m[1];
+  }
+}
+
+
+$tree_conf = array(
+  "ldap_search_base" => "o=com, dc=mozilla",
+  "ldap_search_filter" => "mail=*",
+  "ldap_search_attributes" => array(
+    "cn", "manager", "title", "mail", "employeeType"
   )
 );
 
@@ -21,9 +51,7 @@ function tree_view_process_entry($person) {
 }
 
 function tree_view_roots() {
-  return array(
-    "mitchell@mozilla.com", "lilly@mozilla.com"
-  );
+  return array("mitchell@mozilla.com", "lilly@mozilla.com");
 }
 
 function tree_view_item($email, $leaf=FALSE) {
