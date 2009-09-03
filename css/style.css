@@ -10,8 +10,19 @@
   list-style: none;
   }
 
+@font-face {
+  font-family: "Droid Sans";
+  src: url(fonts/DroidSans.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Droid Sans";
+  font-weight: bold;
+  src: url(fonts/DroidSans-Bold.ttf) format("truetype");
+}
+
 html {
-  font: 16px "Lucida Grande", "Lucida Sans Unicode", sans-serif;
+  font: 16px "Lucida Grande", "Droid Sans", "Trebuchet MS", sans-serif;
   font-weight: normal;
   font-style: normal;
   background: url(../img/bg.png) #67a7c7 repeat-x fixed;
@@ -38,12 +49,6 @@ a:hover {
     width: 214px;
     }
   #header h1 a {
-    /*position: absolute;
-    width: 220px;
-    height: 44px;
-    left: 0;
-    top: -11px;
-    text-indent: -1000em;*/
     display: inline-block;
     height: 0;
     padding-top: 47px;
@@ -71,6 +76,9 @@ a:hover {
     -webkit-border-bottom-right-radius: 0;
     -webkit-border-bottom-left-radius: .5em;
     }
+    #search-region input.with-clear-button {
+      padding-right: 24px;
+      }
     /* Awful hack to fix WebKit's off-by-one border */
     @media screen and (-webkit-min-device-pixel-ratio:0) {
       #search-region input {
@@ -90,6 +98,29 @@ a:hover {
     padding: 0.125em 0.5em;
     text-shadow: 0 1px 0 #FFF;
     }
+
+  #search-region #text-wrapper {
+    display: inline-block;
+    position: relative;
+    }
+  #search-region #clear-button {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-top: -12px;
+    width: 24px;
+    padding-top: 24px;
+    height: 0;
+    overflow: hidden;
+    background: url(../img/clear-search.png) no-repeat center center;
+    }
+    #search-region #clear-button:hover {
+      background-image: url(../img/clear-search-hover.png);
+      }
+    #search-region #clear-button.active {
+      background-image: url(../img/clear-search-active.png);
+      }
 
 #throbber {
   background: transparent url(../img/spin.png) no-repeat;
@@ -534,16 +565,14 @@ div.tree ul {
     padding: 0.25em 0 0.25em 4px;
     margin-top: 1px;
     font-size: 14px;
-    /*border-top: 1px dotted #98C6DD;*/
     }
 
-    div.tree > ul > li:first-child {
-      border-top: none;
+    div.tree ul li.hr-node {
+      -moz-user-select: -moz-none;
       }
-
-    div.tree ul li.hr-node:hover {
-      background-color: rgba(39, 103, 135, 0.5);
-      }
+      div.tree ul li.hr-node:hover {
+        background-color: rgba(39, 103, 135, 0.5);
+        }
 
     div.tree ul li.disabled {
       opacity: 0.65;

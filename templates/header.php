@@ -22,7 +22,7 @@
     <ul id="menu">
       <li><a class="card persist" href="./">Cards</a></li>
       <li><a class="wall persist" href="./faces.php">Faces</a></li>
-      <li><a class="tree" href="./tree.php">Org Chart</a></li>
+      <li><a class="tree persist" href="./tree.php">Org Chart</a></li>
       <li class="edit"><a class="edit" href="./edit.php" id="edit-entry">Edit My Entry</a></li>
     </ul>
   </form>

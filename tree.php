@@ -54,8 +54,6 @@ function make_tree($level, $root, $nodes=null) {
     }
     print "\n</ul>";
   }
-  
-  print "\n</li>";
 }
 
 require_once "templates/header.php";

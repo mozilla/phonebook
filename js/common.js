@@ -136,6 +136,14 @@ var BehaviorManager = {
   fire: function(behavior) {
     behavior = this.behaviors[behavior];
     (behavior.fire || behavior.observer).bind(behavior)();
+  },
+
+  update: function(behavior) {
+    behavior = this.behaviors[behavior];
+    if (behavior.update) {
+      behavior.update();
+    }
+    return !!behavior.update;
   }
 };
 
@@ -145,6 +153,7 @@ var BehaviorManager = {
 Function.prototype.toBehavior = function(o, event) {
   return {
     observer: this,
+    update: function() { this.observer(); },
     enable: o instanceof Selector ? function() {
         o.findElements().uniq().invoke("observe", event, this.observer);
       } : function() { Event.observe(o, event, this.observer); },
@@ -227,4 +236,10 @@ String.prototype.dnToEmail = function() {
   var m = this.match(/mail=(\w+@mozilla.*),o=/);
   return (m ? m[1] : null);
 };
+
+SearchManager.notFoundMessage = 
+  '<div style="text-align: center; margin-top: 5em;">' + 
+    '<img src="./img/ohnoes.jpg" />' + 
+    '<h2>OH NOES! No ones were foundz.</h2>' +
+  '</div>';
 
