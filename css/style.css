@@ -32,7 +32,7 @@ html {
 em {
   font-style: italic;
   }
-  
+
 a:hover {
   text-decoration: underline;
   }
@@ -57,7 +57,7 @@ a:hover {
     background: url(../img/phonebook.png) no-repeat;
     margin-bottom: -18px;
   }
-  
+
 #search-region {
   display: inline-block;
   margin-left: 1em;
@@ -113,13 +113,14 @@ a:hover {
     padding-top: 24px;
     height: 0;
     overflow: hidden;
-    background: url(../img/clear-search.png) no-repeat center center;
+    background: url(../img/clear-search-sprite.png) no-repeat;
+    background-position: 0 -50px;
     }
     #search-region #clear-button:hover {
-      background-image: url(../img/clear-search-hover.png);
+      background-position: 0 -25px;
       }
     #search-region #clear-button.active {
-      background-image: url(../img/clear-search-active.png);
+      background-position: 0 0;
       }
 
 #throbber {
@@ -195,7 +196,7 @@ a:hover {
   width: 20em;
   }
 
-#phonebook-search.large #text, 
+#phonebook-search.large #text,
 #phonebook-search.large button {
   display: inline-block;
   font-size: 1.33em;
@@ -205,14 +206,14 @@ a:hover {
   margin-top: 1em;
   text-align: center;
   }
-  
+
 /* Card view */
 
 #results {
   margin: 0 1em 1em;
   text-align: center;
   }
-  
+
 .vcard {
   text-align: left;
   display: inline-block;
@@ -299,7 +300,7 @@ a:hover {
     .vcard .bugmail {
       background-image: url(../img/bugzilla.png);
       }
-    .vcard .vcard-export, 
+    .vcard .vcard-export,
     .vcard .bugmail {
       background-repeat: no-repeat;
       padding-left: 20px;
@@ -397,7 +398,7 @@ form#edit {
   background: url(../img/add.png) no-repeat;
   }
 
-a.remove-link { 
+a.remove-link {
   padding-left: 16px;
   background: url(../img/remove.png) no-repeat;
   }
@@ -415,7 +416,7 @@ table.edit-table {
     border-top: 1px dotted #ACD1E3;
     }
 
-  table.edit-table tbody > tr:first-child td, 
+  table.edit-table tbody > tr:first-child td,
   table.edit-table tbody > tr:last-child td {
     border-top: none;
     }
@@ -429,7 +430,7 @@ table.edit-table {
     font-weight: bold;
     }
 
-  table.edit-table td input + a { 
+  table.edit-table td input + a {
     margin-left: 0.5em;
   }
 
@@ -520,7 +521,7 @@ table.edit-table {
   -moz-box-shadow: 0 0 16px #000;
   -webkit-box-shadow: 0 0 16px #000;
   }
-  
+
   #orgchart.filter-view,
   #orphans.filter-view {
     background-color: #333;
@@ -606,7 +607,7 @@ div.tree ul {
       background-color: #276787;
       }
 
-      div.tree ul li.selected a, 
+      div.tree ul li.selected a,
       div.tree ul li.selected span.title {
         color: #FFF;
         }
@@ -618,7 +619,7 @@ div.tree ul {
     div.tree ul li.collapsed {
       list-style-image: url(../img/collapsed.png);
       }
-    
+
     div.tree ul li.leaf {
       list-style-image: none;
       }

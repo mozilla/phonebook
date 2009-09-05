@@ -1,24 +1,24 @@
 <?php
 require_once("init.php");
-require_once("filters.inc");
+require_once("preprocessors-attr.inc");
 
 $keyword = isset($_GET["query"]) ? $_GET["query"] : '*';
 $entries = normalize(search_users($ldapconn, $keyword));
-$filters = get_filters();
+$attr_preps = get_attr_preprocessors();
 
-$preprocess = function_exists("preprocess_entry");
-$filter_functions = array();
+$preprocess_entries = function_exists("preprocess_entry");
+$preprocess_attr_functions = array();
 foreach ($entries as &$entry) {
   foreach ($entry as $name => $attribute) {
-    $filter = isset($filters[$name]) ? $filters[$name] : NULL;
-    if (!isset($filter_functions[$filter])) {
-      $filter_functions[$filter] = function_exists($filter);
+    $prep = isset($attr_preps[$name]) ? $attr_preps[$name] : NULL;
+    if (!isset($preprocess_attr_functions[$prep])) {
+      $preprocess_attr_functions[$prep] = function_exists($prep);
     }
-    if ($filter_functions[$filter]) {
-      $entry[$name] = call_user_func($filter, $attribute);
+    if ($preprocess_attr_functions[$prep]) {
+      $entry[$name] = call_user_func($prep, $attribute);
     }
   }
-  if ($preprocess) {
+  if ($preprocess_entries) {
     preprocess_entry($entry);
   }
 }
@@ -29,5 +29,5 @@ if (!file_exists("output-$format.inc")) {
 }
 require_once("output-$format.inc");
 $function = "output_$format";
-$user = $_SERVER["PHP_AUTH_USER"];
-call_user_func($function, $entries, is_phonebook_admin($ldapconn, $user));
+$dn = user_to_dn($_SERVER["PHP_AUTH_USER"]);
+call_user_func($function, $entries, is_phonebook_admin($ldapconn, $dn));

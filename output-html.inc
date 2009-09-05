@@ -1,14 +1,18 @@
 <?php
 
-function output_html_listify($a) {
+function output_html_listify($a, $sanitize=TRUE) {
   $s = "";
   for ($i = 0; $i < count($a); $i++) {
+    if ($sanitize) {
+      $a[$i] = htmlspecialchars($a[$i]);
+    }
     $s .= "<li>{$a[$i]}</li>";
   }
   return $s;
 }
 
 function output_html_email_linkify($s) {
+  $s = htmlspecialchars($s, ENT_QUOTES);
   return "<li><a class=\"value\" href=\"mailto:$s\">$s</a></li>";
 }
 
@@ -22,22 +26,27 @@ function output_html_employeetype($l) {
   return implode(", ", $l);
 }
 
+function output_html_location($s) {
+  return str_replace(":::", "/", $s);
+}
+
 function output_html_im($im) {
   return '<ul class="im">'. output_html_listify($im) .'</ul>';
 }
 
 function output_html_mobile($l) {
   return '<ul class="telecommunications">'. 
-         str_replace("<li>", '<li class="tel">', output_html_listify($l)) .
+         str_replace("<li>", '<li class="tel">', 
+                    output_html_listify(array_map("wikilinks", $l))) .
          '</ul>';
 }
 
 function output_html_description($s) {
-  return "<div class=\"note\">I work on: $s</div>";
+  return '<div class="note">I work on: '. wikilinks($s) .'</div>';
 }
 
 function output_html_other($s) {
-  return "<div class=\"other\">$s</div>";
+  return '<div class="other">'. wikilinks($s) .'</div>';
 }
 
 function output_html_dn_to_email($dn) {
@@ -82,6 +91,7 @@ function output_html($entries, $is_admin=FALSE) {
     "email" => "output_html_email_linkify",
     "emailalias" => "output_html_emailalias",
     "employeetype" => "output_html_employeetype",
+    "physicaldeliveryofficename" => "output_html_location",
     "im" => "output_html_im",
     "mobile" => "output_html_mobile",
     "description" => "output_html_description",

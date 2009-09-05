@@ -1,14 +1,11 @@
 <?php
 
-function get_filters() {
+function get_attr_preprocessors() {
   return array(
     "employeetype" => "employee_status",
     "manager" => "get_manager",
-    "physicaldeliveryofficename" => "location_formatter",
     "mobile" => "mobile_normalizer",
-    "im" => "mobile_normalizer",
-    "description" => "wikilinks",
-    "other" => "wikilinks"
+    "im" => "mobile_normalizer"
   );
 }
 
@@ -58,15 +55,8 @@ function get_manager($manager_dn) {
   }
 }
 
-function location_formatter($location) {
-  return str_replace(":::", "/", $location);
-}
-
 function mobile_normalizer($m) {
-  if (!is_array($m)) {
-    $m = array($m);
-  }
-  return array_map("wikilinks", $m);
+  return is_array($m) ? $m : array($m);
 }
 
 function wikilinks($string) { 

@@ -27,7 +27,7 @@
     <td><label>Manager</label></td>
     <td>
       <select name="manager" id="select-manager">
-      <?php 
+      <?php
       echo '<option value=""></option>';
       for ($j = 0; $j < $managerlist["count"]; $j++) {
         if ($managerlist[$j]['dn'] == $user_data['manager'][0]) {
@@ -35,21 +35,27 @@
         } else {
           $selected = '';
         }
-        echo '<option value="'. $managerlist[$j]['dn'] .'"'. 
+        echo '<option value="'. $managerlist[$j]['dn'] .'"'.
               $selected .'>'. escape($managerlist[$j]['cn'][0]) .'</option>';
       }
       ?>
       </select>
     </td>
   </tr>
+<?php
+list($city, $country) = explode(":::", $user_data["physicaldeliveryofficename"][0]);$city_name = $city;
 
+if (!empty($city) && !in_array($city, $office_cities)) {
+  $city = "Other";
+}
+?>
   <tr>
     <td><label>Office City</label></td>
     <td>
       <select id="office-city-select" name="office_city">
         <option value=""></option>
-        <?php 
-        foreach ($office_cities as $oc ) { 
+        <?php
+        foreach ($office_cities as $oc ) {
           $selected = ($oc == $city) ? ' selected="selected"' : '';
           $oc = escape($oc);
           echo "<option value=\"$oc\"$selected>$oc</option>";
@@ -65,7 +71,7 @@
     <td>
       <select id="office-country-select" name="office_country">
         <option value=""></option>
-        <?php 
+        <?php
         foreach($country_codes as $country_name => $code) {
           $selected = ($code == $country) ? 'selected="selected"' : '';
           print '<option '. $selected . ' value="' . htmlentities($code) . '">'. htmlentities($country_name) . '</option>';
@@ -84,7 +90,28 @@
     <td><label>Employee Status</label></td>
     <td>
     <?php
-      print_status_edit($user_data['employeetype'][0], array_key_exists('ismanager', $user_data) && $user_data['ismanager'][0], $is_admin);
+      function print_status_edit($status, $is_manager, $admin) {
+        global $orgs, $emp_type;
+        $status = $status == "DISABLED" ? array('D', 'D') : str_split($status);
+        if (!empty($status[0])) {
+          list($current_org, $current_emp_type) = $status;
+        }
+        if ($admin) {
+          require "templates/_status.php";
+        } else {
+          if (isset($orgs[$current_org]) &&
+              isset($emp_type[$current_emp_type])) {
+            print $orgs[$current_org] .", ". $emp_type[$current_emp_type];
+          } else {
+            print "DISABLED";
+          }
+        }
+      }
+
+      print_status_edit($user_data['employeetype'][0],
+                        isset($user_data["ismanager"]) &&
+                          $user_data['ismanager'][0],
+                        $is_admin);
     ?>
     </td>
   </tr>

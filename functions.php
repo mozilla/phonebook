@@ -8,12 +8,12 @@ function wail_and_bail() {
   header('HTTP/1.0 401 Unauthorized');
   ask();
   print "<h1>401 Unauthorized</h1>";
-  die; 
+  die;
 }
 
 function get_ldap_connection() {
   $ldapconn = ldap_connect(LDAP_HOST);
-  
+
   if (!isset($_SERVER["PHP_AUTH_USER"])) {
     ask();
     wail_and_bail();
@@ -32,14 +32,15 @@ function get_ldap_connection() {
     die(ldap_error($ldapconn));
   }
 
-  return $ldapconn; 
+  return $ldapconn;
 }
 
-function get_dn_from_email($ldapconn, $email) {
+function email_to_dn($ldapconn, $email) {
   $user_s = ldap_search($ldapconn, "dc=mozilla", "mail=" . $email);
   $user_s_r = ldap_get_entries($ldapconn, $user_s);
-  if ($user_s_r['count'] != 1)
-    die("Search for user returned more than 1 entry");
+  if ($user_s_r['count'] != 1) {
+    die("Multiple DNs match email.");
+  }
   return $user_s_r[0]['dn'];
 }
 
@@ -48,8 +49,8 @@ function search_users($ldapconn, $search) {
   $search = ldap_search(
     $ldapconn, 'dc=mozilla', $filter,
     array(
-      "cn", "title", "manager", "employeeType", "email", "emailAlias", 
-      "physicalDeliveryOfficeName", "telephoneNumber", "mobile", "im", 
+      "cn", "title", "manager", "employeeType", "email", "emailAlias",
+      "physicalDeliveryOfficeName", "telephoneNumber", "mobile", "im",
       "bugzillaEmail", "description", "status", "other"
     )
   );
@@ -59,11 +60,10 @@ function search_users($ldapconn, $search) {
 
 // The logic here is that failure to find out who has permissions to edit
 // someone else's entry implies that you aren't one of them.
-function is_phonebook_admin($ldapconn, $mail) {
-  $dn = get_dn_from_email($ldapconn, $mail);
+function is_phonebook_admin($ldapconn, $dn) {
   $search = ldap_list(
-    $ldapconn, 
-    "ou=groups, dc=mozilla", "(&(member=$dn)(cn=phonebook_admin))", 
+    $ldapconn,
+    "ou=groups, dc=mozilla", "(&(member=$dn)(cn=phonebook_admin))",
     array("cn")
   );
   $results = ldap_get_entries($ldapconn, $search);
@@ -80,7 +80,7 @@ function empty_array($element) {
 
 // Facilitates in creating user
 function get_status($current_org, $current_emp_type) {
-  if ($current_emp_type == 'D' || 
+  if ($current_emp_type == 'D' ||
       $current_org == 'D') {
     return "DISABLED";
   } else {
@@ -131,3 +131,4 @@ function normalize($o) {
   }
   return $o;
 }
+

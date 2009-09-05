@@ -16,13 +16,13 @@ $emp_type = array (
 );
 
 $editable_fields = array(
-  'cn', 'title', 'telephonenumber', 'mobile', 'description', 'manager', 
-  'other', 'im', 'mail', 'emailAlias', 'physicalDeliveryOfficeName', 
-  'employeetype', 'isManager', 'bugzillaEmail'
+  'cn', 'title', 'telephoneNumber', 'mobile', 'description', 'manager',
+  'other', 'im', 'mail', 'emailAlias', 'physicalDeliveryOfficeName',
+  'employeeType', 'isManager', 'bugzillaEmail'
 );
 
 $office_cities = array(
-  'Mountain View', 'Auckland', 'Beijing', 'Denmark', 'Paris', 
+  'Mountain View', 'Auckland', 'Beijing', 'Denmark', 'Paris',
   'Toronto','Tokyo', 'Other'
 );
 
