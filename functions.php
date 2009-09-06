@@ -49,7 +49,7 @@ function search_users($ldapconn, $search) {
   $search = ldap_search(
     $ldapconn, 'dc=mozilla', $filter,
     array(
-      "cn", "title", "manager", "employeeType", "email", "emailAlias",
+      "cn", "title", "manager", "employeeType", "mail", "emailAlias",
       "physicalDeliveryOfficeName", "telephoneNumber", "mobile", "im",
       "bugzillaEmail", "description", "status", "other"
     )
