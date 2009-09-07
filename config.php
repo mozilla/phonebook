@@ -12,8 +12,9 @@ function user_to_dn($user) {
     return "mail=$user@mozilla.com,o=com,dc=mozilla";
   }
   preg_match('/^[a-z]+@(.+?)\.(.+)$/', $user, $m);
-  if ($m[1] == "mozilla" && $m[2] == "com") {
-    // o=com,dc=mozilla
+  if ($m[1] == "mozilla-japan" && $m[2] == "org") {
+    $m[1] = "mozilla";
+    $m[2] = "com";
   } elseif (strpos($m[1], "mozilla") === 0 && $m[2] == "org") {
     $m[1] = "mozilla";
     $m[2] = "org";
