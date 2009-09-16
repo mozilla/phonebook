@@ -44,17 +44,10 @@ function email_to_dn($ldapconn, $email) {
   return $user_s_r[0]['dn'];
 }
 
-function search_users($ldapconn, $search) {
-  $filter = ($search == '*') ? 'objectClass=mozComPerson' : "(&(|(cn=*$search*)(mail=*$search*)(im=*$search*))(objectClass=mozComPerson))";
-  $search = ldap_search(
-    $ldapconn, 'dc=mozilla', $filter,
-    array(
-      "cn", "title", "manager", "employeeType", "mail", "emailAlias",
-      "physicalDeliveryOfficeName", "telephoneNumber", "mobile", "im",
-      "bugzillaEmail", "description", "status", "other"
-    )
-  );
-  ldap_sort($ldapconn, $search, 'sn');
+function query_users($ldapconn, $filter, $base='', $attributes, $sort=null) {
+  global $conf;
+  $search = ldap_search($ldapconn, $base, $filter, $attributes);
+  ldap_sort($ldapconn, $search, $sort || $conf["ldap"]["sort_order"] || "sn");
   return ldap_get_entries($ldapconn, $search);
 }
 

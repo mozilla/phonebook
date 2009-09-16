@@ -3,7 +3,7 @@
 require_once('init.php');
 define("NULL_PIC", dirname(__FILE__) . "/img/null.jpg");
 
-// $width = "120"; 
+// $width = "120";
 // $height = "150";
 
 $width = "140";
@@ -16,12 +16,12 @@ $height = "175";
 //  $height = $_GET['height']);
 //}
 
-$pic = null;
+$pic = NULL;
 
 header("Content-Type: image/jpeg");
-header("Expires: " . gmdate("D, d M Y H:i:s", time() + 300) . " GMT"); 
+header("Expires: " . gmdate("D, d M Y H:i:s", time() + 300) . " GMT");
 
-if (empty($_GET['type'])) { 
+if (empty($_GET['type'])) {
   $_GET['type'] = 'standard';
 } elseif ($_GET['type'] != 'standard' && $_GET['type'] != 'thumb') {
   exit;
@@ -30,7 +30,7 @@ if (empty($_GET['type'])) {
 if ($memcache_on && ($cached_pic = $memcache->get($_GET['mail']. $_GET['type']))) {
   print $cached_pic;
   exit;
-} 
+}
 
 $search = ldap_search(
   $ldapconn, 'dc=mozilla', "(mail=". $_GET['mail'] .")", array('jpegPhoto')
@@ -49,7 +49,7 @@ if ($search) {
   }
 }
 
-if ($pic == null) {
+if ($pic == NULL) {
   $pic = fread(fopen(NULL_PIC, 'r'), filesize(NULL_PIC));
 }
 
@@ -72,14 +72,14 @@ imagecopyresampled($image_p, $gd_pic, 0, 0, 0, 0, $width, $height, $width_orig, 
 
 // Output
 ob_start();
-if ($_GET['type'] == 'thumb') { 
-  imagejpeg($image_p, null, 100);
+if ($_GET['type'] == 'thumb') {
+  imagejpeg($image_p, NULL, 100);
 } else {
-  imagejpeg($gd_pic, null, 100);
+  imagejpeg($gd_pic, NULL, 100);
 }
 $image_string = ob_get_clean();
 print $image_string;
-if ($memcache_on) { 
+if ($memcache_on) {
   $memcache->set($_GET['mail']. $_GET['type'], $image_string, 0, 300);
 }
 ?>

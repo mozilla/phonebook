@@ -35,18 +35,18 @@ function get_manager($manager_dn) {
   }
   $manager_search = @ldap_search($ldapconn, $manager_dn, '(mail=*)', array('cn','mail'));
   if (ldap_errno($ldapconn) == 32) { // No manager found
-    return null;
+    return NULL;
   }
-  if ($manager_search) { 
+  if ($manager_search) {
     $entry = ldap_first_entry($ldapconn, $manager_search);
-    if ($entry) { 
+    if ($entry) {
       $attrs = ldap_get_attributes($ldapconn, $entry);
       $manager = array(
         "cn" => $attrs['cn'][0],
         "dn" => $manager_dn
       );
     } else {
-      $manager = null;
+      $manager = NULL;
     }
     if ($memcache_on) {
       $memcache->set($manager_dn, $manager);
@@ -59,7 +59,7 @@ function mobile_normalizer($m) {
   return is_array($m) ? $m : array($m);
 }
 
-function wikilinks($string) { 
+function wikilinks($string) {
   $matches = array();
   $string = nl2br(htmlspecialchars($string));
   if (preg_match_all('/\[(.+?)(?:\s(.+?))?\]/', $string, $matches)) {

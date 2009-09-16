@@ -24,7 +24,7 @@ foreach ($data as $person) {
     $manager = explode(',', $person["manager"][0]);
     $manager = explode('=', $manager[0]);
     $manager = $manager[1];
-    
+
     if (empty($people[$manager])) {
       $people[$manager] = array($mail);
     } else {
@@ -36,11 +36,11 @@ foreach ($data as $person) {
   }
 }
 
-function make_tree($level, $root, $nodes=null) {
+function make_tree($level, $root, $nodes=NULL) {
   global $people;
   global $everyone;
 
-  print "\n". tree_view_item($root, ($nodes == null));
+  print "\n". tree_view_item($root, ($nodes == NULL));
 
   if (is_array($nodes)) {
     print "\n<ul>";

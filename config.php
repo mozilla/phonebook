@@ -2,6 +2,7 @@
 
 define('LDAP_HOST', 'pm-ns.mozilla.org');
 
+/*************************************************************************/
 
 function check_valid_user($user) {
   return preg_match('/^[a-z]+@(.+?)\.(.+)$|^[a-z]+$/', $user);
@@ -38,6 +39,41 @@ function user_to_email($user) {
   return dn_to_email(user_to_dn($user));
 }
 
+/*************************************************************************/
+
+function preprocess_incoming_user_data(&$new_user_data, $is_admin) {
+  foreach (array("title", "telephoneNumber", "description", "manager", "other",
+                "mobile", "im", "emailAlias", "bugzillaEmail") as $attribute) {
+    $new_user_data[$attribute] = empty_array($new_user_data[$attribute]);
+  }
+
+  if ($_POST["office_city"] == "Other") {
+    $_POST["office_city"] = $_POST["office_city_name"];
+  }
+  $new_user_data['physicalDeliveryOfficeName'] = empty_array(array(implode(':::', array($_POST['office_city'], $_POST['office_country']))));
+
+  if ($is_admin) {
+    $new_user_data['employeeType'] = empty_array(get_status($_POST['org_code'], $_POST['employee_type_code']));
+    if (isset($_POST['is_manager'])) {
+      fb("is_manager: ". $_POST['is_manager']);
+      $new_user_data['isManager'] = empty_array((bool)$_POST['is_manager']);
+    }
+  }
+}
+
+/*************************************************************************/
+
+$conf = array(
+  "ldap" => array(
+    "sort_order" => "sn"
+  )
+);
+
+function search_users($ldapconn, $search) {
+  global $editable_fields;
+  $filter = ($search == '*') ? 'objectClass=mozComPerson' : "(&(|(cn=*$search*)(mail=*$search*)(im=*$search*))(objectClass=mozComPerson))";
+  return query_users($ldapconn, $filter, 'dc=mozilla', $editable_fields);
+}
 
 function preprocess_entry(&$entry) {
   if (preg_match("/mail=(\w+@.+),o=/", $entry["dn"], $m)) {
@@ -45,6 +81,7 @@ function preprocess_entry(&$entry) {
   }
 }
 
+/*************************************************************************/
 
 $tree_conf = array(
   "ldap_search_base" => "o=com, dc=mozilla",
@@ -56,8 +93,8 @@ $tree_conf = array(
 
 function tree_view_process_entry($person) {
   return array(
-    "title" => !empty($person["title"][0]) ? $person["title"][0] : null,
-    "name" => !empty($person["cn"][0]) ? $person["cn"][0] : null,
+    "title" => !empty($person["title"][0]) ? $person["title"][0] : NULL,
+    "name" => !empty($person["cn"][0]) ? $person["cn"][0] : NULL,
     "disabled" => isset($person["employeetype"]) ?
                     strpos($person["employeetype"][0], 'D') !== FALSE:
                     FALSE
@@ -80,26 +117,5 @@ function tree_view_item($email, $leaf=FALSE) {
            "<a href=\"#search/$email\" class=\"hr-link\">$name</a> ".
            "<span class=\"title\">$title</span>".
          "</li>";
-}
-
-
-function preprocess_incoming_user_data(&$new_user_data, $is_admin) {
-  foreach (array("title", "telephoneNumber", "description", "manager", "other",
-                "mobile", "im", "emailAlias", "bugzillaEmail") as $attribute) {
-    $new_user_data[$attribute] = empty_array($new_user_data[$attribute]);
-  }
-
-  if ($_POST["office_city"] == "Other") {
-    $_POST["office_city"] = $_POST["office_city_name"];
-  }
-  $new_user_data['physicalDeliveryOfficeName'] = empty_array(array(implode(':::', array($_POST['office_city'], $_POST['office_country']))));
-
-  if ($is_admin) {
-    $new_user_data['employeeType'] = empty_array(get_status($_POST['org_code'], $_POST['employee_type_code']));
-    if (isset($_POST['is_manager'])) {
-      fb("is_manager: ". $_POST['is_manager']);
-      $new_user_data['isManager'] = empty_array((bool)$_POST['is_manager']);
-    }
-  }
 }
 
