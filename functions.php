@@ -13,14 +13,15 @@ function wail_and_bail() {
 
 function get_ldap_connection() {
   $ldapconn = ldap_connect(LDAP_HOST);
+  $auth = new MozillaAuthAdapter();
 
   if (!isset($_SERVER["PHP_AUTH_USER"])) {
     ask();
     wail_and_bail();
   } else {
     // Check for validity of login
-    if (check_valid_user($_SERVER["PHP_AUTH_USER"])) {
-      $user_dn = user_to_dn($_SERVER["PHP_AUTH_USER"]);
+    if ($auth->check_valid_user($_SERVER["PHP_AUTH_USER"])) {
+      $user_dn = $auth->user_to_dn($_SERVER["PHP_AUTH_USER"]);
       $password = $_SERVER["PHP_AUTH_PW"];
     } else {
       wail_and_bail();
@@ -35,6 +36,7 @@ function get_ldap_connection() {
   return $ldapconn;
 }
 
+/*
 function email_to_dn($ldapconn, $email) {
   $user_s = ldap_search($ldapconn, "dc=mozilla", "mail=" . $email);
   $user_s_r = ldap_get_entries($ldapconn, $user_s);
@@ -43,14 +45,19 @@ function email_to_dn($ldapconn, $email) {
   }
   return $user_s_r[0]['dn'];
 }
+*/
 
+/*
 function query_users($ldapconn, $filter, $base='', $attributes, $sort=null) {
-  global $conf;
+  $adapter = new MozillaSearchAdapter();
+  $conf = $adapter->conf();
   $search = ldap_search($ldapconn, $base, $filter, $attributes);
-  ldap_sort($ldapconn, $search, $sort || $conf["ldap"]["sort_order"] || "sn");
+  ldap_sort($ldapconn, $search, $sort || $conf["ldap_sort_order"] || "sn");
   return ldap_get_entries($ldapconn, $search);
 }
+*/
 
+/*
 // The logic here is that failure to find out who has permissions to edit
 // someone else's entry implies that you aren't one of them.
 function is_phonebook_admin($ldapconn, $dn) {
@@ -62,7 +69,9 @@ function is_phonebook_admin($ldapconn, $dn) {
   $results = ldap_get_entries($ldapconn, $search);
   return $results["count"];
 }
+*/
 
+/*
 // Used to create LDAP data structures
 function empty_array($element) {
   if (empty($element[0])) {
@@ -70,7 +79,9 @@ function empty_array($element) {
   }
   return $element;
 }
+*/
 
+/*
 // Facilitates in creating user
 function get_status($current_org, $current_emp_type) {
   if ($current_emp_type == 'D' ||
@@ -80,7 +91,9 @@ function get_status($current_org, $current_emp_type) {
     return $current_org . $current_emp_type;
   }
 }
+*/
 
+/*
 function clean_userdata($user_data) {
   global $editable_fields;
   foreach ($editable_fields as $field) {
@@ -91,12 +104,15 @@ function clean_userdata($user_data) {
   }
   return $user_data;
 }
+*/
 
+/*
 function everyone_list($ldapconn) {
   $search = ldap_search($ldapconn, 'o=com,dc=mozilla', 'objectClass=mozComPerson');
   ldap_sort($ldapconn, $search, 'cn');
   return ldap_get_entries($ldapconn, $search);
 }
+*/
 
 function escape($s) {
   return htmlspecialchars($s, ENT_QUOTES);

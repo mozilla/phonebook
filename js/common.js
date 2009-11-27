@@ -19,7 +19,7 @@ if (!window.console) {
 })();
 
 Element.addMethods({
-  verticallyCenter: function(element, percentage) {
+  verticallyCenter: function verticallyCenter(element, percentage) {
     element = $(element);
     if (!element.retrieve("originalMarginTop")) {
       element.store("originalMarginTop", element.getStyle("marginTop"));
@@ -28,7 +28,7 @@ Element.addMethods({
     return element.setStyle({marginTop: (offset * (percentage || 0.4)) + "px"});
   },
 
-  stopVerticallyCentering: function(element) {
+  stopVerticallyCentering: function stopVerticallyCentering(element) {
     element = $(element);
     var original = element.getStorage().unset("originalMarginTop");
     return element.setStyle({marginTop: original});
@@ -37,7 +37,7 @@ Element.addMethods({
 
 // Force Gecko to redraw the blinking cursor
 Element.addMethods("input", {
-  releaseFocus: function(element) {
+  releaseFocus: function releaseFocus(element) {
     $w("blur focus blur").each(function(method) { $(element)[method](); });
     return element;
   }
@@ -52,31 +52,37 @@ Array.prototype.find = function find(selector) {
 };
 
 // Show / hide throbbers accoring to Ajax requests
-Ajax.Responders.register({
-  onCreate: function() { $("throbber").addClassName("loading"); },
-  onComplete: function() { $("throbber").removeClassName("loading"); }
-});
+(function() {
+  function update() {
+    var method = (Ajax.activeRequestCount == 0 ? "remove" : "add") + "ClassName";
+    $("throbber")[method]("loading");
+  }
+  Ajax.Responders.register({
+    onCreate:   update,
+    onComplete: update
+  });
+})();
 
 // Search keyword persistence between different views
 $(document).observe("dom:loaded", function() {
-  $$("#menu a.persist").each(function(link) {
-    link.store("originalLink", link.readAttribute("href"));
+  $$("#menu a.persist").each(function(a) {
+    a.store("originalLink", a.readAttribute("href"));
   });
 });
 $(document).observe("hash:changed", function(e) {
-  $$("#menu a.persist").each(function(link) {
-    link.writeAttribute("href", link.retrieve("originalLink") + "#" + e.memo.hash);
+  $$("#menu a.persist").each(function(a) {
+    a.writeAttribute("href", a.retrieve("originalLink") + "#" + e.memo.hash);
   });
 });
 
-Function.prototype.lazify = function() {
+Function.prototype.lazify = function lazify() {
   var cache = {};
   return this.wrap(function(original, x) {
     return cache[x] ? cache[x] : (cache[x] = original(x));
   });
 };
 
-Number.emToPx = function(x) {
+Number.emToPx = function emToPx(x) {
   var div = new Element("div").setStyle({
     position: "absolute", margin: "0", padding: "0", visibility: "none",
     width: x + "em", height: "9px", top: "-100000em", left: "-100000em"
@@ -90,29 +96,29 @@ Number.emToPx = function(x) {
 Number.prototype.emToPx = Number.emToPx.methodize();
 String.prototype.toInt = window.parseInt.methodize();
 
-// BehaviorManager allows encapsulation of event handlers that frequently need 
-// to be enabled or disabled due to change of state. Behaviors must be first 
+// BehaviorManager allows encapsulation of event handlers that frequently need
+// to be enabled or disabled due to change of state. Behaviors must be first
 // registered with BehaviorManager.register().
 var BehaviorManager = {
   behaviors: {},
 
-  // `behaviors' is an object that must support three methods at minimal: 
+  // `behaviors' is an object that must support three methods at minimum:
   // `enable', `disable', and `fire'.
   // * `enable' is called when a behavior is switched on.
   // * `disable' is called when a behavior is switched off.
   // * `fire' is called when the behavior must be executed immediately.
   //   If `fire' is not present, BehaviorManager assumes that a function called
   //   `observer' is present and calls it.
-  // Although not enforced by BehaviorManager, it is customary to name the 
+  // Although not enforced by BehaviorManager, it is customary to name the
   // event handler `observer".
   // The `behaviors' object must not manipulate `_enabled', as it is used
   // internally by BehaviorManager.
-  register: function(name, behaviors) {
+  register: function register(name, behaviors) {
     this.behaviors[name] = behaviors;
     this.behaviors[name]._enabled = false;
   },
 
-  enable: function(behavior, immediatelyFire) {
+  enable: function enable(behavior, immediatelyFire) {
     var name = behavior;
     behavior = this.behaviors[behavior];
     (behavior._enabled = true) && behavior.enable();
@@ -122,7 +128,7 @@ var BehaviorManager = {
   },
 
   // Returns false if the behavior has already been disabled, otherwise true.
-  disable: function(behavior) {
+  disable: function disable(behavior) {
     behavior = this.behaviors[behavior];
     if (behavior._enabled) {
       behavior.disable();
@@ -133,12 +139,12 @@ var BehaviorManager = {
     }
   },
 
-  fire: function(behavior) {
+  fire: function fire(behavior) {
     behavior = this.behaviors[behavior];
     (behavior.fire || behavior.observer).bind(behavior)();
   },
 
-  update: function(behavior) {
+  update: function fire(behavior) {
     behavior = this.behaviors[behavior];
     if (behavior.update) {
       behavior.update();
@@ -149,8 +155,8 @@ var BehaviorManager = {
 
 // If o is a string, it will be treated as an id.
 // If o is an element, make sure the DOM is loaded.
-// If o is a Selector, it will be a live set of nodes.
-Function.prototype.toBehavior = function(o, event) {
+// If o is a Selector, it will be a live set of nodes that match the CSS selector.
+Function.prototype.toBehavior = function toBehavior(o, event) {
   return {
     observer: this,
     update: function() { this.observer(); },
@@ -178,16 +184,18 @@ BehaviorManager.register("submitOnEnter", function(e) {
 }.toBehavior("phonebook-search", "submit"));
 
 BehaviorManager.register("centerHeader", {
-  attached: false, fire: function() {
+  attached: false,
+
+  fire: function fire() {
     this.observer.adjust = true;
     this.observer();
   },
 
-  observer: function(e) {
+  observer: function observer(e) {
     if (arguments.callee.adjust) { $("header").verticallyCenter(); }
   },
 
-  enable: function() {
+  enable: function enable() {
     this.observer.adjust = true;
     if (!this.attached) {
       Event.observe(Prototype.resizeTarget, "resize", this.observer);
@@ -195,18 +203,18 @@ BehaviorManager.register("centerHeader", {
     }
   },
 
-  disable: function() {
+  disable: function disable() {
     this.observer.adjust = false;
     $("header").stopVerticallyCentering();
   }
 });
 
-// Normally, you should simply mix in a method called `startSearch' and then 
+// Normally, you should simply mix in a method called `startSearch' and then
 // call SearchManager.initialize() when DOM is loaded. For advanced examples,
 // take a look at tree.js, which overrides everything but `initialize'.
 var SearchManager = {
   enabledBehaviorsOnInit: ["submitOnEnter"],
-  initialize: function() {
+  initialize: function initialize() {
     $(document).observe("hash:changed", this.onHashChange.bind(this));
     this.onLoad();
     this.enabledBehaviorsOnInit.each(function(b) {
@@ -214,32 +222,32 @@ var SearchManager = {
     });
   },
 
-  onHashChange: function(e) {
+  onHashChange: function onHashChange(e) {
     $("text").value = e.memo.hash.replace("search/", '');
     this.startSearch.bind(this)();
   },
 
-  onLoad: function() {
+  onLoad: function onLoad() {
     if (window.location.hash.startsWith("#search/")) {
       $(document).fire("hash:changed", {
         hash: window.location.hash.substring(1)
-      });  
+      });
     } else {
       $("phonebook-search").addClassName("large");
       BehaviorManager.enable("centerHeader", true);
       $("text").focus();
-    }    
+    }
   }
 };
 
-String.prototype.dnToEmail = function() {
+String.prototype.dnToEmail = function dnToEmail() {
   var m = this.match(/mail=(\w+@mozilla.*),o=/);
   return (m ? m[1] : null);
 };
 
-SearchManager.notFoundMessage = 
-  '<div style="text-align: center; margin-top: 5em;">' + 
-    '<img src="./img/ohnoes.jpg" />' + 
+SearchManager.notFoundMessage =
+  '<div style="text-align: center; margin-top: 5em;">' +
+    '<img src="./img/ohnoes.jpg" />' +
     '<h2>OH NOES! No ones were foundz.</h2>' +
   '</div>';
 
