@@ -6,17 +6,7 @@ require_once("preprocessors-attr.inc");
 $auth = new MozillaAuthAdapter();
 $search = new MozillaSearchAdapter($ldapconn);
 $keyword = isset($_GET["query"]) ? $_GET["query"] : '*';
-
-if ($keyword == 'random') {
-    $keyword = '*';
-    $random = true;
-}
-
 $entries = normalize($search->search_users($keyword));
-$entries = array(
-0 => $entries[mt_rand(0, count($entries)-1)]
-);
-
 $attr_preps = get_attr_preprocessors();
 
 $preprocess_attr_functions = array();
