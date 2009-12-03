@@ -84,7 +84,7 @@ abstract class SearchAdapter {
    * post-normalization. This can, for example, be used to inject the URL to
    * fetch an entry's picture.
    */
-  public function preprocess_entry(&$entry) {};
+  abstract public function preprocess_entry(&$entry);
 }
 
 abstract class EditingAdapter {
@@ -92,7 +92,7 @@ abstract class EditingAdapter {
    * A callback / hook to modify the incoming, submitted POST data upon the 
    * submission of the Edit Entry form.
    */
-  public function cook_incoming(&$new_user_data, $is_admin) {};
+  abstract public function cook_incoming(&$new_user_data, $is_admin);
 }
 
 /*
