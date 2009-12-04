@@ -34,8 +34,9 @@ if (!empty($_POST)) {
       if (!ldap_add($ldapconn,
                     $auth->email_to_dn($ldapconn, $edit_user),
                     array($key => $value))) {
-        fb("Fail on $key => $value for $edit_user");
+        fb("Failure on $key => ". print_r($value, TRUE) ." for $edit_user");
       }
+      fb("Success on $key => ". print_r($value, TRUE) ." for $edit_user");
     }
   }
 

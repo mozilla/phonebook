@@ -39,7 +39,7 @@ class MozillaAuthAdapter extends AuthAdapter {
   public function email_to_dn($ldapconn, $email) {
     $user_s = ldap_search($ldapconn, "dc=mozilla", "mail=" . $email);
     $user_s_r = ldap_get_entries($ldapconn, $user_s);
-    if ($user_s_r['count'] != 1) { 
+    if ($user_s_r['count'] != 1) {
       die("Multiple DNs match email.");
     }
     return $user_s_r[0]['dn'];
@@ -62,7 +62,7 @@ class MozillaAuthAdapter extends AuthAdapter {
 
 class MozillaEditingAdapter extends EditingAdapter {
   public function cook_incoming(&$new_user_data, $is_admin) {
-    foreach (array("title", "telephoneNumber", "description", "manager", 
+    foreach (array("title", "telephoneNumber", "description", "manager",
                   "other", "mobile", "im", "emailAlias", "bugzillaEmail")
             as $attribute) {
       $new_user_data[$attribute] = $this->box($new_user_data[$attribute]);
@@ -79,11 +79,15 @@ class MozillaEditingAdapter extends EditingAdapter {
       );
       if (isset($_POST['is_manager'])) {
         fb("is_manager: ". $_POST['is_manager']);
-        $new_user_data['isManager'] = $this->box($this->clean_boolean($_POST['is_manager']));
+        $new_user_data['isManager'] = $this->box($this->ldap_bool($_POST['is_manager']));
       }
     }
   }
-  
+
+  public function ldap_bool($boolean) {
+    return $boolean ? "TRUE" : "FALSE";
+  }
+
   // Used to create LDAP data structures
   public function box($element) {
     if (empty($element[0])) {
@@ -167,7 +171,7 @@ class MozillaTreeAdapter extends TreeAdapter {
     )
   );
   public $roots = array("mitchell@mozilla.com", "lilly@mozilla.com");
-  
+
   public function process_entry($person) {
     return array(
       "title" => !empty($person["title"][0]) ? $person["title"][0] : NULL,

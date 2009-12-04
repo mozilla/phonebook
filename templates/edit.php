@@ -109,8 +109,7 @@ if (!empty($city) && !in_array($city, $office_cities)) {
       }
 
       print_status_edit($user_data['employeetype'][0],
-                        isset($user_data["ismanager"]) &&
-                          $user_data['ismanager'][0],
+                        isset($user_data["ismanager"]) && $user_data['ismanager'][0],
                         $is_admin);
     ?>
     </td>
