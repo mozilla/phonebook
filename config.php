@@ -79,7 +79,7 @@ class MozillaEditingAdapter extends EditingAdapter {
       );
       if (isset($_POST['is_manager'])) {
         fb("is_manager: ". $_POST['is_manager']);
-        $new_user_data['isManager'] = $this->box((bool)$_POST['is_manager']);
+        $new_user_data['isManager'] = $this->box($this->clean_boolean($_POST['is_manager']));
       }
     }
   }
@@ -111,6 +111,10 @@ class MozillaEditingAdapter extends EditingAdapter {
       }
     }
     return $user_data;
+  }
+
+  public function clean_boolean($value) {
+    return $value ? 'True' : 'False';
   }
 }
 
