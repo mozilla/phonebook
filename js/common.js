@@ -170,7 +170,7 @@ Function.prototype.toBehavior = function toBehavior(o, event) {
 };
 
 BehaviorManager.register("slashSearch", function(e) {
-  if (e.findElement().identify() == "text") {
+  if (["input", "textarea"].include(e.findElement().tagName.toLowerCase())) {
     return;
   }
   if ((e.which || e.keyCode) == 47) { // KEY_SLASH
