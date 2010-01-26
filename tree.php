@@ -6,6 +6,7 @@ $orphans = array();
 $everyone = array();
 
 $tree = new MozillaTreeAdapter($everyone);
+$auth = new MozillaAuthAdapter();
 
 $search = ldap_search(
   $ldapconn,
@@ -16,17 +17,13 @@ $search = ldap_search(
 $data = ldap_get_entries($ldapconn, $search);
 
 $tree_view_roots = $tree->roots;
-
 foreach ($data as $person) {
   $mail = $person['mail'][0];
   $everyone[$mail] = $tree->process_entry($person);
 
   // If a user has a manager, try to find their place in the tree.
   if (!empty($person["manager"][0])) {
-    $manager = explode(',', $person["manager"][0]);
-    $manager = explode('=', $manager[0]);
-    $manager = $manager[1];
-
+    $manager = $auth->dn_to_email($person["manager"][0]);
     if (empty($people[$manager])) {
       $people[$manager] = array($mail);
     } else {
@@ -37,13 +34,21 @@ foreach ($data as $person) {
     $orphans[] = $mail;
   }
 }
+$managers = array_keys($people);
+$visible_managers = array();
 
 function make_tree($level, $root, $nodes=NULL) {
   global $people;
   global $everyone;
   global $tree;
+  global $managers;
+  global $visible_managers;
 
   print "\n". $tree->format_item($everyone, $root, ($nodes == NULL));
+
+  if ($nodes !== NULL && in_array($root, $managers)) {
+    $visible_managers[] = $root;
+  }
 
   if (is_array($nodes)) {
     print "\n<ul>";
@@ -74,6 +79,7 @@ require_once "templates/header.php";
       make_tree(0, $root, $people[$root]);
     }
   }
+  $invisible_managers = array_values(array_diff($managers, $visible_managers));
 ?>
 </ul>
 </div>
@@ -85,6 +91,15 @@ require_once "templates/header.php";
 <?php
 foreach ($orphans as $orphan) {
   print "\n". $tree->format_item($everyone, $orphan, TRUE);
+}
+$invisible_people = array();
+foreach ($invisible_managers as $invisible_manager) {
+  foreach ($people[$invisible_manager] as $invisible_person) {
+    $invisible_people[] = $invisible_person;
+  }
+}
+foreach (array_unique($invisible_people) as $invisible_person) {
+  print "\n". $tree->format_item($everyone, $invisible_person, TRUE);
 }
 ?>
   </ul>
