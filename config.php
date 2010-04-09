@@ -65,7 +65,9 @@ class MozillaEditingAdapter extends EditingAdapter {
     foreach (array("title", "telephoneNumber", "description", "manager",
                   "other", "mobile", "im", "emailAlias", "bugzillaEmail")
             as $attribute) {
-      $new_user_data[$attribute] = $this->box($new_user_data[$attribute]);
+      if (isset($new_user_data[$attribute])) {
+        $new_user_data[$attribute] = $this->box($new_user_data[$attribute]);
+      }
     }
 
     if ($_POST["office_city"] == "Other") {
