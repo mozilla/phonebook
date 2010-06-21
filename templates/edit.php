@@ -173,7 +173,7 @@ if (!empty($city) && !in_array($city, $office_cities)) {
     <td>
         <img class="photo" src="pic.php?type=thumb&mail=<?= escape($user_data['mail'][0]) ?>"/>
         <label for="photo-upload">Upload new photo</label>
-        <input id="photo-upload" type="file" name="jpegPhoto" /><br />
+        <input id="photo-upload" type="file" name="jpegPhoto" accept="image/jpeg" /><br />
         <em class="description">Only JPEG is supported</em>
     </td>
   </tr>
