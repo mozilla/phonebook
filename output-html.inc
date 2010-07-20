@@ -50,7 +50,7 @@ function output_html_other($s) {
 }
 
 function output_html_dn_to_email($dn) {
-  preg_match('/mail=([a-z]+@mozilla.*),o=/', $dn, $matches);
+  preg_match('/mail=(.+),o=/', $dn, $matches);
   return $matches[1];
 }
 
@@ -88,7 +88,7 @@ function interpolate($s, $o, $pattern="/(^|.|\\r|\\n)(#\\{(.*?)\\})/") {
 
 function output_html($entries, $is_admin=FALSE) {
   $processors = array(
-    "email" => "output_html_email_linkify",
+    "mail" => "output_html_email_linkify",
     "emailalias" => "output_html_emailalias",
     "employeetype" => "output_html_employeetype",
     "physicaldeliveryofficename" => "output_html_location",
@@ -115,15 +115,9 @@ function output_html($entries, $is_admin=FALSE) {
       '#{org_chart}',
       '#{manager}',
     '</div>',
-    '<ul class="adr"><li>',
-      '<span class="locality">',
-        '<a href="https://intranet.mozilla.org/OfficeLocations">#{physicaldeliveryofficename}</a>', 
-      '</span>',
-      '#{telephonenumber}',
-      '#{seating_chart}',
-    '</li></ul>',
+    '#{locality}',
     '#{mobile}',
-    '<ul class="email">#{email}#{emailalias}</ul>',
+    '<ul class="email">#{mail}#{emailalias}</ul>',
     '#{im}',
     '#{description}',
     '#{other}',
@@ -138,11 +132,23 @@ function output_html($entries, $is_admin=FALSE) {
   
   header("Content-Type: text/html");
   foreach ($entries as &$entry) {
-    $entry["email"] = output_html_dn_to_email($entry["dn"]);
-    $entry["picture"] = "<a class=\"photo\" href=\"{$entry['picture']}\" target=\"_blank\"><img class=\"photo\" src=\"{$entry['picture']}&amp;type=thumb\" alt=\"Photo of {$entry['cn']}\" /></a>";
-    $entry["org_chart"] = ' <a class="org-chart" href="tree.php#search/'. $entry["email"] .'">(Org)</a>';
-    $entry["vcard_export"] = '<a class="vcard-export" href="./search.php?format=vcard&query='. $entry["email"] .'">vCard</a>';
-    $entry["edit"] = $is_admin ? ' <a href="edit.php?edit_mail='. escape($entry["email"]) .'">(edit)</a>' : '';
+    if (isset($entry["picture"])) {
+      $entry["picture"] = "<a class=\"photo\" href=\"{$entry['picture']}\" target=\"_blank\"><img class=\"photo\" src=\"{$entry['picture']}&amp;type=thumb\" alt=\"Photo of {$entry['cn']}\" /></a>";
+    }
+    $entry["org_chart"] = ' <a class="org-chart" href="tree.php#search/'. $entry["mail"] .'">(Org)</a>';
+    $entry["vcard_export"] = '<a class="vcard-export" href="./search.php?format=vcard&query='. $entry["mail"] .'">vCard</a>';
+    $entry["edit"] = $is_admin ? ' <a href="edit.php?edit_mail='. escape($entry["mail"]) .'">(edit)</a>' : '';
+    if (isset($entry["physicaldeliveryofficename"])) {
+      $entry["locality"] = interpolate(implode('', array(
+        '<ul class="adr"><li>',
+          '<span class="locality">',
+            '<a href="https://intranet.mozilla.org/OfficeLocations">#{physicaldeliveryofficename}</a>', 
+          '</span>',
+          '#{telephonenumber}',
+          '#{seating_chart}',
+        '</li></ul>',
+      )), $entry);
+    }
     foreach ($processors as $processor => $function) {
       if (isset($entry[$processor])) {
         $entry[$processor] = call_user_func($function, $entry[$processor]);
