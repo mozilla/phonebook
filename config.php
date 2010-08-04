@@ -6,14 +6,14 @@ define('LDAP_HOST', 'pm-ns.mozilla.org');
 
 class MozillaAuthAdapter extends AuthAdapter {
   public function check_valid_user($user) {
-    return preg_match('/^[a-z]+@(.+?)\.(.+)$|^[a-z]+$/', $user);
+    return preg_match('/^[a-z.]+@(.+?)\.(.+)$|^[a-z]+$/', $user);
   }
 
   public function user_to_dn($user) {
     if (preg_match('/^[a-z]+$/', $user)) {
       return "mail=$user@mozilla.com,o=com,dc=mozilla";
     }
-    preg_match('/^[a-z]+@(.+?)\.(.+)$/', $user, $m);
+    preg_match('/^[a-z.]+@(.+?)\.(.+)$/', $user, $m);
     if ($m[1] == "mozilla" && $m[2] == "com") {
       // pass
     } elseif ($m[1] == "mozilla-japan" && $m[2] == "org") {
