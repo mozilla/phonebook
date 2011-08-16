@@ -66,7 +66,7 @@ function output_html_title($t) {
 function output_html_telephonenumber($s) { return " , x$s"; }
 
 function output_html_bugzillaemail($s) {
-  return "<a class=\"bugmail\" title=\"Bugmail\" href=\"mailto:$s\">Bugmail</a>";
+  return "<div class=\"bugmail\">Bugmail: <a title=\"Bugmail\" href=\"mailto:$s\">$s</a></div>";
 }
 
 function interpolate($s, $o, $pattern="/(^|.|\\r|\\n)(#\\{(.*?)\\})/") {
@@ -107,7 +107,7 @@ function output_html($entries, $is_admin=FALSE) {
   '<div class="body">',
     '<div class="side">',
       '#{picture}',
-      '#{vcard_export} #{bugzillaemail}',
+      '#{vcard_export}',
     '</div>',
     '<div class="employee">',
       '#{title}',
@@ -118,6 +118,7 @@ function output_html($entries, $is_admin=FALSE) {
     '#{locality}',
     '#{mobile}',
     '<ul class="email">#{mail}#{emailalias}</ul>',
+    '#{bugzillaemail}',
     '#{im}',
     '#{description}',
     '#{other}',
