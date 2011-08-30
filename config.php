@@ -1,6 +1,6 @@
 <?php
 
-define('LDAP_HOST', 'pm-ns.mozilla.org');
+define('LDAP_HOST', 'pm-ns01.mozilla.org');
 
 /*************************************************************************/
 
