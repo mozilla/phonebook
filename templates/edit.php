@@ -1,5 +1,4 @@
 <?php require_once('templates/header.php'); ?>
-
 <form id="edit" method="post" action="edit.php" enctype="multipart/form-data">
 <div class="vcard">
 
@@ -159,7 +158,31 @@ if (!empty($city) && !in_array($city, $office_cities)) {
       <em class="description">Links in <a href="http://en.wikipedia.org/wiki/Help:Wikitext_examples">wiki markup</a> style supported.</em>
     </td>
   </tr>
+<?php
+    if(!isset($user_data['shirtsize'][0])){
+        $user_shirt = '';
+    } else {
+        $user_shirt = $user_data['shirtsize'][0];
+    }
 
+?>
+  <tr>
+    <td><label>T-Shirt Size</label></td>
+    <td>
+    <select name="shirtsize">
+    <option value="">Non Selected</option>
+    <?php
+        for($i=0;$i<count($shirt_sizes);$i++){
+            echo "<option value=\"". $shirt_sizes[$i] . "\"";
+            if($shirt_sizes[$i] == $user_shirt){
+                echo " selected=\"selected\" ";
+            }
+            echo ">" . $shirt_sizes[$i] . "</option>";
+        }
+    ?>
+    </select>
+    </td>
+  </tr>
   <tr>
     <td><label>Other</label></td>
     <td>
