@@ -18,7 +18,7 @@ $emp_type = array (
 $editable_fields = array(
   'cn', 'title', 'telephoneNumber', 'mobile', 'description', 'manager',
   'other', 'im', 'mail', 'emailAlias', 'physicalDeliveryOfficeName',
-  'employeeType', 'isManager', 'bugzillaEmail'
+  'employeeType', 'isManager', 'bugzillaEmail', 'shirtsize'
 );
 
 $office_cities = array(
@@ -29,3 +29,19 @@ $office_cities = array(
 $protocol = isset($_SERVER["HTTPS"]) ? "https://" : "http://";
 define("BASEPATH", $protocol . $_SERVER["HTTP_HOST"] . dirname($_SERVER["REQUEST_URI"]) .'/');
 
+$shirt_sizes = array(
+   'XS (M)',
+   'S (M)',
+   'M (M)',
+   'L (M)',
+   'XL (M)',
+   'XXL (M)',
+   'XXXL (M)',
+   'XS (F)',
+   'S (MF)',
+   'M (F)',
+   'L (F)',
+   'XL (f)',
+   'XXL (F)',
+   'XXXL (F)'
+);
