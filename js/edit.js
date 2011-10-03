@@ -33,6 +33,33 @@ $(document).observe("dom:loaded", function() {
     e.element().up().remove();
     e.stop();
   };
+  var cities = new Array();
+  new Ajax.Request('office_cities.php', {
+        method: 'get',
+        onSuccess: function(transport) {
+            var cities_json = transport.responseText.evalJSON();
+            for (var i=0; i < cities_json.length; i++){
+                cities.push(cities_json[i].office);
+            }
+        }
+    });
+
+  var office_adder = function(name, title) {
+    title = "Remove " + title;
+    return function(e) {
+      var div = new Element("div");
+      var select = new Element("select", {name: name});
+      for(i=0; i < cities.length; i++){
+        select.insert(new Option(cities[i], cities[i]));
+      } 
+      var a = new Element("a", {href: '#', title: title});
+      div.insert(select).insert(a);
+      a.observe("click", remover).addClassName("remove-link");
+      e.element().insert({before: div}); 
+      e.stop();
+      select.focus();
+    };
+  };
   var adder = function(name, title) {
     title = "Remove " + title;
     return function(e) {
@@ -49,6 +76,13 @@ $(document).observe("dom:loaded", function() {
   $("email-alias-add").observe("click", adder("emailAlias[]", "e-mail"));
   $("phone-number-add").observe("click", adder("mobile[]", "number"));
   $("im-add").observe("click", adder("im[]", "account"));
+  $("office-add").observe("click", office_adder("office_city[]", "office"));
+
+  $w("office-cities").map(function(x) {
+    return $(x).descendants().find("select + a");
+  }).flatten().compact().invoke("observe", "click", remover).each(function(x) {
+    x.writeAttribute("title", x.innerHTML).update('');
+  });
 
   $w("email-aliases phone-numbers im-accounts").map(function(x) {
     return $(x).descendants().find("input + a");

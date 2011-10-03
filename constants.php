@@ -22,8 +22,15 @@ $editable_fields = array(
 );
 
 $office_cities = array(
-  'Mountain View', 'San Francisco', 'Auckland', 'Beijing', 'Denmark', 'Paris',
-  'Toronto', 'Tokyo', 'Other'
+    'Mountain View' => 'US', 
+    'San Francisco' => 'US',
+    'Auckland' => 'NZ',
+    'Beijing' => 'CN',
+    'Denmark' => 'DN',
+    'Paris' => 'FR',
+    'Toronto' => 'CA',
+    'Tokyo' => 'JP',
+    'Other' => 'Other'
 );
 
 $protocol = isset($_SERVER["HTTPS"]) ? "https://" : "http://";

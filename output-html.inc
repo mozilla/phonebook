@@ -27,6 +27,9 @@ function output_html_employeetype($l) {
 }
 
 function output_html_location($s) {
+  if( is_array($s)){
+    $s = $s[0];
+  }
   return str_replace(":::", "/", $s);
 }
 
@@ -140,6 +143,9 @@ function output_html($entries, $is_admin=FALSE) {
     $entry["vcard_export"] = '<a class="vcard-export" href="./search.php?format=vcard&query='. $entry["mail"] .'">vCard</a>';
     $entry["edit"] = $is_admin ? ' <a href="edit.php?edit_mail='. escape($entry["mail"]) .'">(edit)</a>' : '';
     if (isset($entry["physicaldeliveryofficename"])) {
+        if(is_array($entry["physicaldeliveryofficename"])){
+            $entry["physicaldeliveryofficename"] = $entry["physicaldeliveryofficename"][0];
+        }
       $entry["locality"] = interpolate(implode('', array(
         '<ul class="adr"><li>',
           '<span class="locality">',

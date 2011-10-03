@@ -73,7 +73,42 @@ class MozillaEditingAdapter extends EditingAdapter {
     if ($_POST["office_city"] == "Other") {
       $_POST["office_city"] = $_POST["office_city_name"];
     }
-    $new_user_data['physicalDeliveryOfficeName'] = $this->box(array(implode(':::', array($_POST['office_city'], $_POST['office_country']))));
+    foreach ($_POST['office_city'] as $office_city){
+        if($office_city != ''){
+            switch($office_city){
+                case "Mountain View":
+                    $office_country = "US";
+                    break;
+                case "San Francisco":
+                    $office_country = "US";
+                    break;
+                case "Auckland":
+                    $office_country = "NZ";
+                    break;
+                case "Beijing":
+                    $office_country = "CN";
+                    break;
+                case "Denmark":
+                    $office_country = "DK";
+                    break;
+                case "Paris":
+                    $office_country = "FR";
+                    break;
+                case "Toronto":
+                    $office_country = "CA";
+                    break;
+                case "Tokyo":
+                    $office_country = "JP";
+                    break;
+                default:
+                    $office_country = $_POST['office_country'];
+                    break;
+            }
+            $new_user_data['physicalDeliveryOfficeName'][] = implode(':::', array($office_city, $office_country));
+        }
+    }
+    //This removes the duplicate office locations from the array and only stores it once to avoid an ldap constraint error
+    $new_user_data['physicalDeliveryOfficeName'] = array_unique($new_user_data['physicalDeliveryOfficeName']);
 
     if ($is_admin) {
       $new_user_data['employeeType'] = $this->box(
