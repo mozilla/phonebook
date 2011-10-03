@@ -41,26 +41,42 @@
       </select>
     </td>
   </tr>
-<?php
-list($city, $country) = explode(":::", $user_data["physicaldeliveryofficename"][0]);$city_name = $city;
-
-if (!empty($city) && !in_array($city, $office_cities)) {
+  <tr>
+    <td><label>Office City</label></td>
+<?php 
+    if(!is_array($user_data["physicaldeliveryofficename"])){
+        $user_data["physicaldeliveryofficename"] = array($user_data["physicaldeliveryofficename"]);
+    } 
+      unset($user_data["physicaldeliveryofficename"]["count"]);
+if (!empty($city) && !in_array($city, array_keys($office_cities))) {
   $city = "Other";
 }
 ?>
-  <tr>
-    <td><label>Office City</label></td>
-    <td>
-      <select id="office-city-select" name="office_city">
+    <td id='office-cities'>
+<?php 
+$primary_country = '';
+$counter = 0;
+    foreach ($user_data["physicaldeliveryofficename"] as $office_location){ 
+    list($city, $country) = explode(":::", $office_location);
+    if($counter == 0){
+        $primary_country = $country;
+    }
+    $city_name = $city;
+?>
+      <div><select id="office-city-select" name="office_city[]">
         <option value=""></option>
         <?php
-        foreach ($office_cities as $oc ) {
+        foreach (array_keys($office_cities) as $oc ) {
           $selected = ($oc == $city) ? ' selected="selected"' : '';
           $oc = escape($oc);
           echo "<option value=\"$oc\"$selected>$oc</option>";
         }
         ?>
-      </select>
+            </select><?php ($counter > 0) ? print '<a href="#" class="remove-link"></a>' : ''; ?><br /></div>
+<?php 
+$counter++;    
+} ?>
+    <a id="office-add" href="#">Add Office</a><br />
       <input id="office-city-text" style="display: none;" type="text" name="office_city_name" value="<?= escape($city_name) ?>" />
     </td>
   </tr>
@@ -71,8 +87,8 @@ if (!empty($city) && !in_array($city, $office_cities)) {
       <select id="office-country-select" name="office_country">
         <option value=""></option>
         <?php
-        foreach($country_codes as $country_name => $code) {
-          $selected = ($code == $country) ? 'selected="selected"' : '';
+        foreach ($country_codes as $country_name => $code) {
+          $selected = ($code == $primary_country) ? 'selected="selected"' : '';
           print '<option '. $selected . ' value="' . htmlentities($code) . '">'. htmlentities($country_name) . '</option>';
         }
         ?>
