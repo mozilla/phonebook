@@ -173,7 +173,7 @@ class MozillaSearchAdapter extends SearchAdapter {
 
   public function list_everyone() {
     return $this->query_users(
-      "objectClass=mozComPerson", "dc=mozilla", array("dn")
+      "objectClass=mozComPerson", "dc=mozilla", array("dn", "cn")
     );
   }
 }
