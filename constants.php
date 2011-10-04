@@ -48,7 +48,7 @@ $shirt_sizes = array(
    'S (MF)',
    'M (F)',
    'L (F)',
-   'XL (f)',
+   'XL (F)',
    'XXL (F)',
    'XXXL (F)'
 );
