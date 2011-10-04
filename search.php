@@ -24,7 +24,7 @@ foreach ($entries as &$entry) {
 }
 
 $format = isset($_GET["format"]) ? $_GET["format"] : "json";
-if (!file_exists("output-$format.inc")) {
+if (!in_array($format, $output_formats) || !file_exists("output-$format.inc")) {
   $format = "json";
 }
 require_once("output-$format.inc");
