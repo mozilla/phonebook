@@ -26,10 +26,12 @@ $office_cities = array(
     'San Francisco' => 'US',
     'Auckland' => 'NZ',
     'Beijing' => 'CN',
-    'Denmark' => 'DN',
+    'Copenhagen' => 'DK',
+    'London' => 'GB',
     'Paris' => 'FR',
-    'Toronto' => 'CA',
     'Tokyo' => 'JP',
+    'Toronto' => 'CA',
+    'Vancouver' => 'CA',
     'Other' => 'Other'
 );
 
