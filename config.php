@@ -1,8 +1,11 @@
 <?php
 
+@include_once('config-local.php');
 require_once('constants.php');
 
-define('LDAP_HOST', 'pm-ns01.mozilla.org');
+
+if (!defined('LDAP_HOST'))
+    define('LDAP_HOST', 'pm-ns01.mozilla.org');
 
 /*************************************************************************/
 

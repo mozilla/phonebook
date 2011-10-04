@@ -1,9 +1,13 @@
 <?php
 
+@include_once('config-local.php');
+
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 ini_set("memory_limit", "64M");
-define("MEMCACHE_ENABLED", true);
+
+if (!defined('MEMCACHE_ENABLED'))
+    define("MEMCACHE_ENABLED", true);
 
 require_once("config.php");
 require_once("functions.php");
@@ -20,8 +24,15 @@ if (class_exists("Memcache") && MEMCACHE_ENABLED) {
 $ldapconn = get_ldap_connection();
 
 if ($memcache_on) {
-  $memcache = new Memcache;
-  $memcache->connect("localhost", 11211);
+    $memcache = new Memcache;
+
+    if (empty($memcache_servers))
+        $memcache_servers = array('localhost:11211');
+
+    foreach ($memcache_servers as $mc_server) {
+        list($host, $port) = explode(':', $mc_server, 2);
+        $memcache->addServer($host, $port);
+    }
 }
 
 /*
