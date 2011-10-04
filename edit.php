@@ -48,8 +48,8 @@ if (!empty($_POST)) {
     $new_user_data['jpegPhoto'] = fread($pic_file, filesize($_FILES['jpegPhoto']['tmp_name']));
   }
   if ($memcache_on) {
-    $memcache->delete($edit_user . 'standard');
-    $memcache->delete($edit_user . 'thumb');
+    $memcache->delete(MEMCACHE_PREFIX . $edit_user . 'standard');
+    $memcache->delete(MEMCACHE_PREFIX . $edit_user . 'thumb');
   }
   if (ldap_modify($ldapconn,
                   $auth->email_to_dn($ldapconn, $edit_user),

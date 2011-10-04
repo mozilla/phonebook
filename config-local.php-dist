@@ -13,3 +13,4 @@ define("MEMCACHE_ENABLED", true);
 $memcache_servers = array(
     'localhost:11211',
 );
+define('MEMCACHE_PREFIX', 'phonebook');

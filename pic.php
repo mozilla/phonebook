@@ -27,7 +27,7 @@ if (empty($_GET['type'])) {
   exit;
 }
 
-if ($memcache_on && ($cached_pic = $memcache->get($_GET['mail']. $_GET['type']))) {
+if ($memcache_on && ($cached_pic = $memcache->get(MEMCACHE_PREFIX . $_GET['mail']. $_GET['type']))) {
   print $cached_pic;
   exit;
 }
@@ -80,7 +80,7 @@ if ($_GET['type'] == 'thumb') {
 $image_string = ob_get_clean();
 print $image_string;
 if ($memcache_on) {
-  $memcache->set($_GET['mail']. $_GET['type'], $image_string, 0, 300);
+  $memcache->set(MEMCACHE_PREFIX . $_GET['mail']. $_GET['type'], $image_string, 0, 300);
 }
 ?>
 

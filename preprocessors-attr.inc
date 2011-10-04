@@ -30,7 +30,7 @@ function employee_status($status) {
 
 function get_manager($manager_dn) {
   global $ldapconn, $memcache_on, $memcache;
-  if ($memcache_on && ($manager = $memcache->get($manager_dn))) {
+  if ($memcache_on && ($manager = $memcache->get(MEMCACHE_PREFIX . $manager_dn))) {
     return $manager;
   }
   $manager_search = @ldap_search($ldapconn, $manager_dn, '(mail=*)', array('cn','mail'));
@@ -49,7 +49,7 @@ function get_manager($manager_dn) {
       $manager = NULL;
     }
     if ($memcache_on) {
-      $memcache->set($manager_dn, $manager);
+      $memcache->set(MEMCACHE_PREFIX . $manager_dn, $manager);
     }
     return $manager;
   }

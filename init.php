@@ -29,6 +29,9 @@ if ($memcache_on) {
     if (empty($memcache_servers))
         $memcache_servers = array('localhost:11211');
 
+    if (!defined('MEMCACHE_PREFIX'))
+        define('MEMCACHE_PREFIX', 'phonebook:');
+
     foreach ($memcache_servers as $mc_server) {
         list($host, $port) = explode(':', $mc_server, 2);
         $memcache->addServer($host, $port);
