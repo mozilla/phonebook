@@ -12,21 +12,12 @@ $(document).observe("dom:loaded", function() {
     window.location = "./#search/" + $F("text");
   });
 
-  var countryMap = {
-    'Mountain View': 'US',
-    'Auckland': 'NZ',
-    'Beijing': 'CN',
-    'Denmark': 'DK',
-    'Paris': 'FR',
-    'Toronto': 'CA',
-    'Tokyo': 'JP' 
-  };
   $("office-city-select").observe("change", function(e) {
-    var city = $F(this);
+    var city = $F(this),
+        sel_option = $$('#office-city-select option[value='+city+']')[0],
+        country = (city == 'Other') ? '' : sel_option.readAttribute('data-country');
     $("office-city-text")[city == "Other" ? "show" : "hide"]();
-    if (countryMap[city]) {
-      $("office-country-select").value = countryMap[city];
-    }
+    $("office-country-select").value = country;
   });
   
   var remover = function(e) {

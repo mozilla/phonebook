@@ -1,5 +1,7 @@
 <?php
 
+require_once('constants.php');
+
 define('LDAP_HOST', 'pm-ns01.mozilla.org');
 
 /*************************************************************************/
@@ -74,35 +76,11 @@ class MozillaEditingAdapter extends EditingAdapter {
       $_POST["office_city"] = $_POST["office_city_name"];
     }
     foreach ($_POST['office_city'] as $office_city){
-        if($office_city != ''){
-            switch($office_city){
-                case "Mountain View":
-                    $office_country = "US";
-                    break;
-                case "San Francisco":
-                    $office_country = "US";
-                    break;
-                case "Auckland":
-                    $office_country = "NZ";
-                    break;
-                case "Beijing":
-                    $office_country = "CN";
-                    break;
-                case "Denmark":
-                    $office_country = "DK";
-                    break;
-                case "Paris":
-                    $office_country = "FR";
-                    break;
-                case "Toronto":
-                    $office_country = "CA";
-                    break;
-                case "Tokyo":
-                    $office_country = "JP";
-                    break;
-                default:
-                    $office_country = $_POST['office_country'];
-                    break;
+        if (!empty($office_city)) {
+            if (in_array($office_city, $office_cities)) {
+                $office_country = $office_cities[$office_city];
+            } else {
+                $office_country = $_POST['office_country'];
             }
             $new_user_data['physicalDeliveryOfficeName'][] = implode(':::', array($office_city, $office_country));
         }

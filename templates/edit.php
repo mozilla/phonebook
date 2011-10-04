@@ -66,10 +66,11 @@ $counter = 0;
       <div><select id="office-city-select" name="office_city[]">
         <option value=""></option>
         <?php
-        foreach (array_keys($office_cities) as $oc ) {
+        foreach ($office_cities as $oc => $octry) {
           $selected = ($oc == $city) ? ' selected="selected"' : '';
           $oc = escape($oc);
-          echo "<option value=\"$oc\"$selected>$oc</option>";
+          $octry = escape($octry);
+          echo "<option value=\"$oc\" data-country=\"{$octry}\" $selected>$oc</option>";
         }
         ?>
             </select><?php ($counter > 0) ? print '<a href="#" class="remove-link"></a>' : ''; ?><br /></div>
