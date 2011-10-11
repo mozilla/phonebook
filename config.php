@@ -89,8 +89,11 @@ class MozillaEditingAdapter extends EditingAdapter {
         }
     }
     //This removes the duplicate office locations from the array and only stores it once to avoid an ldap constraint error
-    $new_user_data['physicalDeliveryOfficeName'] = array_unique($new_user_data['physicalDeliveryOfficeName']);
-
+    if ($new_user_data['physicalDeliveryOfficeName']){
+        $new_user_data['physicalDeliveryOfficeName'] = array_unique($new_user_data['physicalDeliveryOfficeName']);
+    } else {
+        $new_user_data['physicalDeliveryOfficeName'] = ':::';
+    }
     if ($is_admin) {
       $new_user_data['employeeType'] = $this->box(
         $this->get_status($_POST['org_code'], $_POST['employee_type_code'])
