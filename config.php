@@ -75,9 +75,6 @@ class MozillaEditingAdapter extends EditingAdapter {
       }
     }
 
-    if ($_POST["office_city"] == "Other") {
-      $_POST["office_city"] = $_POST["office_city_name"];
-    }
     foreach ($_POST['office_city'] as $office_city){
         if (!empty($office_city)) {
             if (in_array($office_city, $office_cities)) {
@@ -85,6 +82,10 @@ class MozillaEditingAdapter extends EditingAdapter {
             } else {
                 $office_country = $_POST['office_country'];
             }
+            if ($office_city == 'Other'){
+                $office_city = $_POST["office_city_name"];
+            }
+
             $new_user_data['physicalDeliveryOfficeName'][] = implode(':::', array($office_city, $office_country));
         }
     }
