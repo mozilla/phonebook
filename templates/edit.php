@@ -221,7 +221,7 @@ $counter++;
         <img class="photo" src="pic.php?type=thumb&mail=<?= escape($user_data['mail'][0]) ?>"/>
         <label for="photo-upload">Upload new photo</label>
         <input id="photo-upload" type="file" name="jpegPhoto" accept="image/jpeg" /><br />
-        <em class="description">Please upload your mugshot</em>
+        <em class="description">Please upload your mugshot<br /></em>
         <em class="description">Only JPEG is supported</em>
     </td>
   </tr>
