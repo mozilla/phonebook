@@ -89,7 +89,7 @@ class MozillaEditingAdapter extends EditingAdapter {
     }
     foreach ($_POST['office_city'] as $office_city){
         if (!empty($office_city) && $office_city != 'Other') {
-            if (in_array($office_city, $office_cities)) {
+            if (in_array($office_city, array_keys($office_cities))) {
                 $office_country = $office_cities[$office_city];
             } else {
                 $office_country = $_POST['office_country'];
