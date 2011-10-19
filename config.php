@@ -67,6 +67,7 @@ class MozillaAuthAdapter extends AuthAdapter {
 
 class MozillaEditingAdapter extends EditingAdapter {
   public function cook_incoming(&$new_user_data, $is_admin) {
+  global $office_cities;
     foreach (array("title", "telephoneNumber", "description", "manager",
                   "other", "mobile", "im", "emailAlias", "bugzillaEmail", "shirtSize")
             as $attribute) {
@@ -76,14 +77,22 @@ class MozillaEditingAdapter extends EditingAdapter {
     }
 
     foreach ($_POST['office_city'] as $office_city){
-        if (!empty($office_city)) {
+        if (!empty($office_city) && $office_city == 'Other') {
+            if($_POST['office_country']){
+                $office_country = $_POST['office_country'];
+            } else {
+                $office_country = 'US';
+            }
+            $office_city = $_POST["office_city_name"];
+            $new_user_data['physicalDeliveryOfficeName'][] = implode(':::', array($office_city, $office_country));
+        }
+    }
+    foreach ($_POST['office_city'] as $office_city){
+        if (!empty($office_city) && $office_city != 'Other') {
             if (in_array($office_city, $office_cities)) {
                 $office_country = $office_cities[$office_city];
             } else {
                 $office_country = $_POST['office_country'];
-            }
-            if ($office_city == 'Other'){
-                $office_city = $_POST["office_city_name"];
             }
 
             $new_user_data['physicalDeliveryOfficeName'][] = implode(':::', array($office_city, $office_country));

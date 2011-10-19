@@ -57,6 +57,7 @@ if (!empty($city) && !in_array($city, array_keys($office_cities))) {
 $office_city_display_style = "display: none;";
 $primary_country = '';
 $counter = 0;
+$other_city_name = '';
     foreach ($user_data["physicaldeliveryofficename"] as $office_location){ 
     list($city, $country) = explode(":::", $office_location);
     if($counter == 0){
@@ -73,6 +74,7 @@ $counter = 0;
           $octry = escape($octry);
           if (!in_array($city, array_keys($office_cities)) && $oc == "Other"){
             $office_city_display_style = "display: block;";
+            $other_city_name = $city;
             echo "<option value=\"$oc\" data-country=\"{$octry}\" selected=\"selected\">$oc</option>";
           } else {
             echo "<option value=\"$oc\" data-country=\"{$octry}\" $selected>$oc</option>";
@@ -85,7 +87,7 @@ $counter = 0;
 $counter++;    
 } ?>
     <a id="office-add" href="#">Add Office</a><br />
-      <input id="office-city-text" style="<?= $office_city_display_style ?>" type="text" name="office_city_name" value="<?= escape($city_name) ?>" />
+      <input id="office-city-text" style="<?= $office_city_display_style ?>" type="text" name="office_city_name" value="<?= escape($other_city_name) ?>" />
     </td>
   </tr>
 
