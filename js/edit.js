@@ -41,7 +41,9 @@ $(document).observe("dom:loaded", function() {
       var div = new Element("div");
       var select = new Element("select", {name: name});
       for(i=0; i < cities.length; i++){
-        select.insert(new Option(cities[i], cities[i]));
+        if (cities[i] != 'Other') {
+            select.insert(new Option(cities[i], cities[i]));
+        }
       } 
       var a = new Element("a", {href: '#', title: title});
       div.insert(select).insert(a);

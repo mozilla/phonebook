@@ -66,9 +66,11 @@ $other_city_name = '';
     $city_name = $city;
 ?>
       <div><select id="office-city-select" name="office_city[]">
-        <option value=""></option>
         <?php
         foreach ($office_cities as $oc => $octry) {
+          if ($counter > 0 && $oc == 'Other'){
+              continue;
+          }
           $selected = ($oc == $city) ? ' selected="selected"' : '';
           $oc = escape($oc);
           $octry = escape($octry);
