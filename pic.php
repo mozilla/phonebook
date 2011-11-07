@@ -1,20 +1,19 @@
 <?php
-
 require_once('init.php');
 define("NULL_PIC", dirname(__FILE__) . "/img/null.jpg");
 
-// $width = "120";
-// $height = "150";
+// Validate requested email. Throw error if invalid.
+if (false === filter_var($_GET['mail'], FILTER_VALIDATE_EMAIL)) {
+    header('HTTP/1.0 400 Bad request');
+    echo 'Invalid email.';
+    die();
+}
 
+
+/** Picture dimensions */
 $width = "140";
 $height = "175";
 
-//if (!empty($_GET['width']) {
-//  $width = $_GET['width']);
-//}
-//if (!empty($_GET['height']) {
-//  $height = $_GET['height']);
-//}
 
 $pic = NULL;
 
