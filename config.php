@@ -5,7 +5,7 @@ require_once('constants.php');
 
 
 if (!defined('LDAP_HOST'))
-    define('LDAP_HOST', 'pm-ns01.mozilla.org');
+    define('LDAP_HOST', 'pm-ns.mozilla.org');
 
 /*************************************************************************/
 
