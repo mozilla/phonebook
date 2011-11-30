@@ -69,7 +69,7 @@ class MozillaEditingAdapter extends EditingAdapter {
   public function cook_incoming(&$new_user_data, $is_admin) {
   global $office_cities;
     foreach (array("title", "telephoneNumber", "description", "manager",
-                  "other", "mobile", "im", "emailAlias", "bugzillaEmail", "shirtSize")
+                  "other", "mobile", "im", "emailAlias", "bugzillaEmail", "shirtSize", "isManager")
             as $attribute) {
       if (isset($new_user_data[$attribute])) {
         $new_user_data[$attribute] = $this->box($new_user_data[$attribute]);
@@ -111,6 +111,8 @@ class MozillaEditingAdapter extends EditingAdapter {
       if (isset($_POST['is_manager'])) {
         fb("is_manager: ". $_POST['is_manager']);
         $new_user_data['isManager'] = $this->box($this->ldap_bool($_POST['is_manager']));
+      } else {
+         $new_user_data['isManager'] = $this->box(0);
       }
     }
   }

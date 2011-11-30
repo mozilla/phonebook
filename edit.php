@@ -2,6 +2,7 @@
 require_once('init.php');
 require_once('config.php');
 require_once('country_codes.php');
+error_reporting(E_ERROR);
 
 $edit = new MozillaEditingAdapter();
 $auth = new MozillaAuthAdapter();
@@ -24,9 +25,6 @@ if (!empty($_POST)) {
     if (isset($_POST[$editable_field])) {
       $new_user_data[$editable_field] = $_POST[$editable_field];
     }
-  }
-  if(!isset($_POST['is_manager'])){
-    $new_user_data['isManager'] = 0;
   }
 
   $edit->cook_incoming($new_user_data, $is_admin);
