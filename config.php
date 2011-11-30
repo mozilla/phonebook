@@ -159,7 +159,7 @@ class MozillaSearchAdapter extends SearchAdapter {
   public $fields = array(
     'cn', 'title', 'telephoneNumber', 'mobile', 'description', 'manager',
     'other', 'im', 'mail', 'emailAlias', 'physicalDeliveryOfficeName',
-    'employeeType', 'isManager', 'bugzillaEmail', 'shirtSize'
+    'employeeType', 'isManager', 'bugzillaEmail', 'shirtSize', 'isManager'
   );
   public $conf = array(
     "ldap_sort_order" => "sn"

@@ -21,5 +21,5 @@
 </div>
 
 <div>
-<input type="checkbox" name="is_manager" value="<?= $is_manager; ?>"<?= $is_manager ? ' checked="checked"' : '' ?> /> User is a manager
+<input type="checkbox" name="is_manager" value="<?= $is_manager; ?>"<?= ($is_manager != 0 and $is_manager != false) ? ' checked="checked"' : '' ?> /> User is a manager
 </div>

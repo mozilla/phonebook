@@ -25,6 +25,9 @@ if (!empty($_POST)) {
       $new_user_data[$editable_field] = $_POST[$editable_field];
     }
   }
+  if(!isset($_POST['is_manager'])){
+    $new_user_data['isManager'] = 0;
+  }
 
   $edit->cook_incoming($new_user_data, $is_admin);
 
