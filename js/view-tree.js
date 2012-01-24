@@ -45,7 +45,7 @@ BehaviorManager.register("scrollSnap", function() {
 BehaviorManager.register("treeNodeToggling", function(e) {
   !e.element().match("a") && $(this).toggleTree();
   Tree.doNotFilter = true;
-  Tree.select(this);
+  e.element().match("a") && Tree.select(this);
   e.stop();
 }.toBehavior(new Selector("div li.hr-node"), "click"));
 
@@ -196,7 +196,6 @@ Object.extend(SearchManager, {
     var query = e.memo.hash.replace("search/", '');
     console.log(query);
     $("text").value = query;
-    Tree.stopFiltering();
     if (query.include('@')) {
       Tree.showPerson.bind(this)(query);
       Tree.select($(query.replace('@', "-at-")));
