@@ -110,7 +110,7 @@ class MozillaEditingAdapter extends EditingAdapter {
       );
       if (isset($_POST['is_manager'])) {
         fb("is_manager: ". $_POST['is_manager']);
-        $new_user_data['isManager'] = $this->box($this->ldap_bool($_POST['is_manager']));
+        $new_user_data['isManager'] = "TRUE";
       } else {
          $new_user_data['isManager'] = $this->box(0);
       }
@@ -204,7 +204,7 @@ class MozillaTreeAdapter extends TreeAdapter {
     )
   );
   public $roots = array(
-    "mitchell@mozilla.com", "gkovacs@mozilla.com"
+    "mitchell@mozilla.com", "gkovacs@mozilla.com", "dascher@mozilla.com"
   );
 
   public function process_entry($person) {
