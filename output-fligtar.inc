@@ -8,6 +8,8 @@ function output_fligtar($entries) {
       "title" => isset($entry["title"]) ? $entry["title"] : NULL,
       "ext" => isset($entry["telephonenumber"]) ? $entry["telephonenumber"] : NULL,
       "phones" => isset($entry["mobile"]) ? unbox($entry["mobile"]) : NULL,
+      "manager" => isset($entry["manager"]) ? unbox($entry["manager"]) : NULL,
+      "bugzillaEmail" => isset($entry["bugzillaemail"]) ? $entry["bugzillaemail"] : NULL,
       "ims" => isset($entry["im"]) ? unbox($entry["im"]) : NULL
     );
   }
