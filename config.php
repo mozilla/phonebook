@@ -198,14 +198,23 @@ class MozillaSearchAdapter extends SearchAdapter {
 
 class MozillaTreeAdapter extends TreeAdapter {
   public $conf = array(
-    "ldap_search_base" => "o=com, dc=mozilla",
-    "ldap_search_filter" => "mail=*",
-    "ldap_search_attributes" => array(
-      "sn", "cn", "manager", "title", "mail", "employeeType"
+    array( // Corporation
+      "ldap_search_base" => "o=com,dc=mozilla",
+      "ldap_search_filter" => "mail=*",
+      "ldap_search_attributes" => array(
+          "sn", "cn", "manager", "title", "mail", "employeeType"
+      )
+    ),
+    array( // Foundation
+      "ldap_search_base" => "o=org,dc=mozilla",
+      "ldap_search_filter" => "mail=*",
+      "ldap_search_attributes" => array(
+        "sn", "cn", "manager", "title", "mail", "employeeType"
+      )
     )
   );
   public $roots = array(
-    "mitchell@mozilla.com", "gkovacs@mozilla.com"
+    "mitchell@mozilla.com", "gkovacs@mozilla.com", "mark@mozillafoundation.org"
   );
 
   public function process_entry($person) {

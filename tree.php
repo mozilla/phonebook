@@ -8,13 +8,16 @@ $everyone = array();
 $tree = new MozillaTreeAdapter($everyone);
 $auth = new MozillaAuthAdapter();
 
-$search = ldap_search(
-  $ldapconn,
-  $tree->conf["ldap_search_base"],
-  $tree->conf["ldap_search_filter"],
-  $tree->conf["ldap_search_attributes"]
-);
-$data = ldap_get_entries($ldapconn, $search);
+$data = array();
+foreach ($tree->conf as $conf) {
+    $search = ldap_search(
+        $ldapconn,
+        $conf["ldap_search_base"],
+        $conf["ldap_search_filter"],
+        $conf["ldap_search_attributes"]
+    );
+    $data = array_merge($data, ldap_get_entries($ldapconn, $search));
+}
 
 $tree_view_roots = $tree->roots;
 foreach ($data as $person) {
@@ -22,7 +25,8 @@ foreach ($data as $person) {
   $everyone[$mail] = $tree->process_entry($person);
 
   // If a user has a manager, try to find their place in the tree.
-  if (!empty($person["manager"][0])) {
+  // Unless they're a root themselves.
+  if (!in_array($mail, $tree_view_roots) && !empty($person["manager"][0])) {
     $manager = $auth->dn_to_email($person["manager"][0]);
     if (empty($people[$manager])) {
       $people[$manager] = array($mail);
@@ -86,11 +90,11 @@ require_once "templates/header.php";
 <br />
 <div id="orphans" class="tree">
 <ul>
-  <li>People who need to set their manager</li>
-  <ul>
+  <li class="hr-node collapsed">People who need to set their manager</li>
+  <ul style="display:none">
 <?php
 foreach ($orphans as $orphan) {
-  print "\n". $tree->format_item($everyone, $orphan, TRUE);
+  print "\n". $tree->format_item($everyone, $orphan, true);
 }
 $invisible_people = array();
 foreach ($invisible_managers as $invisible_manager) {
