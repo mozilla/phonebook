@@ -34,6 +34,7 @@ $office_cities = array(
     'Vancouver' => 'CA',
     'Taipei' => 'TW',
     'Portland' => 'US',
+    'Boston' => 'US',
     'Other' => 'Other'
 );
 
