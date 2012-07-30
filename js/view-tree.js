@@ -32,6 +32,9 @@ Element.addMethods("li", {
 });
 
 BehaviorManager.register("scrollSnap", function() {
+  var cardcount = $("person").childElements("div.vcard").length;
+  if (cardcount > 1) return;
+
   var card = $("person").down("div.vcard");
   var tree = $("orgchart");
   if (!card || !tree) { return; }

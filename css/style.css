@@ -539,7 +539,6 @@ table.edit-table {
   right: 0;
   }
   #person div.vcard {
-    position: absolute;
     margin: 68px 0 0 0;
     }
     #person div.vcard.snap-to-top {
