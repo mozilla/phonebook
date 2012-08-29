@@ -18,7 +18,7 @@ $emp_type = array (
 $editable_fields = array(
   'cn', 'title', 'telephoneNumber', 'mobile', 'description', 'manager',
   'other', 'im', 'mail', 'emailAlias', 'physicalDeliveryOfficeName',
-  'employeeType', 'isManager', 'bugzillaEmail', 'shirtsize', 'b2gNumber'
+  'employeeType', 'isManager', 'bugzillaEmail', 'shirtsize', 'b2gNumber', 'roomNumber'
 );
 
 $office_cities = array(

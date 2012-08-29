@@ -109,6 +109,10 @@ $counter++;
   </tr>
 
   <tr>
+    <td><label>Desk Number</label></td>
+    <td><input type="text" name="roomNumber[]" value="<?= escape($user_data['roomnumber'][0]) ?>"/></td>
+  </tr>
+  <tr>
     <td><label>Title</label></td>
     <td><input type="text" name="title[]" value="<?= escape($user_data['title'][0]) ?>"/></td>
   </tr>

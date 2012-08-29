@@ -119,6 +119,7 @@ function output_html($entries, $is_admin=FALSE) {
       '#{manager}',
     '</div>',
     '#{locality}',
+    '#{roomnumber}',
     '#{mobile}',
     '<ul class="email">#{mail}#{emailalias}</ul>',
     '#{bugzillaemail}',
@@ -138,6 +139,9 @@ function output_html($entries, $is_admin=FALSE) {
   foreach ($entries as &$entry) {
     if (isset($entry["picture"])) {
       $entry["picture"] = "<a class=\"photo\" href=\"{$entry['picture']}\" target=\"_blank\"><img class=\"photo\" src=\"{$entry['picture']}&amp;type=thumb\" alt=\"Photo of {$entry['cn']}\" /></a>";
+    }
+    if (isset($entry["roomnumber"])) {
+        $entry["roomnumber"] = '<ul class="desk"><li>' . $entry['roomnumber'] . '</li></ul>';
     }
     $entry["org_chart"] = ' <a class="org-chart" href="tree.php#search/'. $entry["mail"] .'">(Org)</a>';
     $entry["vcard_export"] = '<a class="vcard-export" href="./search.php?format=vcard&query='. $entry["mail"] .'">vCard</a>';

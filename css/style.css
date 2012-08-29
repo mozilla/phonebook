@@ -336,6 +336,10 @@ a:hover {
     .vcard .adr {
       background-image: url(../img/world.png);
       }
+    .vcard .desk {
+      background-image: url(../img/desk.png);
+      background-size: 16px 16px;
+      }
     .vcard .telecommunications {
       background-image: url(../img/telephone.png);
       }
