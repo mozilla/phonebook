@@ -340,6 +340,10 @@ a:hover {
       background-image: url(../img/desk.png);
       background-size: 16px 16px;
       }
+    .vcard .b2gnumber {
+      background-image: url(../img/FFOS2.png);
+      background-size: 16px 16px;
+      }
     .vcard .telecommunications {
       background-image: url(../img/telephone.png);
       }

@@ -123,6 +123,7 @@ function output_html($entries, $is_admin=FALSE) {
     '#{mobile}',
     '<ul class="email">#{mail}#{emailalias}</ul>',
     '#{bugzillaemail}',
+    '#{b2gnumber}',
     '#{im}',
     '#{description}',
     '#{other}',
@@ -159,6 +160,9 @@ function output_html($entries, $is_admin=FALSE) {
           '#{seating_chart}',
         '</li></ul>',
       )), $entry);
+    }
+    if (isset($entry["b2gnumber"])) {
+        $entry["b2gnumber"] = '<ul class="b2gnumber"><li>B2G Number: ' . $entry['b2gnumber'] . '</li></ul>';
     }
     foreach ($processors as $processor => $function) {
       if (isset($entry[$processor])) {
