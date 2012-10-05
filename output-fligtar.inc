@@ -7,6 +7,8 @@ function output_fligtar($entries) {
       "name" => $entry["cn"],
       "title" => isset($entry["title"]) ? $entry["title"] : NULL,
       "ext" => isset($entry["telephonenumber"]) ? $entry["telephonenumber"] : NULL,
+      "physicaldeliveryofficename" => isset($entry["physicaldeliveryofficename"]) ? $entry["physicaldeliveryofficename"] : NULL,
+      "b2gnumber" => isset($entry["b2gnumber"]) ? $entry["b2gnumber"] : NULL,
       "phones" => isset($entry["mobile"]) ? unbox($entry["mobile"]) : NULL,
       "manager" => isset($entry["manager"]) ? unbox($entry["manager"]) : NULL,
       "bugzillaEmail" => isset($entry["bugzillaemail"]) ? $entry["bugzillaemail"] : NULL,
