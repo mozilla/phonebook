@@ -177,7 +177,7 @@ class MozillaSearchAdapter extends SearchAdapter {
 
   public function _search_users($search) {
     $escaped = escape_ldap_filter_value($search);
-    $filter = ($search == '*') ? 'objectClass=mozComPerson' : "(&(|(cn=*$escaped*)(mail=*$escaped*)(im=*$escaped*)(physicalDeliveryOfficeName=*$escaped*))(objectClass=mozComPerson))";
+    $filter = ($search == '*') ? 'objectClass=mozComPerson' : "(&(|(cn=*$escaped*)(mail=*$escaped*)(im=*$escaped*)(physicalDeliveryOfficeName=*$escaped*)(telephoneNumber=*$escaped*)(mobile=*$escaped*)(b2gNumber=*$escaped*))(objectClass=mozComPerson))";
     return $this->query_users($filter, 'dc=mozilla', $this->fields);
   }
 
