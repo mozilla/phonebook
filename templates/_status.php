@@ -21,5 +21,8 @@
 </div>
 
 <div>
-<input type="checkbox" name="is_manager" value="<?= $is_manager; ?>"<?= ($is_manager != 0 and $is_manager != false) ? ' checked="checked"' : '' ?> /> User is a manager
+<?php
+  echo "IS MANAGER: " . var_dump($is_manager);
+?>
+<input type="checkbox" name="is_manager" value="<?= $is_manager; ?>"<?= ($is_manager == 1) ? ' checked="checked"' : '' ?> /> User is a manager
 </div>

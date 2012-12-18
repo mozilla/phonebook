@@ -112,13 +112,17 @@ class MozillaEditingAdapter extends EditingAdapter {
         fb("is_manager: ". $_POST['is_manager']);
         $new_user_data['isManager'] = "TRUE";
       } else {
-         $new_user_data['isManager'] = $this->box(0);
+         // Following was original way of handling
+         // setting the user to not be a manager
+         // I believe this removed the attribute
+         //$new_user_data['isManager'] = $this->box(0);
+         $new_user_data['isManager'] = 'FALSE';
       }
     }
   }
 
   public function ldap_bool($boolean) {
-    return $boolean ? "TRUE" : "FALSE";
+      return false;
   }
 
   // Used to create LDAP data structures
