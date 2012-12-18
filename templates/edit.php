@@ -140,7 +140,7 @@ $counter++;
       }
 
       print_status_edit($user_data['employeetype'][0],
-                        isset($user_data["ismanager"]) && $user_data['ismanager'][0],
+                        isset($user_data["ismanager"]) && $user_data['ismanager'][0] && $user_data['ismanager'][0] != 'FALSE',
                         $is_admin);
     ?>
     </td>
