@@ -66,5 +66,6 @@ $output_formats = array(
     'fligtar',
     'html',
     'json',
+    'jsonp',
     'vcard',
 );
