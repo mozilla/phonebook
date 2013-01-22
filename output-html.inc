@@ -71,12 +71,13 @@ function output_html_other($s) {
 
 function output_html_dn_to_email($dn) {
   preg_match('/mail=(.+),o=/', $dn, $matches);
-  return $matches[1];
+  return htmlspecialchars($matches[1]);
 }
 
 function output_html_manager($m) {
-  $m["email"] = output_html_dn_to_email($m["dn"]);
-  return "<p class=\"manager\">Manager: <a href=\"#search/{$m['email']}\">{$m['cn']}</a></p>";
+  $m["email"] = htmlspecialchars(output_html_dn_to_email($m["dn"]));
+  $clean_cn = htmlspecialchars($m['cn']);
+  return "<p class=\"manager\">Manager: <a href=\"#search/{$m['email']}\">{$clean_cn}</a></p>";
 }
 
 function output_html_title($t) {
@@ -86,7 +87,13 @@ function output_html_title($t) {
 function output_html_telephonenumber($s) { return " , x$s"; }
 
 function output_html_bugzillaemail($s) {
+  $s = htmlspecialchars($s);
   return "<div class=\"bugmail\">Bugmail: <a title=\"Bugmail\" href=\"mailto:$s\">$s</a></div>";
+}
+
+function output_html_cn($s){
+    return htmlspecialchars($s);
+
 }
 
 function interpolate($s, $o, $pattern="/(^|.|\\r|\\n)(#\\{(.*?)\\})/") {
@@ -119,6 +126,7 @@ function output_html($entries, $is_admin=FALSE) {
     "manager" => "output_html_manager",
     "title" => "output_html_title",
     "telephonenumber" => "output_html_telephonenumber",
+    "cn" => "output_html_cn",
     "bugzillaemail" => "output_html_bugzillaemail"
   );
 
@@ -156,10 +164,11 @@ function output_html($entries, $is_admin=FALSE) {
   header("Content-Type: text/html");
   foreach ($entries as &$entry) {
     if (isset($entry["picture"])) {
-      $entry["picture"] = "<a class=\"photo\" href=\"{$entry['picture']}\" target=\"_blank\"><img class=\"photo\" src=\"{$entry['picture']}&amp;type=thumb\" alt=\"Photo of {$entry['cn']}\" /></a>";
+      $photo_name = output_html_cn($entry['cn']);
+      $entry["picture"] = "<a class=\"photo\" href=\"{$entry['picture']}\" target=\"_blank\"><img class=\"photo\" src=\"{$entry['picture']}&amp;type=thumb\" alt=\"Photo of {$photo_name}\" /></a>";
     }
     if (isset($entry["roomnumber"])) {
-        $entry["roomnumber"] = '<ul class="desk"><li>' . $entry['roomnumber'] . '</li></ul>';
+        $entry["roomnumber"] = '<ul class="desk"><li>' . htmlspecialchars($entry['roomnumber']) . '</li></ul>';
     }
     $entry["org_chart"] = ' <a class="org-chart" href="tree.php#search/'. $entry["mail"] .'">(Org)</a>';
     $entry["vcard_export"] = '<a class="vcard-export" href="./search.php?format=vcard&query='. $entry["mail"] .'">vCard</a>';
@@ -168,6 +177,7 @@ function output_html($entries, $is_admin=FALSE) {
         if(is_array($entry["physicaldeliveryofficename"])){
             $entry["physicaldeliveryofficename"] = $entry["physicaldeliveryofficename"][0];
         }
+      $entry["physicaldeliveryofficename"] = htmlspecialchars($entry["physicaldeliveryofficename"]);
       $entry["locality"] = interpolate(implode('', array(
         '<ul class="adr"><li>',
           '<span class="locality">',
@@ -179,7 +189,7 @@ function output_html($entries, $is_admin=FALSE) {
       )), $entry);
     }
     if (isset($entry["b2gnumber"])) {
-        $entry["b2gnumber"] = '<ul class="b2gnumber"><li>B2G Number: ' . $entry['b2gnumber'] . '</li></ul>';
+        $entry["b2gnumber"] = '<ul class="b2gnumber"><li>B2G Number: ' . htmlspecialchars($entry['b2gnumber']) . '</li></ul>';
     }
     foreach ($processors as $processor => $function) {
       if (isset($entry[$processor])) {
@@ -187,7 +197,8 @@ function output_html($entries, $is_admin=FALSE) {
       }
     }
     $entry['GA'] = output_analytics_script();
-    print interpolate($template, $entry);
+    $interpolated_template = interpolate($template, $entry);
+    print $interpolated_template;
   }
   
   die;
