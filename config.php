@@ -165,7 +165,7 @@ class MozillaSearchAdapter extends SearchAdapter {
   public $fields = array(
     'cn', 'title', 'telephoneNumber', 'mobile', 'description', 'manager',
     'other', 'im', 'mail', 'emailAlias', 'physicalDeliveryOfficeName',
-    'employeeType', 'isManager', 'bugzillaEmail', 'shirtSize', 'isManager', 'b2gNumber', "roomNumber"
+    'employeeType', 'description', 'isManager', 'bugzillaEmail', 'shirtSize', 'isManager', 'b2gNumber', "roomNumber"
   );
   public $conf = array(
     "ldap_sort_order" => "sn"
@@ -181,7 +181,7 @@ class MozillaSearchAdapter extends SearchAdapter {
 
   public function _search_users($search) {
     $escaped = escape_ldap_filter_value($search);
-    $filter = ($search == '*') ? 'objectClass=mozComPerson' : "(&(|(cn=*$escaped*)(bugzillaEmail=*$escaped*)(mail=*$escaped*)(emailAlias=*$escaped*)(im=*$escaped*)(physicalDeliveryOfficeName=*$escaped*)(telephoneNumber=*$escaped*)(mobile=*$escaped*)(b2gNumber=*$escaped*))(objectClass=mozComPerson))";
+    $filter = ($search == '*') ? 'objectClass=mozComPerson' : "(&(|(cn=*$escaped*)(bugzillaEmail=*$escaped*)(mail=*$escaped*)(emailAlias=*$escaped*)(im=*$escaped*)(physicalDeliveryOfficeName=*$escaped*)(description=*$escaped*)(telephoneNumber=*$escaped*)(mobile=*$escaped*)(b2gNumber=*$escaped*))(objectClass=mozComPerson))";
     return $this->query_users($filter, 'dc=mozilla', $this->fields);
   }
 
