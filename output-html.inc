@@ -84,7 +84,9 @@ function output_html_title($t) {
   return '<p class="title">'. htmlspecialchars($t) .'</p>';
 }
 
-function output_html_telephonenumber($s) { return " , x$s"; }
+function output_html_telephonenumber($s) { 
+    return " asfd, x$s"; 
+}
 
 function output_html_bugzillaemail($s) {
   $s = htmlspecialchars($s);
@@ -178,6 +180,11 @@ function output_html($entries, $is_admin=FALSE) {
             $entry["physicaldeliveryofficename"] = $entry["physicaldeliveryofficename"][0];
         }
       $entry["physicaldeliveryofficename"] = htmlspecialchars($entry["physicaldeliveryofficename"]);
+      if(isset($entry["telephonenumber"]) && $entry["telephonenumber"] != ''){
+        $entry["telephonenumber"] = ' Ext. ' . $entry['telephonenumber'];
+      } else {
+        $entry["telephonenumber"] = '';
+      }
       $entry["locality"] = interpolate(implode('', array(
         '<ul class="adr"><li>',
           '<span class="locality">',
