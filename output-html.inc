@@ -116,6 +116,7 @@ function interpolate($s, $o, $pattern="/(^|.|\\r|\\n)(#\\{(.*?)\\})/") {
 }
 
 function output_html($entries, $is_admin=FALSE) {
+  require_once 'workday_location_map.php';
   $processors = array(
     "mail" => "output_html_email_linkify",
     "emailalias" => "output_html_emailalias",
@@ -144,6 +145,9 @@ function output_html($entries, $is_admin=FALSE) {
       '<p class="employee-type">#{employeetype}</p>',
       '#{org_chart}',
       '#{manager}',
+      '#{workdaylocation}',
+      '#{employeenumber}',
+      '#{deptname}',
     '</div>',
     '#{locality}',
     '#{roomnumber}',
@@ -171,6 +175,21 @@ function output_html($entries, $is_admin=FALSE) {
     }
     if (isset($entry["roomnumber"])) {
         $entry["roomnumber"] = '<ul class="desk"><li>' . htmlspecialchars($entry['roomnumber']) . '</li></ul>';
+    }
+    if (isset($entry["workdaylocation"])) {
+        if(isset($WORKDAY_LOCATION_MAP[$entry['workdaylocation']])){
+            $workday_location = $WORKDAY_LOCATION_MAP[$entry['workdaylocation']];
+        } else {
+            $workday_location = $entry["workdaylocation"];
+
+        }
+        $entry["workdaylocation"] = '<p class="employee-info"><span class="org">Primary Office: ' . htmlspecialchars($workday_location) . '</span></p>';
+    }
+    if (isset($entry["employeenumber"])) {
+        $entry["employeenumber"] = '<p class="employee-info"><span class="org">Employee Number: ' . htmlspecialchars($entry['employeenumber']) . '</span></p>';
+    }
+    if (isset($entry["deptname"])) {
+        $entry["deptname"] = '<p class="employee-info"><span class="org">Deptartment: ' . htmlspecialchars($entry['deptname']) . '</span></p>';
     }
     $entry["org_chart"] = ' <a class="org-chart" href="tree.php#search/'. $entry["mail"] .'">(Org)</a>';
     $entry["vcard_export"] = '<a class="vcard-export" href="./search.php?format=vcard&query='. $entry["mail"] .'">vCard</a>';
