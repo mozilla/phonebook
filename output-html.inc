@@ -189,7 +189,7 @@ function output_html($entries, $is_admin=FALSE) {
         $entry["employeenumber"] = '<p class="employee-info"><span class="org">Employee Number: ' . htmlspecialchars($entry['employeenumber']) . '</span></p>';
     }
     if (isset($entry["deptname"])) {
-        $entry["deptname"] = '<p class="employee-info"><span class="org">Deptartment: ' . htmlspecialchars($entry['deptname']) . '</span></p>';
+        $entry["deptname"] = '<p class="employee-info"><span class="org">Department: ' . htmlspecialchars($entry['deptname']) . '</span></p>';
     }
     $entry["org_chart"] = ' <a class="org-chart" href="tree.php#search/'. $entry["mail"] .'">(Org)</a>';
     $entry["vcard_export"] = '<a class="vcard-export" href="./search.php?format=vcard&query='. $entry["mail"] .'">vCard</a>';
