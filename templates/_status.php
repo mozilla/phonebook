@@ -19,7 +19,3 @@
   ?>
   </select>
 </div>
-
-<div>
-<input type="checkbox" name="is_manager" value="<?= $is_manager; ?>"<?= ($is_manager == 1) ? ' checked="checked"' : '' ?> /> User is a manager
-</div>

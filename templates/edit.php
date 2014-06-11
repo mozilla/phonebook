@@ -23,25 +23,6 @@
   </tr>
 
   <tr>
-    <td><label>Manager</label></td>
-    <td>
-      <select name="manager" id="select-manager">
-      <?php
-      echo '<option value=""></option>';
-      for ($j = 0; $j < $managerlist["count"]; $j++) {
-        if ($managerlist[$j]['dn'] == $user_data['manager'][0]) {
-          $selected =' selected="selected"';
-        } else {
-          $selected = '';
-        }
-        echo '<option value="'. $managerlist[$j]['dn'] .'"'.
-              $selected .'>'. escape($managerlist[$j]['cn'][0]) .'</option>';
-      }
-      ?>
-      </select>
-    </td>
-  </tr>
-  <tr>
     <td><label>Office City</label></td>
 <?php 
     if(!is_array($user_data["physicaldeliveryofficename"])){

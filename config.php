@@ -68,8 +68,8 @@ class MozillaAuthAdapter extends AuthAdapter {
 class MozillaEditingAdapter extends EditingAdapter {
   public function cook_incoming(&$new_user_data, $is_admin) {
   global $office_cities;
-    foreach (array("title", "telephoneNumber", "description", "manager",
-                  "other", "mobile", "im", "emailAlias", "bugzillaEmail", "shirtSize", "isManager", "b2gNumber", "roomNumber")
+    foreach (array("title", "telephoneNumber", "description",
+                  "other", "mobile", "im", "emailAlias", "bugzillaEmail", "shirtSize", "b2gNumber", "roomNumber")
             as $attribute) {
       if (isset($new_user_data[$attribute])) {
         $new_user_data[$attribute] = $this->box($new_user_data[$attribute]);
@@ -108,16 +108,6 @@ class MozillaEditingAdapter extends EditingAdapter {
       $new_user_data['employeeType'] = $this->box(
         $this->get_status($_POST['org_code'], $_POST['employee_type_code'])
       );
-      if (isset($_POST['is_manager'])) {
-        fb("is_manager: ". $_POST['is_manager']);
-        $new_user_data['isManager'] = "TRUE";
-      } else {
-         // Following was original way of handling
-         // setting the user to not be a manager
-         // I believe this removed the attribute
-         //$new_user_data['isManager'] = $this->box(0);
-         $new_user_data['isManager'] = 'FALSE';
-      }
     }
   }
 
