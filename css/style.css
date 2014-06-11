@@ -315,18 +315,18 @@ a:hover {
       padding-bottom: .75em;
       border-bottom: none;
       }
+    .vcard .body p.employee-info {
+      display: block;
+      padding-left: 0;
+      padding-top: 0;
+      border-bottom: none;
+      }
     .vcard .title {
-      font-family: georgia, serif;
       font-size: 1.28em;
       color: #000;
       }
     .vcard .employee-type {
-      font-family: georgia, serif;
-      color: #686868;
       display: inline;
-      }
-    .vcard .manager {
-      font-family: georgia, serif;
       }
     .vcard .org-chart {
       font-family: georgia, serif;
