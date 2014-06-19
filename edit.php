@@ -23,12 +23,9 @@ if (!empty($_POST)) {
   foreach ($editable_fields as $editable_field) {
     if (isset($_POST[$editable_field])) {
         if(in_array($editable_field, $MONKEY_FREE_ARRAY)){
-            $update_data = preg_replace('/[^\p{L}\s]/u','', $_POST[$editable_field]);
-            $update_data = trim($update_data);
-        } else {
-            $update_data = $_POST[$editable_field];
-        }
-        $new_user_data[$editable_field] = $update_data;
+            $_POST[$editable_field][0] = trim(preg_replace('/[^\p{L}\s]/u','', $_POST[$editable_field][0]));
+        } 
+        $new_user_data[$editable_field] = $_POST[$editable_field];
     }
   }
 
