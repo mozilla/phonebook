@@ -24,6 +24,7 @@ if (!empty($_POST)) {
     if (isset($_POST[$editable_field])) {
         if(in_array($editable_field, $MONKEY_FREE_ARRAY)){
             $update_data = preg_replace('/[^\p{L}\s]/u','', $_POST[$editable_field]);
+            $update_data = trim($update_data);
         } else {
             $update_data = $_POST[$editable_field];
         }
