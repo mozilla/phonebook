@@ -18,12 +18,16 @@ if (isset($_REQUEST["edit_mail"]) && $is_admin) {
 
 $user_search = $search->query_users("mail=$edit_user", "dc=mozilla");
 $user_data = $user_search[0];
-
 if (!empty($_POST)) {
   $new_user_data = array();
   foreach ($editable_fields as $editable_field) {
     if (isset($_POST[$editable_field])) {
-      $new_user_data[$editable_field] = $_POST[$editable_field];
+        if(in_array($editable_field, $MONKEY_FREE_ARRAY)){
+            $update_data = preg_replace('/[^\p{L}\s]/u','', $_POST[$editable_field]);
+        } else {
+            $update_data = $_POST[$editable_field];
+        }
+        $new_user_data[$editable_field] = $update_data;
     }
   }
 

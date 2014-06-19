@@ -69,3 +69,4 @@ $output_formats = array(
     'jsonp',
     'vcard',
 );
+$MONKEY_FREE_ARRAY = array('cn');
