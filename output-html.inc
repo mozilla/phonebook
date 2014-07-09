@@ -54,11 +54,16 @@ function output_html_im($im) {
   return '<ul class="im">'. output_html_listify($im) .'</ul>';
 }
 
+
+function output_html_mobile_linkify($s) {
+  $s = htmlspecialchars($s);
+  return "<li class=\"tel\"><a href=\"tel:$s\">$s</a></li>";
+}
+
 function output_html_mobile($l) {
-  return '<ul class="telecommunications">'. 
-         str_replace("<li>", '<li class="tel">', 
-                    output_html_listify(array_map("wikilinks", $l))) .
-         '</ul>';
+  $l = array_map("wikilinks", $l);
+  $l = array_map("output_html_mobile_linkify", $l);
+  return '<ul class="telecommunications">' . implode($l) . '</ul>';
 }
 
 function output_html_description($s) {
@@ -84,8 +89,8 @@ function output_html_title($t) {
   return '<p class="title">'. htmlspecialchars($t) .'</p>';
 }
 
-function output_html_telephonenumber($s) { 
-    return " asfd, x$s"; 
+function output_html_telephonenumber($s) {
+    return " asfd, x$s";
 }
 
 function output_html_bugzillaemail($s) {
@@ -166,7 +171,7 @@ function output_html($entries, $is_admin=FALSE) {
   '</div>',
   '#{GA}</div>');
   $template = implode('', $template);
-  
+
   header("Content-Type: text/html");
   foreach ($entries as &$entry) {
     if (isset($entry["picture"])) {
@@ -207,7 +212,7 @@ function output_html($entries, $is_admin=FALSE) {
       $entry["locality"] = interpolate(implode('', array(
         '<ul class="adr"><li>',
           '<span class="locality">',
-            '<a href="https://intranet.mozilla.org/OfficeLocations">#{physicaldeliveryofficename}</a>', 
+            '<a href="https://intranet.mozilla.org/OfficeLocations">#{physicaldeliveryofficename}</a>',
           '</span>',
           '#{telephonenumber}',
           '#{seating_chart}',
@@ -226,7 +231,6 @@ function output_html($entries, $is_admin=FALSE) {
     $interpolated_template = interpolate($template, $entry);
     print $interpolated_template;
   }
-  
+
   die;
 }
-
