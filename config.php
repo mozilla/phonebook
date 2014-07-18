@@ -35,7 +35,7 @@ class MozillaAuthAdapter extends AuthAdapter {
   }
 
   public function dn_to_email($dn) {
-    if (preg_match("/mail=(\w+@.+),o=/", $dn, $m)) {
+    if (preg_match("/mail=(.*),o=/", $dn, $m)) {
       return $m[1];
     }
     return NULL;
