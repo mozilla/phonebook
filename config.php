@@ -208,7 +208,7 @@ class MozillaTreeAdapter extends TreeAdapter {
     )
   );
   public $roots = array(
-    "chris@mozilla.com", "mark@mozillafoundation.org"
+    "mitchell@mozilla.com", "chris@mozilla.com", "mark@mozillafoundation.org"
   );
 
   public function process_entry($person) {
