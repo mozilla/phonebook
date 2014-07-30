@@ -82,7 +82,7 @@ function output_html_dn_to_email($dn) {
 function output_html_manager($m) {
   $m["email"] = htmlspecialchars(output_html_dn_to_email($m["dn"]));
   $clean_cn = htmlspecialchars($m['cn']);
-  return "<p class=\"manager\">Manager: <a href=\"#search/{$m['email']}\">{$clean_cn}</a></p>";
+  return "<p class=\"manager\">Manager: <a href=\"#search/{$m['email']}\">{$clean_cn}</a><a class='org-chart' href='tree.php#search/{$m['email']}'>(Org)</a></p>";
 }
 
 function output_html_title($t) {
@@ -148,14 +148,14 @@ function output_html($entries, $is_admin=FALSE) {
     '<div class="employee">',
       '#{title}',
       '<p class="employee-type">#{employeetype}</p>',
-      '#{org_chart}',
       '#{manager}',
-      '#{workdaylocation}',
-      '#{employeenumber}',
-      '#{deptname}',
     '</div>',
+    '#{deptname}',
+    '#{employeenumber}',
     '#{locality}',
+    '#{workdaylocation}',
     '#{roomnumber}',
+    '#{workdaycostcenter}',
     '#{mobile}',
     '<ul class="email">#{mail}#{emailalias}</ul>',
     '#{bugzillaemail}',
@@ -188,13 +188,16 @@ function output_html($entries, $is_admin=FALSE) {
             $workday_location = $entry["workdaylocation"];
 
         }
-        $entry["workdaylocation"] = '<p class="employee-info"><span class="org">MozLocation: ' . htmlspecialchars($workday_location) . '</span></p>';
+        $entry["workdaylocation"] = '<ul><li>MozLocation: ' . htmlspecialchars($workday_location) . '</li></ul>';
     }
     if (isset($entry["employeenumber"])) {
-        $entry["employeenumber"] = '<p class="employee-info"><span class="org">Employee ID: ' . htmlspecialchars($entry['employeenumber']) . '</span></p>';
+        $entry["employeenumber"] = '<ul><li>Employee ID: ' . htmlspecialchars($entry['employeenumber']) . '</li></ul>';
     }
     if (isset($entry["deptname"])) {
-        $entry["deptname"] = '<p class="employee-info"><span class="org">Team: ' . htmlspecialchars($entry['deptname']) . '</span></p>';
+        $entry["deptname"] = '<ul><li>Team: ' . htmlspecialchars($entry['deptname']) . '</li></ul>';
+    }
+    if (isset($entry["workdaycostcenter"])) {
+        $entry["workdaycostcenter"] = '<ul><li>Cost Center: ' . htmlspecialchars($entry['workdaycostcenter']) . '</li></ul>';
     }
     $entry["org_chart"] = ' <a class="org-chart" href="tree.php#search/'. $entry["mail"] .'">(Org)</a>';
     $entry["vcard_export"] = '<a class="vcard-export" href="./search.php?format=vcard&query='. $entry["mail"] .'">vCard</a>';

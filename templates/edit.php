@@ -201,6 +201,34 @@ $counter++;
     </td>
   </tr>
   <tr>
+    <td><label>MozLocation</label></td>
+    <td>
+      <span><?= $user_data['workdaylocation'][0] ?></span><br />
+      <em class="description">Please contact your HRBP if this value is incorrect.</em>
+    </td>
+  </tr>
+  <tr>
+    <td><label>Team</label></td>
+    <td>
+      <span><?= $user_data['deptname'][0] ?></span><br />
+      <em class="description">Please contact your HRBP if this value is incorrect.</em>
+    </td>
+  </tr>
+  <tr>
+    <td><label>Cost Center</label></td>
+    <td>
+      <span><?= $user_data['workdaycostcenter'][0] ?></span><br />
+      <em class="description">Please contact your HRBP if this value is incorrect.</em>
+    </td>
+  </tr>
+  <tr>
+    <td><label>Employee ID</label></td>
+    <td>
+      <span><?= $user_data['employeenumber'][0] ?></span><br />
+      <em class="description">Please contact your HRBP if this value is incorrect.</em>
+    </td>
+  </tr>
+  <tr>
     <td><label>Other</label></td>
     <td>
       <textarea cols="40" rows="5" name="other[]"><?= $user_data['other'][0] ?></textarea><br />
