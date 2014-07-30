@@ -161,17 +161,21 @@ class MozillaSearchAdapter extends SearchAdapter {
     "ldap_sort_order" => "sn"
   );
 
-  public function search_users($search) {
+  public function search_users($search, $exact=false) {
     if ($search != "random") {
-      return $this->_search_users($search);
+      return $this->_search_users($search, $exact=$exact);
     }
     $entries = $this->_search_users('*');
     return array($entries[mt_rand(0, count($entries) - 1)]);
   }
 
-  public function _search_users($search) {
+  public function _search_users($search, $exact=false) {
     $escaped = escape_ldap_filter_value($search);
-    $filter = ($search == '*') ? 'objectClass=mozComPerson' : "(&(|(cn=*$escaped*)(bugzillaEmail=*$escaped*)(mail=*$escaped*)(emailAlias=*$escaped*)(im=*$escaped*)(physicalDeliveryOfficeName=*$escaped*)(description=*$escaped*)(telephoneNumber=*$escaped*)(mobile=*$escaped*)(b2gNumber=*$escaped*))(objectClass=mozComPerson))";
+    if($exact == false){
+        $filter = ($search == '*') ? 'objectClass=mozComPerson' : "(&(|(cn=*$escaped*)(bugzillaEmail=*$escaped*)(mail=*$escaped*)(emailAlias=*$escaped*)(im=*$escaped*)(physicalDeliveryOfficeName=*$escaped*)(description=*$escaped*)(telephoneNumber=*$escaped*)(mobile=*$escaped*)(b2gNumber=*$escaped*))(objectClass=mozComPerson))";
+    } else {
+        $filter = "(mail=$escaped)";
+    }
     return $this->query_users($filter, 'dc=mozilla', $this->fields);
   }
 

@@ -148,7 +148,7 @@ var Tree = {
   showPerson: function(email) {
     new Ajax.Request("search.php", {
       method: "get",
-      parameters: {query: email, format: "html"},
+      parameters: {query: email, exact_search: true, format: "html"},
       onSuccess: function(r) {
         $("person").update(r.responseText || this.notFoundMessage).down(".vcard");
         BehaviorManager.fire("scrollSnap");
