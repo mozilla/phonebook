@@ -150,7 +150,7 @@ function output_html($entries, $is_admin=FALSE) {
       '<p class="employee-type">#{employeetype}</p>',
       '#{manager}',
     '</div>',
-    '<div style="margin-top: 110px;">&nbsp;</div>',
+    '<div style="margin-top: 110px; border-bottom: none;">&nbsp;</div>',
     '#{deptname}',
     '#{locality}',
     '#{workdaylocation}',
