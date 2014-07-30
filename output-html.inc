@@ -214,7 +214,7 @@ function output_html($entries, $is_admin=FALSE) {
         $entry["telephonenumber"] = '';
       }
       $entry["locality"] = interpolate(implode('', array(
-        '<ul class="adr"><li>',
+        '<ul style="border-bottom: none; margin-bottom: -8px;" class="adr"><li>',
           '<span class="locality">',
             '<a href="https://intranet.mozilla.org/OfficeLocations">#{physicaldeliveryofficename}</a>',
           '</span>',
