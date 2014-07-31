@@ -346,6 +346,7 @@ a:hover {
     }
     .vcard .employeenumber {
       position: relative;
+      width: 275px;
     }
     .vcard .team:before {
         position:absolute;

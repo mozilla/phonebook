@@ -198,7 +198,7 @@ function output_html($entries, $is_admin=FALSE) {
         $entry["deptname"] = '<ul class="team"><li>Team: ' . htmlspecialchars($entry['deptname']) . '</li></ul>';
     }
     if (isset($entry["workdaycostcenter"])) {
-        $entry["workdaycostcenter"] = '<ul ><li>Cost Center: ' . htmlspecialchars($entry['workdaycostcenter']) . '</li></ul>';
+        $entry["workdaycostcenter"] = '<ul><li>Cost Center: ' . htmlspecialchars($entry['workdaycostcenter']) . '</li></ul>';
     }
     $entry["org_chart"] = ' <a class="org-chart" href="tree.php#search/'. $entry["mail"] .'">(Org)</a>';
     $entry["vcard_export"] = '<a class="vcard-export" href="./search.php?format=vcard&query='. $entry["mail"] .'">vCard</a>';
