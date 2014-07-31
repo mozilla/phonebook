@@ -192,10 +192,10 @@ function output_html($entries, $is_admin=FALSE) {
         $entry["workdaylocation"] = '<ul><li>' . htmlspecialchars($workday_location) . '</li></ul>';
     }
     if (isset($entry["employeenumber"])) {
-        $entry["employeenumber"] = '<ul><li>Employee ID: ' . htmlspecialchars($entry['employeenumber']) . '</li></ul>';
+        $entry["employeenumber"] = '<ul class="employeenumber"><li>Employee ID: ' . htmlspecialchars($entry['employeenumber']) . '</li></ul>';
     }
     if (isset($entry["deptname"])) {
-        $entry["deptname"] = '<ul style="border-bottom: none; margin-bottom: -8px;"><li>Team: ' . htmlspecialchars($entry['deptname']) . '</li></ul>';
+        $entry["deptname"] = '<ul class="team"><li>Team: ' . htmlspecialchars($entry['deptname']) . '</li></ul>';
     }
     if (isset($entry["workdaycostcenter"])) {
         $entry["workdaycostcenter"] = '<ul ><li>Cost Center: ' . htmlspecialchars($entry['workdaycostcenter']) . '</li></ul>';

@@ -336,6 +336,30 @@ a:hover {
     .vcard .adr {
       background-image: url(../img/world.png);
       }
+    .vcard .employeenumber:before {
+        position:absolute;
+        font-family: FontAwesome;
+        color: #CC6600;
+        top: 6px;
+        left: 1px;
+        content: "\f0ce";
+    }
+    .vcard .employeenumber {
+      position: relative;
+    }
+    .vcard .team:before {
+        position:absolute;
+        font-family: FontAwesome;
+        color: #0066FF;
+        top: 6px;
+        left: 1px;
+        content: "\f0c0";
+    }
+    .vcard .team {
+      position: relative;
+      border-bottom: none !important;
+      margin-bottom: -8px;
+    }
     .vcard .desk {
       background-image: url(../img/desk.png);
       background-size: 16px 16px;
