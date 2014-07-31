@@ -150,13 +150,13 @@ function output_html($entries, $is_admin=FALSE) {
       '<p class="employee-type">#{employeetype}</p>',
       '#{manager}',
     '</div>',
-    '<div style="margin-top: 110px; border-bottom: none;">&nbsp;</div>',
+    '<!--<div style="margin-top: 110px; border-bottom: none;">&nbsp;</div>-->',
+    '#{employeenumber}',
     '#{deptname}',
+    '#{workdaycostcenter}',
     '#{locality}',
     '#{workdaylocation}',
     '#{roomnumber}',
-    '#{workdaycostcenter}',
-    '#{employeenumber}',
     '#{mobile}',
     '<ul class="email">#{mail}#{emailalias}</ul>',
     '#{bugzillaemail}',
@@ -189,16 +189,16 @@ function output_html($entries, $is_admin=FALSE) {
             $workday_location = $entry["workdaylocation"];
 
         }
-        $entry["workdaylocation"] = '<ul><li>MozLocation: ' . htmlspecialchars($workday_location) . '</li></ul>';
+        $entry["workdaylocation"] = '<ul><li>' . htmlspecialchars($workday_location) . '</li></ul>';
     }
     if (isset($entry["employeenumber"])) {
         $entry["employeenumber"] = '<ul><li>Employee ID: ' . htmlspecialchars($entry['employeenumber']) . '</li></ul>';
     }
     if (isset($entry["deptname"])) {
-        $entry["deptname"] = '<ul><li>Team: ' . htmlspecialchars($entry['deptname']) . '</li></ul>';
+        $entry["deptname"] = '<ul style="border-bottom: none; margin-bottom: -8px;"><li>Team: ' . htmlspecialchars($entry['deptname']) . '</li></ul>';
     }
     if (isset($entry["workdaycostcenter"])) {
-        $entry["workdaycostcenter"] = '<ul><li>Cost Center: ' . htmlspecialchars($entry['workdaycostcenter']) . '</li></ul>';
+        $entry["workdaycostcenter"] = '<ul ><li>Cost Center: ' . htmlspecialchars($entry['workdaycostcenter']) . '</li></ul>';
     }
     $entry["org_chart"] = ' <a class="org-chart" href="tree.php#search/'. $entry["mail"] .'">(Org)</a>';
     $entry["vcard_export"] = '<a class="vcard-export" href="./search.php?format=vcard&query='. $entry["mail"] .'">vCard</a>';
