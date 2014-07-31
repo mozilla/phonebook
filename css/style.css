@@ -335,6 +335,8 @@ a:hover {
       }
     .vcard .adr {
       background-image: url(../img/world.png);
+      border-bottom: none !important;
+      margin-bottom: -8px;
       }
     .vcard .employeenumber:before {
         position:absolute;

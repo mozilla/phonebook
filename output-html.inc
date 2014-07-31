@@ -150,7 +150,6 @@ function output_html($entries, $is_admin=FALSE) {
       '<p class="employee-type">#{employeetype}</p>',
       '#{manager}',
     '</div>',
-    '<!--<div style="margin-top: 110px; border-bottom: none;">&nbsp;</div>-->',
     '#{employeenumber}',
     '#{deptname}',
     '#{workdaycostcenter}',
@@ -214,7 +213,7 @@ function output_html($entries, $is_admin=FALSE) {
         $entry["telephonenumber"] = '';
       }
       $entry["locality"] = interpolate(implode('', array(
-        '<ul style="border-bottom: none; margin-bottom: -8px;" class="adr"><li>',
+        '<ul class="adr"><li>',
           '<span class="locality">',
             '<a href="https://intranet.mozilla.org/OfficeLocations">#{physicaldeliveryofficename}</a>',
           '</span>',
