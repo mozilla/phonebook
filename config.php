@@ -180,7 +180,7 @@ class MozillaSearchAdapter extends SearchAdapter {
   }
 
   public function preprocess_entry(&$entry) {
-    if (preg_match("/mail=(\w+@.+),o=/", $entry["dn"], $m)) {
+    if (preg_match("/mail=(.*@.+),o=/", $entry["dn"], $m)) {
       $entry["picture"] = BASEPATH ."pic.php?mail=". $m[1];
     }
   }
