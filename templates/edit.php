@@ -24,22 +24,22 @@
 
   <tr>
     <td><label>Office City</label></td>
-<?php 
+<?php
     if(!is_array($user_data["physicaldeliveryofficename"])){
         $user_data["physicaldeliveryofficename"] = array($user_data["physicaldeliveryofficename"]);
-    } 
+    }
       unset($user_data["physicaldeliveryofficename"]["count"]);
 if (!empty($city) && !in_array($city, array_keys($office_cities))) {
   $city = "Other";
 }
 ?>
     <td id='office-cities'>
-<?php 
+<?php
 $office_city_display_style = "display: none;";
 $primary_country = '';
 $counter = 0;
 $other_city_name = '';
-    foreach ($user_data["physicaldeliveryofficename"] as $office_location){ 
+    foreach ($user_data["physicaldeliveryofficename"] as $office_location){
     list($city, $country) = explode(":::", $office_location);
     if($counter == 0){
         $primary_country = $country;
@@ -66,8 +66,8 @@ $other_city_name = '';
         }
         ?>
             </select><?php ($counter > 0) ? print '<a href="#" class="remove-link"></a>' : ''; ?><br /></div>
-<?php 
-$counter++;    
+<?php
+$counter++;
 } ?>
     <a id="office-add" href="#">Add Office</a><br />
       <input id="office-city-text" style="<?= $office_city_display_style ?>" type="text" name="office_city_name" value="<?= escape($other_city_name) ?>" />
@@ -88,10 +88,16 @@ $counter++;
       </select>
     </td>
   </tr>
-
   <tr>
     <td><label>Desk Number</label></td>
+  <?php if($is_admin){ ?>
     <td><input type="text" name="roomNumber[]" value="<?= escape($user_data['roomnumber'][0]) ?>"/></td>
+  <?php } else { ?>
+    <td>
+      <span><?= $user_data['roomnumber'][0] ?></span><br />
+      <em class="description">Please contact your HRBP if this value is incorrect.</em>
+    </td>
+  <?php } ?>
   </tr>
   <tr>
     <td><label>Title</label></td>
