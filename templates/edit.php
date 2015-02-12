@@ -95,7 +95,7 @@ $counter++;
   <?php } else { ?>
     <td>
       <span><?= $user_data['roomnumber'][0] ?></span><br />
-      <em class="description">Please contact your HRBP if this value is incorrect.</em>
+      <em class="description">Please file a Service Now ticket if your location is incorrect/if you'd like to move.</em>
     </td>
   <?php } ?>
   </tr>
