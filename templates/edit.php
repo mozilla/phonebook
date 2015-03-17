@@ -7,7 +7,7 @@
 <table class="edit-table">
   <tr>
     <td><label>Name</label></td>
-    <td><input type="text" name="cn[]" value="<?= escape($user_data['cn'][0]) ?>" /></td>
+    <td><input type="text" name="cn[]" value="<?php echo escape($user_data['cn'][0]) ?>" /></td>
   </tr>
 
   <tr>
@@ -15,7 +15,7 @@
     <td id="email-aliases">
     <?php for ($i = 0; $i < $user_data['emailalias']['count']; $i++) { ?>
       <div>
-      <input type="text" name="emailAlias[]" value="<?= escape($user_data['emailalias'][$i]) ?>"/><a href="#" class="remove-link">Remove e-mail</a>
+      <input type="text" name="emailAlias[]" value="<?php echo escape($user_data['emailalias'][$i]) ?>"/><a href="#" class="remove-link">Remove e-mail</a>
       </div>
     <?php } ?>
     <a id="email-alias-add" href="#">Add e-mail</a><br />
@@ -70,7 +70,7 @@ $other_city_name = '';
 $counter++;
 } ?>
     <a id="office-add" href="#">Add Office</a><br />
-      <input id="office-city-text" style="<?= $office_city_display_style ?>" type="text" name="office_city_name" value="<?= escape($other_city_name) ?>" />
+      <input id="office-city-text" style="<?php echo $office_city_display_style ?>" type="text" name="office_city_name" value="<?php echo escape($other_city_name) ?>" />
     </td>
   </tr>
 
@@ -91,17 +91,17 @@ $counter++;
   <tr>
     <td><label>Desk Number</label></td>
   <?php if($is_admin){ ?>
-    <td><input type="text" name="roomNumber[]" value="<?= escape($user_data['roomnumber'][0]) ?>"/></td>
+    <td><input type="text" name="roomNumber[]" value="<?php echo escape($user_data['roomnumber'][0]) ?>"/></td>
   <?php } else { ?>
     <td>
-      <span><?= $user_data['roomnumber'][0] ?></span><br />
+      <span><?php echo $user_data['roomnumber'][0] ?></span><br />
       <em class="description">Please file a Service Now ticket if your location is incorrect/if you'd like to move.</em>
     </td>
   <?php } ?>
   </tr>
   <tr>
     <td><label>Title</label></td>
-    <td><input type="text" name="title[]" value="<?= escape($user_data['title'][0]) ?>"/></td>
+    <td><input type="text" name="title[]" value="<?php echo escape($user_data['title'][0]) ?>"/></td>
   </tr>
 
   <tr>
@@ -135,7 +135,7 @@ $counter++;
 
   <tr>
     <td><label>Extension</label></td>
-    <td><input type="text" name="telephoneNumber[]" value="<?= escape($user_data['telephonenumber'][0]) ?>"/></td>
+    <td><input type="text" name="telephoneNumber[]" value="<?php echo escape($user_data['telephonenumber'][0]) ?>"/></td>
   </tr>
 
   <tr>
@@ -143,25 +143,25 @@ $counter++;
     <td id="phone-numbers">
     <?php for ($i = 0; $i < $user_data['mobile']['count']; $i++) { ?>
       <div>
-      <input type="text" name="mobile[]" value="<?= escape($user_data['mobile'][$i]) ?>"/><a href="#" class="remove-link">Remove number</a>
+      <input type="text" name="mobile[]" value="<?php echo escape($user_data['mobile'][$i]) ?>"/><a href="#" class="remove-link">Remove number</a>
       </div>
-    <? } ?>
+    <?php } ?>
     <a id="phone-number-add" href="#">Add number</a><br />
     </td>
   </tr>
 
   <tr>
     <td><label>B2G Number</label></td>
-    <td><input type="text" name="b2gNumber[]" value="<?= escape($user_data['b2gnumber'][0]) ?>"/></td>
+    <td><input type="text" name="b2gNumber[]" value="<?php echo escape($user_data['b2gnumber'][0]) ?>"/></td>
   </tr>
   <tr>
     <td><label>IM Account(s)</label></td>
     <td id="im-accounts">
     <?php for ($i = 0; $i < $user_data['im']['count']; $i++) { ?>
      <div>
-     <input type="text" name="im[]" value="<?= escape($user_data['im'][$i]) ?>"/><a href="#" class="remove-link">Remove account</a>
+     <input type="text" name="im[]" value="<?php echo escape($user_data['im'][$i]) ?>"/><a href="#" class="remove-link">Remove account</a>
      </div>
-    <? } ?>
+    <?php } ?>
     <a id="im-add" href="#">Add account</a><br />
     </td>
   </tr>
@@ -169,7 +169,7 @@ $counter++;
   <tr>
     <td><label>Bugzilla Email</label></td>
     <td>
-      <input type="text" name="bugzillaEmail[]" value="<?= escape($user_data['bugzillaemail'][0]) ?>"/><br />
+      <input type="text" name="bugzillaEmail[]" value="<?php echo escape($user_data['bugzillaemail'][0]) ?>"/><br />
       <em class="description">Your full Bugzilla email address with no extra cruft</em>
     </td>
   </tr>
@@ -177,7 +177,7 @@ $counter++;
   <tr>
     <td><label>I work on</label></td>
     <td>
-      <textarea cols="40" rows="5" name="description[]"><?= $user_data['description'][0] ?></textarea><br />
+      <textarea cols="40" rows="5" name="description[]"><?php echo $user_data['description'][0] ?></textarea><br />
       <em class="description">Links in <a href="http://en.wikipedia.org/wiki/Help:Wikitext_examples">wiki markup</a> style supported.</em>
     </td>
   </tr>
@@ -209,35 +209,35 @@ $counter++;
   <tr>
     <td><label>MozLocation</label></td>
     <td>
-      <span><?= $user_data['workdaylocation'][0] ?></span><br />
+      <span><?php echo $user_data['workdaylocation'][0] ?></span><br />
       <em class="description">Please contact your HRBP if this value is incorrect.</em>
     </td>
   </tr>
   <tr>
     <td><label>Team</label></td>
     <td>
-      <span><?= $user_data['deptname'][0] ?></span><br />
+      <span><?php echo $user_data['deptname'][0] ?></span><br />
       <em class="description">Please contact your HRBP if this value is incorrect.</em>
     </td>
   </tr>
   <tr>
     <td><label>Cost Center</label></td>
     <td>
-      <span><?= $user_data['workdaycostcenter'][0] ?></span><br />
+      <span><?php echo $user_data['workdaycostcenter'][0] ?></span><br />
       <em class="description">Please contact your HRBP if this value is incorrect.</em>
     </td>
   </tr>
   <tr>
     <td><label>Employee ID</label></td>
     <td>
-      <span><?= $user_data['employeenumber'][0] ?></span><br />
+      <span><?php echo $user_data['employeenumber'][0] ?></span><br />
       <em class="description">Please contact your HRBP if this value is incorrect.</em>
     </td>
   </tr>
   <tr>
     <td><label>Other</label></td>
     <td>
-      <textarea cols="40" rows="5" name="other[]"><?= $user_data['other'][0] ?></textarea><br />
+      <textarea cols="40" rows="5" name="other[]"><?php echo $user_data['other'][0] ?></textarea><br />
       <em class="description">Links in <a href="http://en.wikipedia.org/wiki/Help:Wikitext_examples">wiki markup</a> style supported.</em>
     </td>
   </tr>
@@ -245,7 +245,7 @@ $counter++;
   <tr>
     <td><label>Photo</label></td>
     <td>
-        <img class="photo" src="pic.php?type=thumb&mail=<?= escape($user_data['mail'][0]) ?>"/>
+        <img class="photo" src="pic.php?type=thumb&mail=<?php echo escape($user_data['mail'][0]) ?>"/>
         <label for="photo-upload">Upload new photo</label>
         <input id="photo-upload" type="file" name="jpegPhoto" accept="image/jpeg" /><br />
         <em class="description">Please upload your mugshot<br /></em>
@@ -256,7 +256,7 @@ $counter++;
   <tr>
     <td></td>
     <td>
-      <input type="hidden" name="edit_mail" value="<?= escape($edit_user) ?>" />
+      <input type="hidden" name="edit_mail" value="<?php echo escape($edit_user) ?>" />
       <button type="submit">Save Changes</button>
     </td>
   </tr>
