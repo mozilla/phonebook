@@ -297,6 +297,8 @@ a:hover {
       /*padding: 0 0 1em 1em;*/
       display: block;
       margin-bottom: 0.5em;
+      position: relative;
+      z-index: 5;
       }
     .vcard .vcard-export {
       background-image: url(../img/vcard.png);
