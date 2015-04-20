@@ -6,7 +6,7 @@
  */
 
 // LDAP
-define('LDAP_HOST', 'pm-ns01.mozilla.org');
+define('LDAP_HOST', 'pm-ns.mozilla.org');
 
 // Memcache (port number is mandatory)
 define("MEMCACHE_ENABLED", true);
