@@ -1,0 +1,13 @@
+@import "bourbon/bourbon";
+@import "neat/neat";
+@import "grid-settings";
+
+body {
+    font-family: $lucida-grande;
+}
+
+.directory {
+    li:nth-child(even) {
+        background: #eee;
+    }
+}

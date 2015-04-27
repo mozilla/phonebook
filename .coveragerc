@@ -1,0 +1,5 @@
+[run]
+source = phonebook
+
+[report]
+omit = */migrations/*

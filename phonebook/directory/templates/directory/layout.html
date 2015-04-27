@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Phonebook</title>
+  {% stylesheet 'app' %}
+  {% javascript 'app' %}
+</head>
+<body>
+  <div class="container">
+    <div class="phonebook">
+      <div class="directory">
+        <ol>
+          <li>
+            <div>
+              <h2>Chris Beard</h2>
+            </div>
+          </li>
+          <li>
+            <div>
+              <h2>Matthew Riley MacPherson</h2>
+            </div>
+          </li>
+        </ol>
+      </div>
+      <div class="details">
+        {% block content %}
+          No content loaded!
+        {% endblock content %}
+      </div>
+    </div>
+  </div>
+</body>
+</html>

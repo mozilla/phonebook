@@ -1,1 +1,10 @@
-config-local.php
+.env
+*.pyc
+.DS_Store
+docs/_build
+.tox/
+MANIFEST
+.coverage
+
+# Sass
+.sass-cache
