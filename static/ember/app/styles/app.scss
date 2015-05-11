@@ -1,0 +1,19 @@
+@import "bourbon";
+@import "neat";
+
+@import "grid-settings";
+@import "ember-list-view";
+
+body {
+    font-family: $lucida-grande;
+}
+
+.directory {
+    li:nth-child(even) {
+        background: #eee;
+    }
+}
+
+.photo {
+    max-height: 150px;
+}

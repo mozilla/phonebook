@@ -1,0 +1,31 @@
+@import "neat-helpers"; // or "neat-helpers" when in Rails
+
+// Change the grid settings
+$column: 90px;
+$gutter: 0px;
+$grid-columns: 10;
+$max-width: em(1088);
+
+// Define your breakpoints
+$tablet: new-breakpoint(max-width 768px 8);
+$mobile: new-breakpoint(max-width 480px 4);
+
+.container {
+    @include outer-container;
+}
+
+.phonebook {
+    @include span-columns(8);
+
+    .directory {
+        @include span-columns(3 of 8);
+
+        ol {
+            list-style: none;
+        }
+    }
+
+    .details {
+        @include span-columns(5 of 8);
+    }
+}

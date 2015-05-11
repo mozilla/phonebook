@@ -1,0 +1,14 @@
+<div class="phonebook">
+  <div {{bind-attr class="person:viewing-person :directory"}}>
+    {{#ember-list items=model height=500 rowHeight=50 width=300}}
+      {{#link-to "person" this}}
+        {{name}}
+      {{/link-to}}
+    {{else}}
+      <p>Empty phonebook!</p>
+    {{/ember-list}}
+  </div>
+  <div class="details">
+    {{outlet}}
+  </div>
+</div>

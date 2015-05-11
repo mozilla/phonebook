@@ -1,59 +1,50 @@
-phonebook
-==========
+Mozilla's LDAP Phonebook
+========================
 
-[![Build Status](https://img.shields.io/travis/mozilla/phonebook/master.svg)](https://travis-ci.org/mozilla/phonebook)
+Built with Django-backed API and an Ember frontend, this is Mozilla's internal phonebook. It connects to Mozilla's LDAP server via the Django app, allowing you to update phonebook entries and get an up-to-date copy of the entire phonebook to use offline.
 
-[![Coverage status](https://img.shields.io/coveralls/mozilla/phonebook/master.svg)](https://coveralls.io/r/mozilla/phonebook)
+Development
+-----------
 
-Run the tests
--------------
+You need [`python`](https://www.python.org/) and [`node`](http://nodejs.org/) installed.
 
-There's a sample test in `phonebook/base/tests.py` for your convenience, that
-you can run using the following command:
+_TODO:_ Provide better bootstrapping docs.
 
-    python manage.py test
+You'll need to run the Ember and Django app at the same time. Eventually we'll have something better but for now, follow these steps:
 
-If you want to run the full suite, with flake8 and coverage, you may use
-[tox](https://testrun.org/tox/latest/). This will run the tests the same way
-they are run by [travis](https://travis-ci.org)):
+ 1. Install the Django/Ember dependencies:
+    `python ./bin/peep.py install -r requirements.txt`
+    and
+    `cd static/ember && npm install`
+ 2. Run the Django migrations:
+    `python manage.py migrate`
+ 3. Run the Django server:
+    `python manage.py runserver`
+ 4. In a separate terminal window, run the Ember app:
+    `cd static/ember && ember serve`
+ 5. Open [localhost:8000](http://localhost:8000) and run the app!
 
-    pip install tox
-    tox
+*Note:* The app requires LDAP server access. You probably need a [Mozilla-internal VPN connection](https://mana.mozilla.org/wiki/display/SD/VPN) up and running. Without, you can't currently develop on *Phonebook*.
 
-The `.travis.yml` file will also run [coveralls](https://coveralls.io) by
-default.
+Deploying
+---------
 
-If you want to benefit from Travis and Coveralls, you will need to activate
-them both for your project.
+_TODO:_ Document a deployment method, preferably with docker + serving the built Ember app inside Django's `/static/` folder.
 
-Oh, and you might want to change the "Build Status" and "Coverage Status" links
-at the top of this file to point to your own travis and coveralls accounts.
+Contributing
+------------
 
+File bugs in Bugzilla under [Webtools :: Phonebook](https://bugzilla.mozilla.org/buglist.cgi?component=Phonebook&product=Webtools&resolution=---).
 
-Docker for development
-----------------------
+If you have a feature you'd like to see or a patch, simply open a pull request. If there is a related Bugzilla bug, please reference the bug number in the commit/pull request. Thank you!
 
-0. Make sure you have [docker](https://docker.io) and [fig](https://pypi.python.org/pypi/fig)
-1. fig up
+# License
 
+This program is free software; it is distributed under an
+[MPL 2.0 License](https://github.com/mozilla/phonebook/blob/master/LICENSE).
 
-Docker for deploying to production
------------------------------------
+---
 
-1. Add your project in [Docker Registry](https://registry.hub.docker.com/) as [Automated Build](http://docs.docker.com/docker-hub/builds/)
-2. Prepare a 'env' file with all the variables needed by dev, stage or production.
-3. Run the image:
+Copyright (c) 2015 [Mozilla](https://mozilla.org)
+([Contributors](https://github.com/mozilla/phonebook/graphs/contributors)).
 
-    docker run --env-file env -p 80:80 mozilla/phonebook
-
-
-NewRelic Monitoring
--------------------
-
-A newrelic.ini file is already included. To enable NewRelic monitoring
-add two enviroment variables:
-
- - NEW_RELIC_LICENSE_KEY
- - NEW_RELIC_APP_NAME
-
-See the [full list of supported environment variables](https://docs.newrelic.com/docs/agents/python-agent/installation-configuration/python-agent-configuration#environment-variables).

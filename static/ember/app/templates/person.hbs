@@ -1,0 +1,37 @@
+<h2>{{model.name}}</h2>
+<h3>{{model.title}}</h3>
+
+{{#if model.manager}}
+  <h4>
+    Manager:
+    {{#link-to "person" model.manager}}
+      {{model.manager.name}}
+    {{/link-to}}
+  </h4>
+{{/if}}
+
+{{#if model.employees}}
+  <h5>Direct Reports</h5>
+  <ul>
+    {{#each employee in model.employees}}
+      <li>
+        {{#link-to "person" employee}}
+          {{employee.name}}
+        {{/link-to}}
+      </li>
+    {{/each}}
+  </ul>
+{{/if}}
+
+<img class="photo" {{bind-attr src=model.photoURL}} alt="Photo of person"
+     id="person-photo">
+
+<h4>{{model.email}}</h4>
+
+<p>{{model.worksOn}}</p>
+
+<p>{{model.bio}}</p>
+
+<p>{{#link-to 'people'}}&lt; back{{/link-to}}</p>
+
+{{outlet}}

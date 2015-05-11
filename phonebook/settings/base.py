@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'phonebook.base',
 
     # Third party apps
-    'pipeline',
+    'httpproxy',
     'django_jinja',
 
     # Django apps
@@ -82,6 +82,7 @@ DATABASES = {
 # LDAP
 AUTH_LDAP_SERVER_URI = config('LDAP_SERVER',
                               default='ldap://pm-ns.mozilla.org')
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
@@ -146,35 +147,12 @@ TEMPLATES = [
     },
 ]
 
-# Sass
-STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'pipeline.finders.CachedFileFinder',
-    'pipeline.finders.PipelineFinder',
-)
-PIPELINE_COMPILERS = (
-  'pipeline.compilers.sass.SASSCompiler',
-)
-PIPELINE_CSS_COMPRESSOR = None
-PIPELINE_JS_COMPRESSOR = None
-PIPELINE_CSS = {
-    'app': {
-        'source_filenames': (
-            'app.scss',
-        ),
-        'output_filename': '/app.css',
-    },
-}
-PIPELINE_JS = {
-    'app': {
-        'source_filenames': (
-            'jquery.js',
-            'app.js',
-        ),
-        'output_filename': '/main.js',
-    },
+# Caching
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/tmp/django_cache',
+    }
 }
 
 # Django-CSP

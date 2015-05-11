@@ -123,8 +123,8 @@ markdown==2.6.2
 # sha256: 5dkCOGALbqnyFYiARBpH5fPwOZzvtT74QEDqxX1yVWM
 django-filter==0.9.2
 
-# sha256: ByQht478gXZBLpRL8auUDiO2WLInD0Xw8O-aw61q5gU
-django-pipeline==1.5.0
-
 # sha256: MVg9nhJ2eR2EqgFv3IeR_RhSisV5fbrhGLMOMuApDE8
 django-jsonview==0.4.3
+
+# sha256: UuMUnXCBhoGjmnT4LuIwNLtS2TIZbZRi5R2bljtRb38
+django-http-proxy==0.4

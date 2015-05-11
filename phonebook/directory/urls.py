@@ -1,6 +1,7 @@
 from django.conf.urls import url
 
-from .views import Directory, UsersJSON
+from .views import *
+
 
 urlpatterns = [
     url(r'^$', Directory.as_view()),
