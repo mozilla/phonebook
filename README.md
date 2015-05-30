@@ -5,7 +5,7 @@ Mozilla's internal phonebook app.
 * Clone, host on a local, PHP-enabled server, run.
 * Optional: `cp config-local.php-dist config-local.php` and tweak as needed
 
-*Note:* The app requires LDAP server access. You probably need a [Mozilla-internal VPN connection](https://mana.mozilla.org/wiki/display/SD/VPN) up and running. Without, you can't currently develop on *Phonebook*.
+*Note:* The app requires LDAP server access. You probably need a [Mozilla-internal VPN connection](https://mana.mozilla.org/wiki/display/SD/VPN) up and running. Without, you can't currently develop on *Phonebook*. You can download your VPN certificate at [login.mozilla.com](https://login.mozilla.com).
 
 ## Contributing
 
