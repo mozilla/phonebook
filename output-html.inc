@@ -1,35 +1,9 @@
 <?php
 
-function check_for_gpg_fingerprint_on_mozilla_keyserver($gpg_key) {
-  $return_bool = false;
-  if (is_callable('curl_init')) {
-    $ch = curl_init();
-    $search_url = 'http://gpg.mozilla.org/pks/lookup?search=0x' . $gpg_key . '&op=vindex';
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch,CURLOPT_URL,$search_url);
-    $output=curl_exec($ch);
-    $return_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    if (isset($return_code)) {
-      if ($return_code == "404"){
-        $return_bool = false;
-      } elseif ($return_code == "200"){
-        $return_bool = true;
-      }
-    }
-    curl_close($ch);
-  }
-  return $return_bool;
-
-}
 
 function output_pgpFingerprint($s) {
   $stripped_fingerprint = str_replace(" ", "", $s);
-  $show_link = check_for_gpg_fingerprint_on_mozilla_keyserver($stripped_fingerprint);
-  if ($show_link == true){
-    $inner_text = '<a target="_blank" style="font-size: 12px;" href="http://gpg.mozilla.org/pks/lookup?search=0x' . $stripped_fingerprint . '&op=vindex">' . $stripped_fingerprint . '</a>';
-  } else {
-    $inner_text = $stripped_fingerprint;
-  }
+  $inner_text = '<a target="_blank" style="font-size: 12px;" href="http://gpg.mozilla.org/pks/lookup?search=0x' . $stripped_fingerprint . '&op=vindex">' . $stripped_fingerprint . '</a>';
   $return_string = '<div class="pgpfingerprint">';
   $return_string .= 'PGP Fingerprint: <span style="font-size: 12px;">' . $inner_text . '</span>';
   $return_string .= '</div>';
@@ -223,9 +197,6 @@ function output_html($entries, $is_admin=FALSE) {
       Not everyone will have a pgpfingerprint. If it isn't a valid length, not set or blank, unset it
     */
     if (isset($entry["pgpfingerprint"]) && strlen(str_replace(" ","", $entry["pgpfingerprint"])) != 40) {
-      unset($entry["pgpfingerprint"]);
-    }
-    if (isset($entry["pgpfingerprint"]) && strlen(str_replace(" ","", $entry["pgpfingerprint"])) == 0) {
       unset($entry["pgpfingerprint"]);
     }
     
