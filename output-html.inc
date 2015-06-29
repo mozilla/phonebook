@@ -1,5 +1,14 @@
 <?php
 
+
+function output_pgpFingerprint($s) {
+  $stripped_fingerprint = str_replace(" ", "", $s);
+  $inner_text = '<a target="_blank" style="font-size: 12px;" href="http://gpg.mozilla.org/pks/lookup?search=0x' . $stripped_fingerprint . '&op=vindex">' . $stripped_fingerprint . '</a>';
+  $return_string = '<div class="pgpfingerprint">';
+  $return_string .= 'PGP Fingerprint: <span style="font-size: 12px;">' . $inner_text . '</span>';
+  $return_string .= '</div>';
+  return $return_string;
+}
 function output_html_listify($a, $sanitize=TRUE) {
   $s = "";
   for ($i = 0; $i < count($a); $i++) {
@@ -135,6 +144,7 @@ function output_html($entries, $is_admin=FALSE) {
     "title" => "output_html_title",
     "telephonenumber" => "output_html_telephonenumber",
     "cn" => "output_html_cn",
+    "pgpfingerprint" => "output_pgpFingerprint",
     "bugzillaemail" => "output_html_bugzillaemail"
   );
 
@@ -161,6 +171,7 @@ function output_html($entries, $is_admin=FALSE) {
     '#{bugzillaemail}',
     '#{b2gnumber}',
     '#{im}',
+    '#{pgpfingerprint}',
     '#{description}',
     '#{other}',
   '</div>',
@@ -181,6 +192,14 @@ function output_html($entries, $is_admin=FALSE) {
     if (isset($entry["roomnumber"])) {
         $entry["roomnumber"] = '<ul class="desk"><li>' . htmlspecialchars($entry['roomnumber']) . '</li></ul>';
     }
+
+    /*
+      Not everyone will have a pgpfingerprint. If it isn't a valid length, not set or blank, unset it
+    */
+    if (isset($entry["pgpfingerprint"]) && strlen(str_replace(" ","", $entry["pgpfingerprint"])) != 40) {
+      unset($entry["pgpfingerprint"]);
+    }
+    
     if (isset($entry["workdaylocation"])) {
         if(isset($WORKDAY_LOCATION_MAP[$entry['workdaylocation']])){
             $workday_location = $WORKDAY_LOCATION_MAP[$entry['workdaylocation']];

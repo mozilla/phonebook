@@ -69,7 +69,9 @@ class MozillaEditingAdapter extends EditingAdapter {
   public function cook_incoming(&$new_user_data, $is_admin) {
   global $office_cities;
     foreach (array("title", "telephoneNumber", "description",
-                  "other", "mobile", "im", "emailAlias", "bugzillaEmail", "shirtSize", "b2gNumber", "roomNumber")
+                  "other", "mobile", "im", "emailAlias", "bugzillaEmail", "shirtSize", "b2gNumber", "roomNumber",
+                  "pgpFingerprint"
+                  )
             as $attribute) {
       if (isset($new_user_data[$attribute])) {
         $new_user_data[$attribute] = $this->box($new_user_data[$attribute]);
@@ -155,7 +157,8 @@ class MozillaSearchAdapter extends SearchAdapter {
   public $fields = array(
     'cn', 'title', 'telephoneNumber', 'mobile', 'description', 'manager',
     'other', 'im', 'mail', 'emailAlias', 'physicalDeliveryOfficeName',
-    'workdaylocation', 'workdaycostcenter', 'deptname', 'employeeNumber', 'employeeType', 'description', 'isManager', 'bugzillaEmail', 'shirtSize', 'isManager', 'b2gNumber', "roomNumber"
+    'workdaylocation', 'workdaycostcenter', 'deptname', 'employeeNumber', 'employeeType', 'description', 'isManager', 'bugzillaEmail', 'shirtSize', 'isManager', 'b2gNumber', "roomNumber",
+    'pgpFingerprint'
   );
   public $conf = array(
     "ldap_sort_order" => "sn"
