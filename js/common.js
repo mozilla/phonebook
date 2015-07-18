@@ -7,7 +7,7 @@ if (!window.console) {
 (function() {
   var hash = window.location.hash;
   var fire = function(str) {
-    $(document).fire("hash:changed", { hash: str.substring(1) });
+    $(document).fire("hash:changed", { hash: decodeURIComponent(str.substring(1)) });
   };
   var pe = new PeriodicalExecuter(function() {
     var newHash = window.location.hash;
@@ -230,7 +230,7 @@ var SearchManager = {
   onLoad: function onLoad() {
     if (window.location.hash.startsWith("#search/")) {
       $(document).fire("hash:changed", {
-        hash: window.location.hash.substring(1)
+        hash: decodeURIComponent(window.location.hash.substring(1))
       });
     } else {
       $("phonebook-search").addClassName("large");
