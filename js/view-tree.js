@@ -214,10 +214,10 @@ Object.extend(SearchManager, {
   onLoad: function() {
     var hash = window.location.hash;
     if (hash.startsWith("#search/")) {
-      var search = hash.replace(/^#search\//, '');
+      var search = decodeURIComponent(hash.replace(/^#search\//, ''));
       if (!search.strip()) { return; }
       $("text").value = search;
-      $(document).fire("hash:changed", {hash: hash.substring(1)});
+      $(document).fire("hash:changed", {hash: decodeURIComponent(hash.substring(1))});
     }
   }
 });
