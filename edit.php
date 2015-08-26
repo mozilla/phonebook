@@ -27,6 +27,12 @@ if (!empty($_POST)) {
         } 
         $new_user_data[$editable_field] = $_POST[$editable_field];
     }
+    if(isset($new_user_data["other"][0])){
+        $new_user_data["other"][0] = strip_tags($new_user_data["other"][0]);
+    }
+    if(isset($new_user_data["description"][0])){
+        $new_user_data["description"][0] = strip_tags($new_user_data["description"][0]);
+    }
   }
 
   $edit->cook_incoming($new_user_data, $is_admin);
