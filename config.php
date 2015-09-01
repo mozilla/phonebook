@@ -160,6 +160,10 @@ class MozillaSearchAdapter extends SearchAdapter {
     'workdaylocation', 'workdaycostcenter', 'deptname', 'employeeNumber', 'employeeType', 'description', 'isManager', 'bugzillaEmail', 'shirtSize', 'isManager', 'b2gNumber', "roomNumber",
     'pgpFingerprint'
   );
+  public $search_fields = array(
+    'cn', 'bugzillaEmail', 'mail', 'emailAlias', 'im', 'physicalDeliveryOfficeName',
+    'description', 'telephoneNumber', 'mobile', 'b2gNumber'
+  );
   public $conf = array(
     "ldap_sort_order" => "sn"
   );
@@ -173,11 +177,24 @@ class MozillaSearchAdapter extends SearchAdapter {
   }
 
   public function _search_users($search, $exact=false) {
-    $escaped = escape_ldap_filter_value($search);
     if($exact == false){
-        $filter = ($search == '*') ? 'objectClass=mozComPerson' : "(&(|(cn=*$escaped*)(bugzillaEmail=*$escaped*)(mail=*$escaped*)(emailAlias=*$escaped*)(im=*$escaped*)(physicalDeliveryOfficeName=*$escaped*)(description=*$escaped*)(telephoneNumber=*$escaped*)(mobile=*$escaped*)(b2gNumber=*$escaped*))(objectClass=mozComPerson))";
+      if ($search == '*') {
+        $filter = 'objectClass=mozComPerson';
+      } else {
+        $terms = array_map("escape_ldap_filter_value", preg_split('/\s+/', trim($search)));
+        $filter = "(objectClass=mozComPerson)";
+        foreach ($terms as $escaped_term) {
+            $subfilter = "";
+            foreach ($this->search_fields as $field) {
+                $subfilter .= "($field=*$escaped_term*)";
+            }
+            $filter .= "(|$subfilter)";
+        }
+        $filter = "(&$filter)";
+      }
     } else {
-        $filter = "(mail=$escaped)";
+      $escaped = escape_ldap_filter_value($search);
+      $filter = "(mail=$escaped)";
     }
     return $this->query_users($filter, 'dc=mozilla', $this->fields);
   }
