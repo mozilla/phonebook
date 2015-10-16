@@ -2,6 +2,14 @@
 require_once('init.php');
 define("NULL_PIC", dirname(__FILE__) . "/img/null.jpg");
 
+// Ensure we have mail in $_GET
+$mail = isset($_GET['mail']) ? $_GET['mail'] : '';
+if ($mail == '') {
+    header('HTTP/1.0 400 Bad request');
+    echo 'Invalid email.';
+    die();
+}
+
 // Validate requested email. Throw error if invalid.
 if (false === filter_var($_GET['mail'], FILTER_VALIDATE_EMAIL)) {
     header('HTTP/1.0 400 Bad request');
