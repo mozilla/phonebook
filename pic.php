@@ -3,8 +3,7 @@ require_once('init.php');
 define("NULL_PIC", dirname(__FILE__) . "/img/null.jpg");
 
 // Ensure we have mail in $_GET
-$mail = isset($_GET['mail']) ? $_GET['mail'] : '';
-if ($mail == '') {
+if (empty($_GET['mail'])) {
     header('HTTP/1.0 400 Bad request');
     echo 'Invalid email.';
     die();
@@ -90,4 +89,3 @@ if ($memcache_on) {
   $memcache->set(MEMCACHE_PREFIX . $_GET['mail']. $_GET['type'], $image_string, 0, 300);
 }
 ?>
-
