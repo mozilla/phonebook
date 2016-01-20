@@ -7,11 +7,13 @@ error_reporting(E_ERROR);
 $edit = new MozillaEditingAdapter();
 $auth = new MozillaAuthAdapter();
 $search = new MozillaSearchAdapter($ldapconn);
-$user = $_SERVER["PHP_AUTH_USER"];
+
+$ldap_char_blacklist = array("*", "&", "|", "(", ")", "=");
+$user = str_replace($ldap_char_blacklist, "", $_SERVER["PHP_AUTH_USER"]);
 
 $is_admin = $auth->is_phonebook_admin($ldapconn, $auth->user_to_dn($user));
 if (isset($_REQUEST["edit_mail"]) && $is_admin) {
-  $edit_user = $_REQUEST["edit_mail"];
+  $edit_user = str_replace($ldap_char_blacklist, "", $_REQUEST["edit_mail"]);
 } else {
   $edit_user = $auth->user_to_email($user);
 }
@@ -24,7 +26,7 @@ if (!empty($_POST)) {
     if (isset($_POST[$editable_field])) {
         if(in_array($editable_field, $MONKEY_FREE_ARRAY)){
             $_POST[$editable_field][0] = trim(preg_replace('/[^\p{L}\s]/u','', $_POST[$editable_field][0]));
-        } 
+        }
         $new_user_data[$editable_field] = $_POST[$editable_field];
     }
     if(isset($new_user_data["other"][0])){
