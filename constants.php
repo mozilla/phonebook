@@ -66,7 +66,6 @@ $output_formats = array(
     'fligtar',
     'html',
     'json',
-    'jsonp',
     'vcard',
 );
 $MONKEY_FREE_ARRAY = array('cn');
