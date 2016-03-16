@@ -63,6 +63,10 @@ function output_html_im($im) {
   return '<ul class="im">'. output_html_listify($im) .'</ul>';
 }
 
+function output_html_githubProfile($githubProfile) {
+  return "<li class=\"githubProfile\"><a href=\"https://github.com/$githubProfile/\">$githubProfile</a></li>";
+}
+
 
 function output_html_mobile_linkify($s) {
   $s = htmlspecialchars($s);
@@ -145,6 +149,7 @@ function output_html($entries, $is_admin=FALSE) {
     "telephonenumber" => "output_html_telephonenumber",
     "cn" => "output_html_cn",
     "pgpfingerprint" => "output_pgpFingerprint",
+    "githubProfile" => "output_html_githubProfile",
     "bugzillaemail" => "output_html_bugzillaemail"
   );
 
@@ -172,6 +177,7 @@ function output_html($entries, $is_admin=FALSE) {
     '#{b2gnumber}',
     '#{im}',
     '#{pgpfingerprint}',
+    '#{githubProfile}',
     '#{description}',
     '#{other}',
   '</div>',
