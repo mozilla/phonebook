@@ -155,6 +155,10 @@ $counter++;
     <td><input type="text" name="b2gNumber[]" value="<?php echo escape($user_data['b2gnumber'][0]) ?>"/></td>
   </tr>
   <tr>
+    <td><label>Github Username</label></td>
+    <td><input type="text" name="githubProfile[]" value="<?php echo escape($user_data['githubprofile'][0]) ?>"/></td>
+  </tr>
+  <tr>
     <td><label>IM Account(s)</label></td>
     <td id="im-accounts">
     <?php for ($i = 0; $i < $user_data['im']['count']; $i++) { ?>
