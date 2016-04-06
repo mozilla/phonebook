@@ -154,6 +154,15 @@ class MozillaEditingAdapter extends EditingAdapter {
 /*************************************************************************/
 
 class MozillaSearchAdapter extends SearchAdapter {
+
+  function __construct($auth){
+    $ldapconn = get_ldap_connection();
+    parent::__construct($ldapconn);
+    $this->auth = new MozillaAuthAdapter();
+    $this->dn = $this->auth->user_to_dn($_SERVER["PHP_AUTH_USER"]);
+    $this->phonebook_admin = $this->auth->is_phonebook_admin($ldapconn, $this->dn);
+  }
+
   public $fields = array(
     'cn', 'title', 'telephoneNumber', 'mobile', 'description', 'manager',
     'other', 'im', 'mail', 'emailAlias', 'physicalDeliveryOfficeName',
@@ -196,6 +205,10 @@ class MozillaSearchAdapter extends SearchAdapter {
       $escaped = escape_ldap_filter_value($search);
       $filter = "(mail=$escaped)";
     }
+    if (!$this->phonebook_admin) {
+      $filter = '(&(!(employeeType=DISABLED))' . $filter . ')';
+    }
+
     return $this->query_users($filter, 'dc=mozilla', $this->fields);
   }
 
