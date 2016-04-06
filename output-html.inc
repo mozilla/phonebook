@@ -41,24 +41,6 @@ function output_html_location($s) {
   }
   return str_replace(":::", "/", $s);
 }
-function output_analytics_script(){
-    $GA = <<<EOT
-
-        <script type="text/javascript">
-                var _gaq = _gaq || [];
-                _gaq.push(['_setAccount', 'UA-35433268-20']);
-                _gaq.push(['_trackPageview']);
-
-                (function() {
-                    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-                })();
-        </script>
-
-EOT;
-    return $GA;
-}
 function output_html_im($im) {
   return '<ul class="im">'. output_html_listify($im) .'</ul>';
 }
@@ -180,7 +162,7 @@ function output_html($entries, $is_admin=FALSE) {
     '<span class="m"></span>',
     '<span class="r"></span>',
   '</div>',
-  '#{GA}</div>');
+  '</div>');
   $template = implode('', $template);
 
   header("Content-Type: text/html");
@@ -249,7 +231,6 @@ function output_html($entries, $is_admin=FALSE) {
         $entry[$processor] = call_user_func($function, $entry[$processor]);
       }
     }
-    $entry['GA'] = output_analytics_script();
     $interpolated_template = interpolate($template, $entry);
     print $interpolated_template;
   }
