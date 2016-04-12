@@ -4,8 +4,11 @@
 require_once('constants.php');
 
 
-if (!defined('LDAP_HOST'))
-    define('LDAP_HOST', 'pm-ns.mozilla.org');
+if (!defined('LDAP_HOST')) {
+    header('HTTP/1.0 500 LDAP Error');
+    print('LDAP_HOST is not defined!');
+    die;
+}
 
 /*************************************************************************/
 
