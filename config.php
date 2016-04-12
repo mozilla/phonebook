@@ -199,6 +199,9 @@ class MozillaSearchAdapter extends SearchAdapter {
             }
             $filter .= "(|$subfilter)";
         }
+        if (LDAP_EXCLUDE != '') {
+            $filter = $filter . LDAP_EXCLUDE;
+        }
         $filter = "(&$filter)";
       }
     } else {
