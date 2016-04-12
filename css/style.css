@@ -629,7 +629,6 @@ div.tree ul {
 
     div.tree ul li.disabled {
       opacity: 0.65;
-      filter: url(effects.svg#fog);
       }
       div.tree ul li.disabled a {
         color: #666;
@@ -712,10 +711,6 @@ div.photo-frame {
     -webkit-box-shadow: 0 0 16px #333;
     }
 
-  div.photo-frame.disabled {
-    filter: url(effects.svg#fog);
-    }
-
 #overlay {
   position: fixed;
   top: 0;
@@ -750,9 +745,3 @@ div.photo-frame {
 body.lightbox #overlay {
   display: block;
   }
-
-body.lightbox #header,
-body.lightbox #results {
-  filter: url(effects.svg#blur);
-  }
-
