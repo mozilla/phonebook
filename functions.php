@@ -1,13 +1,14 @@
 <?php
 
-function ask() {
-  header('WWW-Authenticate: Basic realm="Mozilla Corporation - LDAP Login"');
-}
-
 function wail_and_bail() {
   header('HTTP/1.0 401 Unauthorized');
-  ask();
   print "<h1>401 Unauthorized</h1>";
+  die;
+}
+
+function server_error_and_bail() {
+  header('HTTP/1.0 500 Server Error');
+  print "<h1>500 Server Error</h1>";
   die;
 }
 
@@ -15,20 +16,12 @@ function get_ldap_connection() {
   $ldapconn = ldap_connect(LDAP_HOST);
   $auth = new MozillaAuthAdapter();
 
-  if (!isset($_SERVER["PHP_AUTH_USER"])) {
-    ask();
+  if (!isset($_SERVER["REMOTE_USER"])) {
     wail_and_bail();
-  } else {
-    // Check for validity of login
-    if ($auth->check_valid_user($_SERVER["PHP_AUTH_USER"])) {
-      $user_dn = $auth->user_to_dn($_SERVER["PHP_AUTH_USER"]);
-    } else {
-      wail_and_bail();
-    }
   }
 
-  if (!ldap_bind($ldapconn, $user_dn, $_SERVER['PHP_AUTH_PW'])) {
-    wail_and_bail();
+  if (!ldap_bind($ldapconn, LDAP_BIND_DN, LDAP_BIND_PW)) {
+    server_error_and_bail();
     die(ldap_error($ldapconn));
   }
 

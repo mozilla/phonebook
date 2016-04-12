@@ -9,7 +9,7 @@ $auth = new MozillaAuthAdapter();
 $search = new MozillaSearchAdapter($ldapconn);
 
 $ldap_char_blacklist = array("*", "&", "|", "(", ")", "=");
-$user = str_replace($ldap_char_blacklist, "", $_SERVER["PHP_AUTH_USER"]);
+$user = str_replace($ldap_char_blacklist, "", $_SERVER["REMOTE_USER"]);
 
 $is_admin = $auth->is_phonebook_admin($ldapconn, $auth->user_to_dn($user));
 if (isset($_REQUEST["edit_mail"]) && $is_admin) {
