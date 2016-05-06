@@ -141,11 +141,11 @@ function format_person_json($email) {
   global $everyone;
 
   $person = $everyone[$email];
-  return [
+  return array(
     "email" => $email,
     "name" => $person["name"],
     "title" => $person["title"],
-  ];
+  );
 }
 
 function make_tree_json($level, $root, $nodes=NULL) {
@@ -162,7 +162,7 @@ function make_tree_json($level, $root, $nodes=NULL) {
   }
 
   if (is_array($nodes)) {
-    $output["reports"] = [];
+    $output["reports"] = array();
     usort($nodes, array($tree, "sort_items"));
     foreach ($nodes as $node) {
       if (!empty($people[$node])) {
@@ -184,10 +184,10 @@ function output_chart_json($tree) {
   global $everyone;
   global $orphans;
 
-  $output = [
-    "roots" => [],
-    "orphans" => [],
-  ];
+  $output = array(
+    "roots" => array(),
+    "orphans" => array(),
+  );
 
   foreach ($tree_view_roots as $root) {
     if (!isset($people[$root])) {
