@@ -1,6 +1,5 @@
 <?php
 require_once "init.php";
-require_once "output-json.inc";
 
 $people = array();
 $orphans = array();
@@ -42,7 +41,7 @@ foreach ($data as $person) {
 $managers = array_keys($people);
 $visible_managers = array();
 
-function make_tree_html($level, $root, $nodes=NULL) {
+function make_tree($level, $root, $nodes=NULL) {
   global $people;
   global $everyone;
   global $tree;
@@ -60,158 +59,62 @@ function make_tree_html($level, $root, $nodes=NULL) {
     usort($nodes, array($tree, "sort_items"));
     foreach ($nodes as $node) {
       if (!empty($people[$node])) {
-        make_tree_html($level + 1, $node, $people[$node]);
+        make_tree($level + 1, $node, $people[$node]);
       } else {
-        make_tree_html($level + 1, $node);
+        make_tree($level + 1, $node);
       }
     }
     print "\n</ul>";
   }
 }
 
-function output_chart_html($tree) {
-  global $tree_view_roots;
-  global $managers;
-  global $people;
-  global $visible_managers;
-  global $everyone;
-  global $orphans;
+require_once "templates/header.php";
+?>
 
-  require_once "templates/header.php";
-  ?>
+<div id="page">
 
-  <div id="page">
-
-  <div id="orgchart" class="tree">
-  <ul>
-  <?php
-    foreach ($tree_view_roots as $root) {
-      if (!isset($people[$root])) {
-        make_tree_html(0, $root);
-      } else {
-        make_tree_html(0, $root, $people[$root]);
-      }
-    }
-    $invisible_managers = array_values(array_diff($managers, $visible_managers));
-  ?>
-  </ul>
-  </div>
-  <br />
-  <div id="orphans" class="tree">
-  <ul>
-    <li class="hr-node collapsed">People who need to set their manager</li>
-    <ul style="display:none">
-  <?php
-  foreach ($orphans as $orphan) {
-    print "\n". $tree->format_item($everyone, $orphan, true);
-  }
-  $invisible_people = array();
-  foreach ($invisible_managers as $invisible_manager) {
-    foreach ($people[$invisible_manager] as $invisible_person) {
-      $invisible_people[] = $invisible_person;
-    }
-  }
-  foreach (array_unique($invisible_people) as $invisible_person) {
-    print "\n". $tree->format_item($everyone, $invisible_person, TRUE);
-  }
-  ?>
-    </ul>
-  </ul>
-  </div>
-
-  <div id="person">
-  </div>
-
-  </div>
-
-  <script type="text/javascript" src="js/view-tree.js"></script>
-
-  <?php
-  require_once "templates/footer.php";
-}
-
-function format_person_json($email) {
-  global $everyone;
-
-  $person = $everyone[$email];
-  return [
-    "email" => $email,
-    "name" => $person["name"],
-    "title" => $person["title"],
-  ];
-}
-
-function make_tree_json($level, $root, $nodes=NULL) {
-  global $people;
-  global $everyone;
-  global $tree;
-  global $managers;
-  global $visible_managers;
-
-  $output = format_person_json($root);
-
-  if ($nodes !== NULL && in_array($root, $managers)) {
-    $visible_managers[] = $root;
-  }
-
-  if (is_array($nodes)) {
-    $output["reports"] = [];
-    usort($nodes, array($tree, "sort_items"));
-    foreach ($nodes as $node) {
-      if (!empty($people[$node])) {
-        $output["reports"][] = make_tree_json($level + 1, $node, $people[$node]);
-      } else {
-        $output["reports"][] = make_tree_json($level + 1, $node);
-      }
-    }
-  }
-
-  return $output;
-}
-
-function output_chart_json($tree) {
-  global $tree_view_roots;
-  global $managers;
-  global $people;
-  global $visible_managers;
-  global $everyone;
-  global $orphans;
-
-  $output = [
-    "roots" => [],
-    "orphans" => [],
-  ];
-
+<div id="orgchart" class="tree">
+<ul>
+<?php
   foreach ($tree_view_roots as $root) {
     if (!isset($people[$root])) {
-      $output["roots"][] = make_tree_json(0, $root);
+      make_tree(0, $root);
     } else {
-      $output["roots"][] = make_tree_json(0, $root, $people[$root]);
+      make_tree(0, $root, $people[$root]);
     }
   }
   $invisible_managers = array_values(array_diff($managers, $visible_managers));
-
-  foreach ($orphans as $orphan) {
-    $output["orphans"][] = format_person_json($orphan);
-  }
-  $invisible_people = array();
-  foreach ($invisible_managers as $invisible_manager) {
-    foreach ($people[$invisible_manager] as $invisible_person) {
-      $invisible_people[] = $invisible_person;
-    }
-  }
-  foreach (array_unique($invisible_people) as $invisible_person) {
-    $output["orphans"][] = format_person_json($invisible_person);
-  }
-
-  output_json($output);
+?>
+</ul>
+</div>
+<br />
+<div id="orphans" class="tree">
+<ul>
+  <li class="hr-node collapsed">People who need to set their manager</li>
+  <ul style="display:none">
+<?php
+foreach ($orphans as $orphan) {
+  print "\n". $tree->format_item($everyone, $orphan, true);
 }
-
-switch(isset($_GET["format"]) ? $_GET["format"] : "html") {
-  case "json":
-    output_chart_json($tree);
-    break;
-  default:
-    output_chart_html($tree);
-    break;
+$invisible_people = array();
+foreach ($invisible_managers as $invisible_manager) {
+  foreach ($people[$invisible_manager] as $invisible_person) {
+    $invisible_people[] = $invisible_person;
+  }
 }
+foreach (array_unique($invisible_people) as $invisible_person) {
+  print "\n". $tree->format_item($everyone, $invisible_person, TRUE);
+}
+?>
+  </ul>
+</ul>
+</div>
+
+<div id="person">
+</div>
+
+</div>
+
+<script type="text/javascript" src="js/view-tree.js"></script>
+
+<?php require_once "templates/footer.php"; ?>
