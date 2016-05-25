@@ -8,6 +8,8 @@
 // LDAP
 define('LDAP_HOST', 'pm-ns.mozilla.org');
 define('LDAP_EXCLUDE', '');  // '(!(defaultAttribute=defaultValue))'
+define('LDAP_BIND_DN', 'uid=default,dc=default');
+define('LDAP_BIND_PW', 'defaultDEFAULTdefault');
 
 // Memcache (port number is mandatory)
 define("MEMCACHE_ENABLED", true);

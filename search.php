@@ -30,5 +30,5 @@ if (!in_array($format, $output_formats) || !file_exists("output-$format.inc")) {
 }
 require_once("output-$format.inc");
 $function = "output_$format";
-$dn = $auth->user_to_dn($_SERVER["PHP_AUTH_USER"]);
+$dn = $auth->user_to_dn($_SERVER["REMOTE_USER"]);
 call_user_func($function, $entries, $auth->is_phonebook_admin($ldapconn, $dn));
