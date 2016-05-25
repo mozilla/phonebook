@@ -12,6 +12,83 @@ function server_error_and_bail() {
   die;
 }
 
+/** Import ldap_escape() for PHP 5.3 from the author's implementation thereof.
+* http://stackoverflow.com/questions/8560874/php-ldap-add-function-to-escape-ldap-special-characters-in-dn-syntax/8561604#8561604
+*/
+if (!function_exists('ldap_escape')) {
+    define('LDAP_ESCAPE_FILTER', 0x01);
+    define('LDAP_ESCAPE_DN',     0x02);
+
+    /**
+     * @param string $subject The subject string
+     * @param string $ignore Set of characters to leave untouched
+     * @param int $flags Any combination of LDAP_ESCAPE_* flags to indicate the
+     *                   set(s) of characters to escape.
+     * @return string
+     */
+    function ldap_escape($subject, $ignore = '', $flags = 0)
+    {
+        static $charMaps = array(
+            LDAP_ESCAPE_FILTER => array('\\', '*', '(', ')', "\x00"),
+            LDAP_ESCAPE_DN     => array('\\', ',', '=', '+', '<', '>', ';', '"', '#'),
+        );
+
+        // Pre-process the char maps on first call
+        if (!isset($charMaps[0])) {
+            $charMaps[0] = array();
+            for ($i = 0; $i < 256; $i++) {
+                $charMaps[0][chr($i)] = sprintf('\\%02x', $i);;
+            }
+
+            for ($i = 0, $l = count($charMaps[LDAP_ESCAPE_FILTER]); $i < $l; $i++) {
+                $chr = $charMaps[LDAP_ESCAPE_FILTER][$i];
+                unset($charMaps[LDAP_ESCAPE_FILTER][$i]);
+                $charMaps[LDAP_ESCAPE_FILTER][$chr] = $charMaps[0][$chr];
+            }
+
+            for ($i = 0, $l = count($charMaps[LDAP_ESCAPE_DN]); $i < $l; $i++) {
+                $chr = $charMaps[LDAP_ESCAPE_DN][$i];
+                unset($charMaps[LDAP_ESCAPE_DN][$i]);
+                $charMaps[LDAP_ESCAPE_DN][$chr] = $charMaps[0][$chr];
+            }
+        }
+
+        // Create the base char map to escape
+        $flags = (int)$flags;
+        $charMap = array();
+        if ($flags & LDAP_ESCAPE_FILTER) {
+            $charMap += $charMaps[LDAP_ESCAPE_FILTER];
+        }
+        if ($flags & LDAP_ESCAPE_DN) {
+            $charMap += $charMaps[LDAP_ESCAPE_DN];
+        }
+        if (!$charMap) {
+            $charMap = $charMaps[0];
+        }
+
+        // Remove any chars to ignore from the list
+        $ignore = (string)$ignore;
+        for ($i = 0, $l = strlen($ignore); $i < $l; $i++) {
+            unset($charMap[$ignore[$i]]);
+        }
+
+        // Do the main replacement
+        $result = strtr($subject, $charMap);
+
+        // Encode leading/trailing spaces if LDAP_ESCAPE_DN is passed
+        if ($flags & LDAP_ESCAPE_DN) {
+            if ($result[0] === ' ') {
+                $result = '\\20' . substr($result, 1);
+            }
+            if ($result[strlen($result) - 1] === ' ') {
+                $result = substr($result, 0, -1) . '\\20';
+            }
+        }
+
+        return $result;
+    }
+}
+
 function get_ldap_connection() {
   $ldapconn = ldap_connect(LDAP_HOST);
   $auth = new MozillaAuthAdapter();
@@ -159,12 +236,9 @@ function asc2hex32($string)
 }
 
 /**
-* Escapes a DN value according to RFC 2253
-*
-* Escapes the given VALUES according to RFC 2253 so that they can be safely used in LDAP DNs.
-* The characters ",", "+", """, "\", "<", ">", ";", "#", "=" with a special meaning in RFC 2252
-* are preceeded by ba backslash. Control characters with an ASCII code < 32 are represented as \hexpair.
-* Finally all leading and trailing spaces are converted to sequences of \20.
+* This is a functional wrapper around the above-imported ldap_escape function.
+* It was previously a custom implementation, which has been replaced. Note
+* the use of the constant LDAP_ESCAPE_DN below, as this is for DNs.
 *
 * @param array $values An array containing the DN values that should be escaped
 *
@@ -180,47 +254,16 @@ function escape_ldap_dn_value($values = array())
     }
 
     foreach ($values as $key => $val) {
-        // Escaping of filter meta characters
-        $val = str_replace('\\', '\\\\', $val);
-        $val = str_replace(',', '\,', $val);
-        $val = str_replace('+', '\+', $val);
-        $val = str_replace('"', '\"', $val);
-        $val = str_replace('<', '\<', $val);
-        $val = str_replace('>', '\>', $val);
-        $val = str_replace(';', '\;', $val);
-        $val = str_replace('#', '\#', $val);
-        $val = str_replace('=', '\=', $val);
-
-        // ASCII < 32 escaping
-        $val = asc2hex32($val);
-
-        // Convert all leading and trailing spaces to sequences of \20.
-        if (preg_match('/^(\s*)(.+?)(\s*)$/', $val, $matches)) {
-            $val = $matches[2];
-            for ($i = 0; $i < strlen($matches[1]); $i++) {
-                $val = '\20'.$val;
-            }
-            for ($i = 0; $i < strlen($matches[3]); $i++) {
-                $val = $val.'\20';
-            }
-        }
-
-        if (null === $val) {
-            $val = '\0';  // apply escaped "null" if string is empty
-        }
-
-        $values[$key] = $val;
+        $values[$key] = ldap_escape($val, null, LDAP_ESCAPE_DN);
     }
 
     if ($unwrap) return $values[0]; else return $values;
 }
 
 /**
-* Escapes the given VALUES according to RFC 2254 so that they can be safely used in LDAP filters.
-*
-* Any control characters with an ACII code < 32 as well as the characters with special meaning in
-* LDAP filters "*", "(", ")", and "\" (the backslash) are converted into the representation of a
-* backslash followed by two hex digits representing the hexadecimal value of the character.
+* This is a functional wrapper around the above-imported ldap_escape function.
+* It was previously a custom implementation, which has been replaced. Note
+* the use of the constant LDAP_ESCAPE_FILTER below, as this is for filters.
 *
 * @param array $values Array of values to escape
 *
@@ -236,20 +279,7 @@ function escape_ldap_filter_value($values = array())
     }
 
     foreach ($values as $key => $val) {
-        // Escaping of filter meta characters
-        $val = str_replace('\\', '\5c', $val);
-        $val = str_replace('*', '\2a', $val);
-        $val = str_replace('(', '\28', $val);
-        $val = str_replace(')', '\29', $val);
-
-        // ASCII < 32 escaping
-        $val = asc2hex32($val);
-
-        if (null === $val) {
-            $val = '\0';  // apply escaped "null" if string is empty
-        }
-
-        $values[$key] = $val;
+        $values[$key] = ldap_escape($val, null, LDAP_ESCAPE_FILTER);
     }
 
     if ($unwrap) return $values[0]; else return $values;
