@@ -10,10 +10,17 @@ $auth = new MozillaAuthAdapter();
 
 $data = array();
 foreach ($tree->conf as $conf) {
+    $filter = '(' . $conf["ldap_search_filter"] . ')';
+    if (LDAP_EXCLUDE) {
+        $filter = '(&' . LDAP_EXCLUDE . $filter . ')';
+    }
+    if (!$auth->is_phonebook_admin($ldapconn, $auth->user_to_dn($_SERVER["REMOTE_USER"]))) {
+        $filter = '(&(!(employeeType=DISABLED))' . $filter . ')';
+    }
     $search = ldap_search(
         $ldapconn,
         $conf["ldap_search_base"],
-        $conf["ldap_search_filter"],
+        $filter,
         $conf["ldap_search_attributes"]
     );
     $data = array_merge($data, ldap_get_entries($ldapconn, $search));

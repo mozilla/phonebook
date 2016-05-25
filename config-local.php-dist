@@ -7,10 +7,11 @@
 
 // LDAP
 define('LDAP_HOST', 'pm-ns.mozilla.org');
+define('LDAP_EXCLUDE', '');  // '(!(defaultAttribute=defaultValue))'
 
 // Memcache (port number is mandatory)
 define("MEMCACHE_ENABLED", true);
 $memcache_servers = array(
     'localhost:11211',
 );
-define('MEMCACHE_PREFIX', 'phonebook');
+define('MEMCACHE_PREFIX', 'phonebook-default');

@@ -22,7 +22,6 @@ function get_ldap_connection() {
     // Check for validity of login
     if ($auth->check_valid_user($_SERVER["PHP_AUTH_USER"])) {
       $user_dn = $auth->user_to_dn($_SERVER["PHP_AUTH_USER"]);
-      $password = $_SERVER["PHP_AUTH_PW"];
     } else {
       wail_and_bail();
     }
