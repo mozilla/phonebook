@@ -162,7 +162,7 @@ class MozillaSearchAdapter extends SearchAdapter {
     $ldapconn = get_ldap_connection();
     parent::__construct($ldapconn);
     $this->auth = new MozillaAuthAdapter();
-    $this->dn = $this->auth->user_to_dn($_SERVER["PHP_AUTH_USER"]);
+    $this->dn = $this->auth->user_to_dn($_SERVER["REMOTE_USER"]);
     $this->phonebook_admin = $this->auth->is_phonebook_admin($ldapconn, $this->dn);
   }
 
