@@ -73,7 +73,7 @@ class MozillaEditingAdapter extends EditingAdapter {
   global $office_cities;
     foreach (array("title", "telephoneNumber", "description",
                   "other", "mobile", "im", "emailAlias", "bugzillaEmail", "shirtSize", "b2gNumber", "roomNumber",
-                  "pgpFingerprint"
+                  "pgpFingerprint", "githubProfile"
                   )
             as $attribute) {
       if (isset($new_user_data[$attribute])) {
@@ -170,11 +170,11 @@ class MozillaSearchAdapter extends SearchAdapter {
     'cn', 'title', 'telephoneNumber', 'mobile', 'description', 'manager',
     'other', 'im', 'mail', 'emailAlias', 'physicalDeliveryOfficeName',
     'workdaylocation', 'workdaycostcenter', 'deptname', 'employeeNumber', 'employeeType', 'description', 'isManager', 'bugzillaEmail', 'shirtSize', 'isManager', 'b2gNumber', "roomNumber",
-    'pgpFingerprint'
+    'pgpFingerprint', 'githubProfile'
   );
   public $search_fields = array(
     'cn', 'bugzillaEmail', 'mail', 'emailAlias', 'im', 'physicalDeliveryOfficeName',
-    'description', 'telephoneNumber', 'mobile', 'b2gNumber'
+    'description', 'telephoneNumber', 'mobile', 'b2gNumber', 'githubProfile'
   );
   public $conf = array(
     "ldap_sort_order" => "sn"

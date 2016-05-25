@@ -360,6 +360,18 @@ a:hover {
         left: 1px;
         content: "\f0c0";
     }
+    .vcard .githubProfile:before {
+        position: absolute;
+        font-family: FontAwesome;
+        color: #0066FF;
+        top: 6px;
+        left: 1px;
+        content: "\f09b";
+    }
+    .vcard .githubProfile {
+      position: relative;
+      margin-bottom: 0px;
+    }
     .vcard .pgpfingerprint:before {
         position:absolute;
         font-family: FontAwesome;

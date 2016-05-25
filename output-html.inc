@@ -45,7 +45,6 @@ function output_html_im($im) {
   return '<ul class="im">'. output_html_listify($im) .'</ul>';
 }
 
-
 function output_html_mobile_linkify($s) {
   $s = htmlspecialchars($s);
   return "<li class=\"tel\"><a href=\"tel:$s\">$s</a></li>";
@@ -152,6 +151,7 @@ function output_html($entries, $is_admin=FALSE) {
     '<ul class="email">#{mail}#{emailalias}</ul>',
     '#{bugzillaemail}',
     '#{b2gnumber}',
+    '#{githubprofile}',
     '#{im}',
     '#{pgpfingerprint}',
     '#{description}',
@@ -225,6 +225,9 @@ function output_html($entries, $is_admin=FALSE) {
     }
     if (isset($entry["b2gnumber"])) {
         $entry["b2gnumber"] = '<ul class="b2gnumber"><li>B2G Number: ' . htmlspecialchars($entry['b2gnumber']) . '</li></ul>';
+    }
+    if (isset($entry["githubprofile"])) {
+        $entry["githubprofile"] = '<ul class="githubProfile"><li>Github Profile: <a href="https://github.com/' . htmlspecialchars($entry['githubprofile']) . '">' . htmlspecialchars($entry['githubprofile']) . '</li></ul>';
     }
     foreach ($processors as $processor => $function) {
       if (isset($entry[$processor])) {
