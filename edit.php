@@ -48,6 +48,12 @@ if (!empty($_POST)) {
         fb("Failure on $key => ". print_r($value, TRUE) ." for $edit_user");
       }
       fb("Success on $key => ". print_r($value, TRUE) ." for $edit_user");
+    } elseif (is_array($new_user_data[strtolower($key)])) {
+      if (empty(array_diff($user_data[strtolower($key)], $new_user_data[strtolower($key)]))) {
+        unset($new_user_data[$key]);
+      }
+    } elseif ($user_data[strtolower($key)] == $value) {
+      unset($new_user_data[$key]);
     }
   }
 
