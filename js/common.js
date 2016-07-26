@@ -3,17 +3,25 @@ if (!window.console) {
   window.console = {log: Prototype.emptyFunction};
 }
 
-// Implement onhashchange support
+if (!window.location.moz_queryString) {
+  window.location.moz_queryString = function() {
+    var queryString = window.location.href;
+    var i = queryString.indexOf("?");
+    return i == -1 ? "" : queryString.substring(i);
+  }
+}
+
+// Poll for changes to the query string
 (function() {
-  var hash = window.location.hash;
+  var queryString = window.location.moz_queryString();
   var fire = function(str) {
     $(document).fire("hash:changed", { hash: decodeURIComponent(str.substring(1)) });
   };
   var pe = new PeriodicalExecuter(function() {
-    var newHash = window.location.hash;
-    if (newHash != hash) {
-      fire(newHash);
-      hash = newHash;
+    var newQueryString = window.location.moz_queryString();
+    if (newQueryString != queryString) {
+      fire(newQueryString);
+      queryString = newQueryString;
     }
   }, 1);
 })();
@@ -180,7 +188,7 @@ BehaviorManager.register("slashSearch", function(e) {
 
 BehaviorManager.register("submitOnEnter", function(e) {
   e.stop();
-  window.location.hash = "#search/" + $F("text");
+  window.history.pushState({}, '', window.location.pathname + "?search/" + $F("text"));
 }.toBehavior("phonebook-search", "submit"));
 
 BehaviorManager.register("centerHeader", {
@@ -228,9 +236,15 @@ var SearchManager = {
   },
 
   onLoad: function onLoad() {
+    var search;
     if (window.location.hash.startsWith("#search/")) {
+      search = window.location.hash.substring(1);
+    } else if (window.location.moz_queryString().startsWith("?search/")) {
+      search = window.location.moz_queryString().substring(1);
+    }
+    if (search) {
       $(document).fire("hash:changed", {
-        hash: decodeURIComponent(window.location.hash.substring(1))
+        hash: decodeURIComponent(search)
       });
     } else {
       $("phonebook-search").addClassName("large");
