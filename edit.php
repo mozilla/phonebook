@@ -41,6 +41,25 @@ if (!empty($_POST)) {
 
   // Save the attributes
   foreach ($new_user_data as $key => $value) {
+    // strip the 'count' elements from user_data
+    if (is_array($user_data[strtolower($key)]) and
+        array_key_exists('count', $user_data[strtolower($key)])) {
+      unset($user_data[strtolower($key)]['count']);
+    }
+    // normalize user_data to the type of new_user_data
+    if (is_string($value)) {
+      if (is_array($user_data[strtolower($key)]) and
+          count($user_data[strtolower($key)]) == 1) {
+        $user_data[strtolower($key)] = $user_data[strtolower($key)][0];
+      }
+    } else {
+      if (is_string($user_data[strtolower($key)])) {
+        $user_data[strtolower($key)] = array($user_data[strtolower($key)]);
+      } elseif (is_null($user_data[strtolower($key)])) {
+        $user_data[strtolower($key)] = array();
+      }
+    }
+
     if (!isset($user_data[strtolower($key)])) {
       if (!ldap_add($ldapconn,
                     $auth->email_to_dn($ldapconn, $edit_user),
@@ -49,7 +68,7 @@ if (!empty($_POST)) {
       }
       fb("Success on $key => ". print_r($value, TRUE) ." for $edit_user");
     } elseif (is_array($new_user_data[strtolower($key)])) {
-      if (empty(array_diff($user_data[strtolower($key)], $new_user_data[strtolower($key)]))) {
+      if (count(array_diff($user_data[strtolower($key)], $new_user_data[strtolower($key)])) == 0) {
         unset($new_user_data[$key]);
       }
     } elseif ($user_data[strtolower($key)] == $value) {
