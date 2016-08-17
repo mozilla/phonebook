@@ -61,7 +61,6 @@ $shirt_sizes = array(
 
 // Valid output formats. Must correspond to an output-{something}.inc file.
 $output_formats = array(
-    'autocomplete',
     'csv',
     'fligtar',
     'html',

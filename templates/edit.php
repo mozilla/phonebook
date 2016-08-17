@@ -275,7 +275,6 @@ $counter++;
 
 </div>
 
-<script type="text/javascript" src="js/autocomplete.js"></script>
 <script type="text/javascript" src="js/edit.js"></script>
 
 <?php require_once('templates/footer.php'); ?>

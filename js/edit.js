@@ -83,20 +83,5 @@ $(document).observe("dom:loaded", function() {
     x.writeAttribute("title", x.innerHTML).update('');
   });
 
-  // Replace dumb combobox with an autocomplete textbox
-  var manager = new Element("input", {type: "text", id: "manager-text"});
-  $("select-manager").hide().insert({before: manager});
-  manager.value = $$("option[value='#{dn}']".interpolate({
-    dn: $F("select-manager")
-  }))[0].innerHTML;
-
-  new Autocomplete(manager, {
-    serviceUrl: "./search.php?format=autocomplete",
-    minChars: 2,
-    onSelect: function(value, data) {
-      $("select-manager").value = data;
-    }
-  });
-
 });
 
