@@ -181,14 +181,6 @@ class MozillaSearchAdapter extends SearchAdapter {
   );
 
   public function search_users($search, $exact=false) {
-    if ($search != "random") {
-      return $this->_search_users($search, $exact=$exact);
-    }
-    $entries = $this->_search_users('*');
-    return array($entries[mt_rand(0, count($entries) - 1)]);
-  }
-
-  public function _search_users($search, $exact=false) {
     if($exact == false){
       if ($search == '*') {
         $filter = 'objectClass=mozComPerson';
