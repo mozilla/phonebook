@@ -2,6 +2,9 @@
 
 @include_once('config-local.php');
 
+if (!defined('RESULT_SIZE_LIMIT'))
+    define("RESULT_SIZE_LIMIT", 0);
+
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 ini_set("memory_limit", "64M");
@@ -79,7 +82,13 @@ abstract class SearchAdapter {
    */
   public function query_users($filter, $base='', $attributes=NULL) {
     $attributes = $attributes ? $attributes : $this->fields;
-    $search = ldap_search($this->ldapconn, $base, $filter, $attributes);
+    $search = @ldap_search($this->ldapconn, $base, $filter, $attributes, 0, RESULT_SIZE_LIMIT);
+    $error = ldap_error($this->ldapconn);
+    if ($error == 'Size limit exceeded') {
+      echo "<div>Showing only the first " . RESULT_SIZE_LIMIT . " results.</div>";
+    } elseif ($error != 'Success') {
+      echo "<div>LDAP error: " . htmlspecialchars($error) . ".</div>";
+    }
     ldap_sort($this->ldapconn, $search,
       $this->conf["ldap_sort_order"] ? $this->conf["ldap_sort_order"] : "sn"
     );

@@ -17,3 +17,6 @@ $memcache_servers = array(
     'localhost:11211',
 );
 define('MEMCACHE_PREFIX', 'phonebook-default');
+
+// Restrict the number of results returned for user-initiated searches (0 == no limit)
+define('RESULT_SIZE_LIMIT', 0);
