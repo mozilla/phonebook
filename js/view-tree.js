@@ -122,7 +122,7 @@ BehaviorManager.register("filterOnSubmit", function(e) {
     $$("#orgchart li:not(.leaf)").invoke("expand");
     return;
   }
-  window.location.hash = "search/" + $F("text");
+  window.history.pushState({}, '', window.location.pathname + "?search/" + $F("text"));
 }.toBehavior("phonebook-search", "submit"));
 
 var Tree = {
@@ -131,7 +131,8 @@ var Tree = {
   select: function(node) {
     this.selected && this.selected.removeClassName("selected");
     this.selected = $(node).addClassName("selected");
-    window.location.hash = "search/" + this.selected.id.replace("-at-", '@');
+    window.history.pushState({}, '', window.location.pathname + "?search/" +
+      this.selected.id.replace("-at-", '@'));
   },
 
   clearFilter: function() {
@@ -212,12 +213,18 @@ Object.extend(SearchManager, {
   },
 
   onLoad: function() {
-    var hash = window.location.hash;
-    if (hash.startsWith("#search/")) {
-      var search = decodeURIComponent(hash.replace(/^#search\//, ''));
-      if (!search.strip()) { return; }
-      $("text").value = search;
-      $(document).fire("hash:changed", {hash: decodeURIComponent(hash.substring(1))});
+    var filter;
+    if (window.location.hash.startsWith("#search/")) {
+      filter = window.location.hash;
+    } else if (window.location.moz_queryString().startsWith("?search/")) {
+      filter = window.location.moz_queryString();
+    } else {
+      return;
+    }
+    filter = decodeURIComponent(filter.substring(8)).strip();
+    if (filter) {
+      $("text").value = filter;
+      $(document).fire("hash:changed", {hash: filter});
     }
   }
 });
