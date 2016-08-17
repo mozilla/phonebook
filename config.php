@@ -182,23 +182,19 @@ class MozillaSearchAdapter extends SearchAdapter {
 
   public function search_users($search, $exact=false) {
     if($exact == false){
-      if ($search == '*') {
-        $filter = 'objectClass=mozComPerson';
-      } else {
-        $terms = array_map("escape_ldap_filter_value", preg_split('/\s+/', trim($search)));
-        $filter = "(objectClass=mozComPerson)";
-        foreach ($terms as $escaped_term) {
-            $subfilter = "";
-            foreach ($this->search_fields as $field) {
-                $subfilter .= "($field=*$escaped_term*)";
-            }
-            $filter .= "(|$subfilter)";
-        }
-        if (LDAP_EXCLUDE != '') {
-            $filter = $filter . LDAP_EXCLUDE;
-        }
-        $filter = "(&$filter)";
+      $terms = array_map("escape_ldap_filter_value", preg_split('/\s+/', trim($search)));
+      $filter = "(objectClass=mozComPerson)";
+      foreach ($terms as $escaped_term) {
+          $subfilter = "";
+          foreach ($this->search_fields as $field) {
+              $subfilter .= "($field=*$escaped_term*)";
+          }
+          $filter .= "(|$subfilter)";
       }
+      if (LDAP_EXCLUDE != '') {
+          $filter = $filter . LDAP_EXCLUDE;
+      }
+      $filter = "(&$filter)";
     } else {
       $escaped = escape_ldap_filter_value($search);
       $filter = "(mail=$escaped)";
