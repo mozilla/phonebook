@@ -146,7 +146,7 @@ function output_html($entries, $is_admin=FALSE) {
     '#{workdaycostcenter}',
     '#{locality}',
     '#{workdaylocation}',
-    '#{roomnumber}',
+    '#{wprdesknumber}',
     '#{mobile}',
     '<ul class="email">#{mail}#{emailalias}</ul>',
     '#{bugzillaemail}',
@@ -171,8 +171,14 @@ function output_html($entries, $is_admin=FALSE) {
       $photo_name = output_html_cn($entry['cn']);
       $entry["picture"] = "<a class=\"photo\" href=\"{$entry['picture']}\" target=\"_blank\"><img class=\"photo\" src=\"{$entry['picture']}&amp;type=thumb\" alt=\"Photo of {$photo_name}\" /></a>";
     }
-    if (isset($entry["roomnumber"])) {
-        $entry["roomnumber"] = '<ul class="desk"><li>' . htmlspecialchars($entry['roomnumber']) . '</li></ul>';
+    if (isset($entry["wprdesknumber"]) && $entry["wprdesknumber"] != 'Off-Site') {
+        $entry["wprdesknumber"] = '<ul class="desk"><li>' . htmlspecialchars($entry['wprdesknumber']) . '</li>';
+        if (isset($entry["wprdesknumbernotes"])) {
+            $entry["wprdesknumber"] .= '<li>' . htmlspecialchars($entry['wprdesknumbernotes']) . '</li>';
+        }
+        $entry["wprdesknumber"] .= '</ul>';
+    } else {
+        $entry["wprdesknumber"] = "";
     }
 
     /*
