@@ -161,7 +161,8 @@ var Tree = {
     $("phonebook-search").request({
       parameters: {format: "json"},
       onSuccess: function onSuccess(r) {
-        var people = r.responseText.evalJSON();
+        var search_result = r.responseText.evalJSON();
+        var people = search_result.users;
         var converter = this.dnToEmail || function(x) { return x.dnToEmail(); };
         people = people.pluck("dn").map(converter).compact();
         people.sort(function(a, b) {

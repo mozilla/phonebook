@@ -1,8 +1,8 @@
 <?php
 
-function output_json($entries) {
+function output_json($search_result) {
   header("Content-Type: application/json");
-  print json_encode($entries);
+  print json_encode($search_result);
   die;
 }
 

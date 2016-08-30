@@ -110,7 +110,7 @@ function interpolate($s, $o, $pattern="/(^|.|\\r|\\n)(#\\{(.*?)\\})/") {
   return $s;
 }
 
-function output_html($entries, $is_admin=FALSE) {
+function output_html($search_result, $is_admin=FALSE) {
   require_once 'workday_location_map.php';
   $processors = array(
     "mail" => "output_html_email_linkify",
@@ -166,7 +166,15 @@ function output_html($entries, $is_admin=FALSE) {
   $template = implode('', $template);
 
   header("Content-Type: text/html");
-  foreach ($entries as &$entry) {
+
+  if ($search_result['count'] > count($search_result['users'])) {
+    printf(
+      '<div id="search-limited">Showing only the first %d of %d results.</div>',
+      count($search_result['users']), $search_result['count']
+    );
+  }
+
+  foreach ($search_result['users'] as &$entry) {
     if (isset($entry["picture"])) {
       $photo_name = output_html_cn($entry['cn']);
       $entry["picture"] = "<a class=\"photo\" href=\"{$entry['picture']}\" target=\"_blank\"><img class=\"photo\" src=\"{$entry['picture']}&amp;type=thumb\" alt=\"Photo of {$photo_name}\" /></a>";

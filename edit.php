@@ -19,7 +19,7 @@ if (isset($_REQUEST["edit_mail"]) && $is_admin) {
 }
 
 $user_search = $search->query_users("mail=$edit_user", "dc=mozilla");
-$user_data = $user_search[0];
+$user_data = $user_search['users'][0];
 if (!empty($_POST)) {
   $new_user_data = array();
   foreach ($editable_fields as $editable_field) {
@@ -103,6 +103,5 @@ if (!empty($_POST)) {
 }
 
 $user_data = $edit->clean_userdata($user_data);
-$managerlist = $search->list_everyone($ldapconn);
 
 require_once 'templates/edit.php';

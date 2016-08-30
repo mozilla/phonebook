@@ -211,12 +211,6 @@ class MozillaSearchAdapter extends SearchAdapter {
       $entry["picture"] = BASEPATH ."pic.php?mail=". $m[1];
     }
   }
-
-  public function list_everyone() {
-    return $this->query_users(
-      "objectClass=mozComPerson", "dc=mozilla", array("dn", "cn")
-    );
-  }
 }
 
 /*************************************************************************/

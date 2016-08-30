@@ -79,20 +79,25 @@ abstract class SearchAdapter {
    * one go. If $attributes is not specified, it is assumed to be specified in
    * an array field called $fields. Sorts resulting entries by surname by 
    * default, unless $conf["ldap_sort_order"] exists.
+   * Returns an array with two named elements: 'matches', which contains the
+   * total number of matching users, and 'users', which is an array of matching
+   * users limited in size by RESULT_SIZE_LIMIT.
    */
   public function query_users($filter, $base='', $attributes=NULL) {
     $attributes = $attributes ? $attributes : $this->fields;
-    $search = @ldap_search($this->ldapconn, $base, $filter, $attributes, 0, RESULT_SIZE_LIMIT);
-    $error = ldap_error($this->ldapconn);
-    if ($error == 'Size limit exceeded') {
-      echo "<div>Showing only the first " . RESULT_SIZE_LIMIT . " results.</div>";
-    } elseif ($error != 'Success') {
-      echo "<div>LDAP error: " . htmlspecialchars($error) . ".</div>";
-    }
+    $search = ldap_search($this->ldapconn, $base, $filter, $attributes);
     ldap_sort($this->ldapconn, $search,
       $this->conf["ldap_sort_order"] ? $this->conf["ldap_sort_order"] : "sn"
     );
-    return ldap_get_entries($this->ldapconn, $search);
+    $entries = ldap_get_entries($this->ldapconn, $search);
+    $count = $entries['count'];
+    if (RESULT_SIZE_LIMIT != 0 && $count > RESULT_SIZE_LIMIT) {
+      array_splice($entries, RESULT_SIZE_LIMIT, $count - RESULT_SIZE_LIMIT);
+    }
+    return [
+      'count' => $count,
+      'users' => $entries,
+    ];
   }
 
   /*
