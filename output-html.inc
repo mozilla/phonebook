@@ -235,7 +235,7 @@ function output_html($search_result, $is_admin=FALSE) {
         $entry["b2gnumber"] = '<ul class="b2gnumber"><li>B2G Number: ' . htmlspecialchars($entry['b2gnumber']) . '</li></ul>';
     }
     if (isset($entry["githubprofile"])) {
-        $entry["githubprofile"] = '<ul class="githubProfile"><li>Github Profile: <a href="https://github.com/' . htmlspecialchars($entry['githubprofile']) . '">' . htmlspecialchars($entry['githubprofile']) . '</li></ul>';
+        $entry["githubprofile"] = '<ul class="githubProfile"><li>Github Profile: <a href="https://github.com/' . htmlspecialchars($entry['githubprofile']) . '">' . htmlspecialchars($entry['githubprofile']) . '</a></li></ul>';
     }
     foreach ($processors as $processor => $function) {
       if (isset($entry[$processor])) {
