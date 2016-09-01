@@ -94,10 +94,10 @@ abstract class SearchAdapter {
     if (RESULT_SIZE_LIMIT != 0 && $count > RESULT_SIZE_LIMIT) {
       array_splice($entries, RESULT_SIZE_LIMIT, $count - RESULT_SIZE_LIMIT);
     }
-    return [
+    return array(
       'count' => $count,
       'users' => $entries,
-    ];
+    );
   }
 
   /*
