@@ -250,7 +250,7 @@ class MozillaTreeAdapter extends TreeAdapter {
 
   public function format_item(&$everyone, $email, $leaf=FALSE) {
     $email = htmlspecialchars($email);
-    $id = str_replace('@', "-at-", $email);
+    $id = str_replace('@', "-at-", str_replace('.', '_', $email));
     $name = htmlspecialchars($everyone[$email]["name"]);
     $title = htmlspecialchars($everyone[$email]["title"]);
     $leaf = $leaf ? " leaf" : '';

@@ -3,9 +3,5 @@
 
 css/font-awesome.min.css
 css/style.css
-js/common.js
-js/edit.js
-js/prototype.js
-js/view-cards.js
-js/view-faces.js
-js/view-tree.js
+js/jquery-min.js
+js/phonebook.js

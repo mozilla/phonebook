@@ -99,13 +99,11 @@ if (!empty($_POST)) {
   if (ldap_modify($ldapconn,
                   $auth->email_to_dn($ldapconn, $edit_user),
                   $new_user_data)) {
-    $uri = explode("/",$_SERVER['REQUEST_URI']);
-    if ($uri[1] != 'edit.php'){
-        $location_redirect = '/' . $uri[1] . "/?search/" . $edit_user;
-    } else {
-        $location_redirect = "/?search/" . $edit_user;
-    }
-    header("Location: $location_redirect");
+    $uri = explode("/", $_SERVER['REQUEST_URI']);
+    array_pop($uri);
+    array_push($uri, '?search', $edit_user);
+    header("Location: " . join('/', $uri));
+    return;
   } else {
     fb($new_user_data, "ldap_modify fail for $edit_user");
   }

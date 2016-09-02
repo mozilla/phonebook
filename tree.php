@@ -77,6 +77,7 @@ function make_tree($level, $root, $nodes=NULL) {
   }
 }
 
+define('page', 'tree');
 require_once "templates/header.php";
 ?>
 
@@ -123,7 +124,5 @@ foreach (array_unique($invisible_people) as $invisible_person) {
 </div>
 
 </div>
-
-<?php echo link_javascript("js/view-tree.js"); ?>
 
 <?php require_once "templates/footer.php"; ?>
