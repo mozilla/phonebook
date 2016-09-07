@@ -41,7 +41,7 @@ function vcard_extension($n) {
   return "TEL;WORK:650-903-0800 x$n\n";
 }
 
-function output_vcard($entries) {
+function output_vcard($search_result) {
   $mappings = array(
     "cn" => "vcard_cn",
     "mail" => "vard_main_mail",
@@ -54,7 +54,7 @@ function output_vcard($entries) {
   );
   header("Content-Disposition: attachment; filename=\"export.vcf\"");
   header('Content-Type: text/x-vcard');
-  foreach ($entries as $entry) {
+  foreach ($search_result['users'] as $entry) {
     fb($entry);
     print "BEGIN:VCARD\nVERSION:2.1\n";
     foreach (array_keys($mappings) as $attr) {

@@ -16,7 +16,7 @@ Object.extend(SearchManager, {
       onSuccess: function onSuccess(r) {
         $("text").releaseFocus();
         $("results").update('');
-        var results = r.responseText.evalJSON().each(function(person) {
+        var results = r.responseText.evalJSON().users.each(function(person) {
           var container = new Element("div").addClassName("photo-frame");
           var face = new Element("img", {
             src: person.picture + "&type=thumb", "class": "wall-photo"
