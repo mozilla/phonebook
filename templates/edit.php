@@ -88,17 +88,24 @@ $counter++;
       </select>
     </td>
   </tr>
+  <?php if(isset($user_data['wprdesknumber'][0]) && $user_data['wprdesknumber'][0] != 'Off-Site') {?>
   <tr>
     <td><label>Desk Number</label></td>
-    <?php if($is_admin){ ?>
-    <td><input type="text" name="roomNumber[]" value="<?php echo escape($user_data['roomnumber'][0]) ?>"/></td>
-    <?php } else { ?>
     <td>
-      <span><?php echo $user_data['roomnumber'][0] ?></span><br />
+      <span><?php echo $user_data['wprdesknumber'][0] ?></span>
+            <?php
+              if (isset($user_data['wprdesknumbernotes'][0])){
+                echo "<br />";
+                echo "<span>";
+                echo $user_data['wprdesknumbernotes'][0];
+                echo "</span>";
+              }
+            ?>
+        <br />
       <em class="description">Please file a Service Now ticket if your location is incorrect/if you'd like to move.</em>
     </td>
-    <?php } ?>
   </tr>
+  <?php } ?>
   <tr>
     <td><label>Title</label></td>
     <td><input type="text" name="title[]" value="<?php echo escape($user_data['title'][0]) ?>"/></td>

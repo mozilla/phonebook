@@ -110,7 +110,7 @@ function interpolate($s, $o, $pattern="/(^|.|\\r|\\n)(#\\{(.*?)\\})/") {
   return $s;
 }
 
-function output_html($entries, $is_admin=FALSE) {
+function output_html($search_result, $is_admin=FALSE) {
   require_once 'workday_location_map.php';
   $processors = array(
     "mail" => "output_html_email_linkify",
@@ -146,7 +146,7 @@ function output_html($entries, $is_admin=FALSE) {
     '#{workdaycostcenter}',
     '#{locality}',
     '#{workdaylocation}',
-    '#{roomnumber}',
+    '#{wprdesknumber}',
     '#{mobile}',
     '<ul class="email">#{mail}#{emailalias}</ul>',
     '#{bugzillaemail}',
@@ -166,13 +166,27 @@ function output_html($entries, $is_admin=FALSE) {
   $template = implode('', $template);
 
   header("Content-Type: text/html");
-  foreach ($entries as &$entry) {
+
+  if ($search_result['count'] > count($search_result['users'])) {
+    printf(
+      '<div id="search-limited">Showing only the first %d of %d results.</div>',
+      count($search_result['users']), $search_result['count']
+    );
+  }
+
+  foreach ($search_result['users'] as &$entry) {
     if (isset($entry["picture"])) {
       $photo_name = output_html_cn($entry['cn']);
       $entry["picture"] = "<a class=\"photo\" href=\"{$entry['picture']}\" target=\"_blank\"><img class=\"photo\" src=\"{$entry['picture']}&amp;type=thumb\" alt=\"Photo of {$photo_name}\" /></a>";
     }
-    if (isset($entry["roomnumber"])) {
-        $entry["roomnumber"] = '<ul class="desk"><li>' . htmlspecialchars($entry['roomnumber']) . '</li></ul>';
+    if (isset($entry["wprdesknumber"]) && $entry["wprdesknumber"] != 'Off-Site') {
+        $entry["wprdesknumber"] = '<ul class="desk"><li>' . htmlspecialchars($entry['wprdesknumber']) . '</li>';
+        if (isset($entry["wprdesknumbernotes"])) {
+            $entry["wprdesknumber"] .= '<li>' . htmlspecialchars($entry['wprdesknumbernotes']) . '</li>';
+        }
+        $entry["wprdesknumber"] .= '</ul>';
+    } else {
+        $entry["wprdesknumber"] = "";
     }
 
     /*
@@ -227,7 +241,7 @@ function output_html($entries, $is_admin=FALSE) {
         $entry["b2gnumber"] = '<ul class="b2gnumber"><li>B2G Number: ' . htmlspecialchars($entry['b2gnumber']) . '</li></ul>';
     }
     if (isset($entry["githubprofile"])) {
-        $entry["githubprofile"] = '<ul class="githubProfile"><li>Github Profile: <a href="https://github.com/' . htmlspecialchars($entry['githubprofile']) . '">' . htmlspecialchars($entry['githubprofile']) . '</li></ul>';
+        $entry["githubprofile"] = '<ul class="githubProfile"><li>Github Profile: <a href="https://github.com/' . htmlspecialchars($entry['githubprofile']) . '">' . htmlspecialchars($entry['githubprofile']) . '</a></li></ul>';
     }
     foreach ($processors as $processor => $function) {
       if (isset($entry[$processor])) {
