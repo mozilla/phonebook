@@ -34,7 +34,7 @@ function vcard_picture($url) {
 }
 
 function vcard_employeetype($a) {
-  return "ORG:;{$a[0]}\n";
+  return "ORG:{$a[0]}\n";
 }
 
 function vcard_extension($n) {
