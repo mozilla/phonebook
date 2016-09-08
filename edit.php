@@ -38,6 +38,15 @@ if (!empty($_POST)) {
   }
 
   $edit->cook_incoming($new_user_data, $is_admin);
+  // The user may have cleared the 'zero or more' fields on the edit.php page.
+  // That means their POST won't contain any values for those fields. So we
+  // explicitly check for their absence and force them to an empty array here,
+  // which instructs ldap_modify() to delete all items, as the user intended.
+  foreach ($deleteable_fields as $attribute) {
+    if (!isset($new_user_data[$attribute])) {
+      $new_user_data[$attribute] = array();
+    }
+  }
 
   // Save the attributes
   foreach ($new_user_data as $key => $value) {
