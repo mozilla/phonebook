@@ -39,9 +39,6 @@ $office_cities = array(
     'Other' => 'Other'
 );
 
-$protocol = isset($_SERVER["HTTPS"]) ? "https://" : "http://";
-define("BASEPATH", $protocol . $_SERVER["HTTP_HOST"] . dirname($_SERVER["REQUEST_URI"]) .'/');
-
 $shirt_sizes = array(
    'XS (M)',
    'S (M)',
