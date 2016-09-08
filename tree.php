@@ -97,8 +97,8 @@ require_once "templates/header.php";
 <br />
 <div id="orphans" class="tree">
 <ul>
-  <li class="hr-node collapsed">People who need to set their manager</li>
-  <ul style="display:none">
+  <li class="hr-node expanded">People who need to set their manager</li>
+  <ul>
 <?php
 foreach ($orphans as $orphan) {
   print "\n". $tree->format_item($everyone, $orphan, true);
@@ -110,7 +110,7 @@ foreach ($invisible_managers as $invisible_manager) {
   }
 }
 foreach (array_unique($invisible_people) as $invisible_person) {
-  print "\n". $tree->format_item($everyone, $invisible_person, TRUE);
+  print "\n". $tree->format_item($everyone, $invisible_person, FALSE);
 }
 ?>
   </ul>
