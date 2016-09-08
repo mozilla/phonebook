@@ -72,7 +72,7 @@ function output_html_dn_to_email($dn) {
 function output_html_manager($m) {
   $m["email"] = htmlspecialchars(output_html_dn_to_email($m["dn"]));
   $clean_cn = htmlspecialchars($m['cn']);
-  return "<p class=\"manager\">Manager: <a href=\"#search/{$m['email']}\">{$clean_cn}</a><a class='org-chart' href='tree.php#search/{$m['email']}'>(Org)</a></p>";
+  return "<p class=\"manager\">Manager: <a href=\"?search/{$m['email']}\">{$clean_cn}</a><a class='org-chart' href='tree.php?search/{$m['email']}'>(Org)</a></p>";
 }
 
 function output_html_title($t) {
