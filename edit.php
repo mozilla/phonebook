@@ -87,15 +87,6 @@ if (!empty($_POST)) {
     $memcache->delete(MEMCACHE_PREFIX . $edit_user . 'standard');
     $memcache->delete(MEMCACHE_PREFIX . $edit_user . 'thumb');
   }
-  // The user may have cleared the 'zero or more' fields on the edit.php page.
-  // That means their POST won't contain any values for those fields. So we
-  // explicitly check for their absence and force them to an empty array here,
-  // which instructs ldap_modify() to delete all items, as the user intended.
-  foreach ($deleteable_fields as $attribute) {
-    if (!isset($new_user_data[$attribute])) {
-      $new_user_data[$attribute] = array();
-    }
-  }
   if (ldap_modify($ldapconn,
                   $auth->email_to_dn($ldapconn, $edit_user),
                   $new_user_data)) {
