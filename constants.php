@@ -21,6 +21,10 @@ $editable_fields = array(
   'employeeType', 'bugzillaEmail', 'shirtsize', 'b2gNumber', 'roomNumber', 'githubProfile'
 );
 
+$deleteable_fields = array(
+  'emailAlias', 'mobile', 'im',
+);
+
 $office_cities = array(
     'Mountain View' => 'US', 
     'San Francisco' => 'US',
