@@ -1,0 +1,39 @@
+{
+    "name": "Phonebook",
+    "description": "Phonebook, talks to LDAP",
+    "repository": {
+        "url": "https://github.com/mozilla/phonebook",
+        "license": "MPL2",
+        "type": "git",
+        "clone": "https://github.com/mozilla/phonebook.git"
+    },
+
+    "participate": {
+        "home": "https://wiki.mozilla.org/Modules/Mozilla_Websites#Phonebook",
+        "docs": "https://wiki.mozilla.org/Modules/Mozilla_Websites#Phonebook",
+        "mailing-list": "http://www.mozilla.org/community/forums/#https://lists.mozilla.org/listinfo/tools-phonebook",
+        "irc": "irc://irc.mozilla.org/#phonebook",
+        "irc-contacts": [
+            "atoll",
+            "lonnen",
+            "tofumatt",
+            "glob"
+        ]
+    },
+    "bugs": {
+        "list": "https://bugzilla.mozilla.org/buglist.cgi?query_format=advanced&bug_status=UNCONFIRMED&bug_status=NEW&product=Websites&component=Phonebook",
+        "report": "https://bugzilla.mozilla.org/enter_bug.cgi?product=Websites&component=Phonebook",
+        "mentored": "https://bugzilla.mozilla.org/buglist.cgi?f1=bug_mentor&o1=isnotempty&query_format=advanced&bug_status=NEW&product=Websites&component=Phonebook"
+    },
+    "urls": {
+        "prod": "https://phonebook.mozilla.org/",
+        "stage": "https://phonebook.allizom.org/",
+        "dev": "https://phonebook-dev.allizom.org"
+    },
+    "keywords": [
+        "phonebook",
+        "prototypejs",
+        "jquery",
+        "php"
+    ]
+}
