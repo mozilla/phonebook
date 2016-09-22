@@ -249,13 +249,13 @@ class MozillaTreeAdapter extends TreeAdapter {
 
   public function format_item(&$everyone, $email, $leaf=FALSE) {
     $email = htmlspecialchars($email);
-    $id = str_replace('@', "-at-", $email);
+    $id = str_replace('@', "-at-", str_replace('.', '_', $email));
     $name = htmlspecialchars($everyone[$email]["name"]);
     $title = htmlspecialchars($everyone[$email]["title"]);
     $leaf = $leaf ? " leaf" : '';
     $disabled = $everyone[$email]["disabled"] ? " disabled" : '';
     return "<li id=\"$id\" class=\"hr-node expanded$leaf$disabled\">".
-             "<a href=\"#search/$email\" class=\"hr-link\">$name</a> ".
+             "<a href=\"?search/$email\" class=\"hr-link\">$name</a> ".
              "<span class=\"title\">$title</span>".
            "</li>";
   }

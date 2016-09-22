@@ -1,4 +1,7 @@
-<?php require_once('templates/header.php'); ?>
+<?php
+define('page', 'edit');
+require_once('templates/header.php');
+?>
 <form id="edit" method="post" action="edit.php" enctype="multipart/form-data">
 <div class="vcard">
 
@@ -15,7 +18,7 @@
     <td id="email-aliases">
     <?php for ($i = 0; $i < $user_data['emailalias']['count']; $i++) { ?>
       <div>
-      <input type="text" name="emailAlias[]" value="<?php echo escape($user_data['emailalias'][$i]) ?>"/><a href="#" class="remove-link">Remove e-mail</a>
+      <input type="text" name="emailAlias[]" value="<?php echo escape($user_data['emailalias'][$i]) ?>"/><a href="#" class="remove-link"></a>
       </div>
     <?php } ?>
     <a id="email-alias-add" href="#">Add e-mail</a><br />
@@ -150,7 +153,7 @@ $counter++;
     <td id="phone-numbers">
     <?php for ($i = 0; $i < $user_data['mobile']['count']; $i++) { ?>
       <div>
-      <input type="text" name="mobile[]" value="<?php echo escape($user_data['mobile'][$i]) ?>"/><a href="#" class="remove-link">Remove number</a>
+      <input type="text" name="mobile[]" value="<?php echo escape($user_data['mobile'][$i]) ?>"/><a href="#" class="remove-link"></a>
       </div>
     <?php } ?>
     <a id="phone-number-add" href="#">Add number</a><br />
@@ -170,7 +173,7 @@ $counter++;
     <td id="im-accounts">
     <?php for ($i = 0; $i < $user_data['im']['count']; $i++) { ?>
      <div>
-     <input type="text" name="im[]" value="<?php echo escape($user_data['im'][$i]) ?>"/><a href="#" class="remove-link">Remove account</a>
+     <input type="text" name="im[]" value="<?php echo escape($user_data['im'][$i]) ?>"/><a href="#" class="remove-link"></a>
      </div>
     <?php } ?>
     <a id="im-add" href="#">Add account</a><br />
@@ -180,8 +183,9 @@ $counter++;
   <tr>
     <td><label>Bugzilla Email</label></td>
     <td>
-      <input type="text" name="bugzillaEmail[]" value="<?php echo escape($user_data['bugzillaemail'][0]) ?>"/><br />
-      <em class="description">Your full Bugzilla email address with no extra cruft</em>
+      <input id="bmo" type="text" name="bugzillaEmail[]" value="<?php echo escape($user_data['bugzillaemail'][0]) ?>"
+        ><div id="bmo-error" title="Invalid email address."></div><br />
+      <em id="bmo-blurb" class="description">Your full Bugzilla email address with no extra cruft.</em>
     </td>
   </tr>
 
@@ -281,7 +285,5 @@ $counter++;
 </div>
 
 </div>
-
-<script type="text/javascript" src="js/edit.js"></script>
 
 <?php require_once('templates/footer.php'); ?>

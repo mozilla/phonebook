@@ -40,9 +40,9 @@ a:hover {
 
 #header {
   position: relative;
-  width: 60em;
   margin: 0.5em auto 2em auto;
   z-index: 1;
+  text-align: center;
   }
   #header h1 {
     display: inline-block;
@@ -140,7 +140,7 @@ a:hover {
 
 #menu {
   display: inline-block;
-  margin-left: 0.25em;
+  margin-top: 10px;
   }
   #menu li {
     display: inline-block;
@@ -166,8 +166,8 @@ a:hover {
     }
 
 #phonebook-search.large {
-  width: 30em;
-  margin: 0 auto;
+  width: 100%;
+  margin-top: 100px;
   }
 
 #phonebook-search.large h1,
@@ -444,6 +444,10 @@ form#edit {
   text-align: center;
   }
 
+#edit input[type="text"], #edit textarea {
+  width: 75%;
+  }
+
 #edit div.vcard {
   width: 45em;
   text-align: left;
@@ -461,6 +465,15 @@ form#edit {
 #im-add {
   padding-left: 18px;
   background: url(../img/add.png) no-repeat;
+  }
+
+#edit #bmo-error {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-image: url(../img/error.png);
+  vertical-align: middle;
+  margin-left: 0.5em;
   }
 
 a.remove-link {
@@ -555,7 +568,7 @@ table.edit-table {
   left: 34em;
   right: 0;
   }
-  #person div.vcard {
+  #person div.vcard, #person .no-results {
     margin: 68px 0 0 0;
     }
     #person div.vcard.snap-to-top {
@@ -686,7 +699,7 @@ div.photo-frame {
   bottom: 0;
   left: 0;
   margin: 0;
-  padding: 0;
+  padding: 50px 0;
   background-color: rgba(32, 32, 32, 0.5);
   text-align: center;
   vertical-align: center;
@@ -712,4 +725,9 @@ div.photo-frame {
 
 body.lightbox #overlay {
   display: block;
+  }
+
+.no-results {
+  margin-top: 5em;
+  text-align: center;
   }

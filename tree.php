@@ -75,6 +75,7 @@ function make_tree($level, $root, $nodes=NULL) {
   }
 }
 
+define('page', 'tree');
 require_once "templates/header.php";
 ?>
 
@@ -97,7 +98,7 @@ require_once "templates/header.php";
 <br />
 <div id="orphans" class="tree">
 <ul>
-  <li class="hr-node collapsed">People who need to set their manager</li>
+  <li id="managerless" class="hr-node collapsed">People who need to set their manager</li>
   <ul style="display:none">
 <?php
 foreach ($orphans as $orphan) {
@@ -121,7 +122,5 @@ foreach (array_unique($invisible_people) as $invisible_person) {
 </div>
 
 </div>
-
-<script type="text/javascript" src="js/view-tree.js"></script>
 
 <?php require_once "templates/footer.php"; ?>
