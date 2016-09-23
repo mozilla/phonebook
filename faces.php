@@ -1,4 +1,5 @@
 <?php
+require_once('init.php');
 require_once('templates/header.php'); ?>
 <div id="results">
 </div>
