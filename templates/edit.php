@@ -289,6 +289,6 @@ $counter++;
 
 </div>
 
-<script type="text/javascript" src="js/edit.js"></script>
+<?php echo link_javascript("js/edit.js"); ?>
 
 <?php require_once('templates/footer.php'); ?>
