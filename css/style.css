@@ -722,3 +722,10 @@ body.lightbox #overlay {
 .pgpfingerprintfont {
     font-size: 12px;
 }
+
+.office-city-display-hide {
+    display: none;
+}
+.office-city-display-show {
+    display: block;
+}
