@@ -124,6 +124,6 @@ foreach (array_unique($invisible_people) as $invisible_person) {
 
 </div>
 
-<script type="text/javascript" src="js/view-tree.js"></script>
+<?php echo link_javascript("js/view-tree.js"); ?>
 
 <?php require_once "templates/footer.php"; ?>
