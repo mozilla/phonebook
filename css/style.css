@@ -713,3 +713,8 @@ div.photo-frame {
 body.lightbox #overlay {
   display: block;
   }
+
+.ohnoes {
+    text-align: center;
+    margin-top: 5em;
+}
