@@ -1,0 +1,3 @@
+# The following files support SRI hashes, when enabled in config-local.php.
+# Run 'make sri' to regenerate config-srihashes.php from this file.
+

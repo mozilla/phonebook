@@ -1,6 +1,7 @@
 <?php
 
 @include_once('config-local.php');
+@include_once('config-srihashes.php');
 require_once('constants.php');
 
 

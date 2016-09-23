@@ -284,3 +284,37 @@ function escape_ldap_filter_value($values = array())
 
     if ($unwrap) return $values[0]; else return $values;
 }
+
+/*
+ * These two functions let us emit JS/CSS links either with, or without,
+ * SRI hashes, based on the config-local value ENABLE_SRIHASH and the
+ * contents of the file 'config-srihashes.php'.
+ */
+function link_javascript($filename)
+{
+    $link = '<script type="text/javascript" src="';
+    $link .= $filename;
+    $link .= '"';
+    if (ENABLE_SRIHASH === true && isset($GLOBALS["SRIHASHES"][$filename])) {
+        $link .= ' integrity="';
+        $link .= $GLOBALS["SRIHASHES"][$filename];
+        $link .= '"';
+    }
+    $link .= '></script>';
+
+    return $link;
+}
+function link_stylesheet($filename)
+{
+    $link = '<link rel="stylesheet" type="text/css" href="';
+    $link .= $filename;
+    $link .= '"';
+    if (ENABLE_SRIHASH === true && isset($GLOBALS["SRIHASHES"][$filename])) {
+        $link .= ' integrity="';
+        $link .= $GLOBALS["SRIHASHES"][$filename];
+        $link .= '"';
+    }
+    $link .= ' />';
+
+    return $link;
+}

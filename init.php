@@ -1,6 +1,7 @@
 <?php
 
 @include_once('config-local.php');
+@include_once('config-srihashes.php');
 
 if (!defined('RESULT_SIZE_LIMIT'))
     define("RESULT_SIZE_LIMIT", 0);
