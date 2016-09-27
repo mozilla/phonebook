@@ -18,7 +18,7 @@ $emp_type = array (
 $editable_fields = array(
   'cn', 'title', 'telephoneNumber', 'mobile', 'description',
   'other', 'im', 'mail', 'emailAlias', 'physicalDeliveryOfficeName',
-  'employeeType', 'bugzillaEmail', 'shirtsize', 'b2gNumber', 'roomNumber', 'githubProfile'
+  'employeeType', 'bugzillaEmail', 'shirtsize', 'b2gNumber', 'roomNumber', 'githubProfile', 'workdayTimezone'
 );
 
 $deleteable_fields = array(

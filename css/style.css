@@ -380,6 +380,18 @@ a:hover {
         left: 1px;
         content: "\f084";
     }
+    .vcard .clock {
+      position: relative;
+      margin-bottom: 0px;
+    }
+    .vcard .clock:before {
+        position:absolute;
+        font-family: FontAwesome;
+        color: #0066FF;
+        top: 6px;
+        left: 1px;
+        content: "\f017";
+    }
     .vcard .pgpfingerprint {
       position: relative;
       margin-bottom: 0px;

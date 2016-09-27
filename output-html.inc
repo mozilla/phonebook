@@ -205,6 +205,9 @@ function output_html($search_result, $is_admin=FALSE) {
         }
         $entry["workdaylocation"] = '<ul><li>' . htmlspecialchars($workday_location) . '</li></ul>';
     }
+    if(isset($entry["workdaytimezone"])){
+        $entry["workdaylocation"] .= '<ul class="clock"><li>' . htmlspecialchars($entry["workdaytimezone"]) . '</li></ul>';
+    }
     if (isset($entry["employeenumber"])) {
         $entry["employeenumber"] = '<ul class="employeenumber"><li>Employee ID: ' . htmlspecialchars($entry['employeenumber']) . '</li></ul>';
     }
