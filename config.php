@@ -170,7 +170,7 @@ class MozillaSearchAdapter extends SearchAdapter {
     'cn', 'title', 'telephoneNumber', 'mobile', 'description', 'manager',
     'other', 'im', 'mail', 'emailAlias', 'physicalDeliveryOfficeName',
     'workdaylocation', 'workdaycostcenter', 'deptname', 'employeeNumber', 'employeeType', 'description', 'isManager', 'bugzillaEmail', 'shirtSize', 'isManager', 'b2gNumber', "roomNumber",
-    'pgpFingerprint', 'githubProfile', "WPRDeskNumber", "WPRDeskNumberNotes"
+    'pgpFingerprint', 'githubProfile', "WPRDeskNumber", "WPRDeskNumberNotes", "workdayTimezone"
   );
   public $search_fields = array(
     'cn', 'bugzillaEmail', 'mail', 'emailAlias', 'im', 'physicalDeliveryOfficeName',
