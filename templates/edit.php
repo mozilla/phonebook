@@ -231,7 +231,6 @@ $counter++;
       <em class="description">Please contact your HRBP if this value is incorrect.</em>
     </td>
   </tr>
-  <em class="description">Please contact your HRBP if this value is incorrect.</em>
   <tr>
     <td><label>Team</label></td>
     <td>
