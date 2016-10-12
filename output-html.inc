@@ -230,7 +230,7 @@ function output_html($search_result, $is_admin=FALSE) {
       $entry["locality"] = interpolate(implode('', array(
         '<ul class="adr"><li>',
           '<span class="locality">',
-            '<a href="https://intranet.mozilla.org/OfficeLocations">#{physicaldeliveryofficename}</a>',
+            '<a href="https://mana.mozilla.org/wiki/display/WPR/Office+Guides">#{physicaldeliveryofficename}</a>',
           '</span>',
           '#{telephonenumber}',
           '#{seating_chart}',
