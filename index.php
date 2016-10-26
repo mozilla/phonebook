@@ -5,5 +5,5 @@ require_once('templates/header.php');
 ?>
 <div id="results"></div>
 
-<script type="text/javascript" src="js/view-cards.js"></script>
+<?php echo link_javascript("js/view-cards.js"); ?>
 <?php require_once('templates/footer.php'); ?>
