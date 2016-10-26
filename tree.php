@@ -14,8 +14,6 @@ foreach ($tree->conf as $conf) {
     if (LDAP_EXCLUDE) {
         $filter = '(&' . LDAP_EXCLUDE . $filter . ')';
     }
-    // Implement the mozComPerson filter on tree, matching search. [#1301744]
-    $filter = '(&' . '(objectClass=mozComPerson)' . $filter . ')';
     if (!$auth->is_phonebook_admin($ldapconn, $auth->user_to_dn($_SERVER["REMOTE_USER"]))) {
         $filter = '(&(!(employeeType=DISABLED))' . $filter . ')';
     }
