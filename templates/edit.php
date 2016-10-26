@@ -35,7 +35,7 @@ if (!empty($city) && !in_array($city, array_keys($office_cities))) {
 ?>
     <td id='office-cities'>
 <?php
-$office_city_display_style = "display: none;";
+$office_city_display_style = "hide";
 $primary_country = '';
 $counter = 0;
 $other_city_name = '';
@@ -56,7 +56,7 @@ $other_city_name = '';
           $oc = escape($oc);
           $octry = escape($octry);
           if (!in_array($city, array_keys($office_cities)) && $oc == "Other"){
-            $office_city_display_style = "display: block;";
+            $office_city_display_style = "show";
             $other_city_name = $city;
             echo "<option value=\"$oc\" data-country=\"{$octry}\" selected=\"selected\">$oc</option>";
           } else {
@@ -70,7 +70,7 @@ $other_city_name = '';
 $counter++;
 } ?>
     <a id="office-add" href="#">Add Office</a><br />
-      <input id="office-city-text" style="<?php echo $office_city_display_style ?>" type="text" name="office_city_name" value="<?php echo escape($other_city_name) ?>" />
+      <input id="office-city-text" class="office-city-display-<?php echo $office_city_display_style ?>" type="text" name="office_city_name" value="<?php echo escape($other_city_name) ?>" />
     </td>
   </tr>
 

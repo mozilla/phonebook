@@ -3,9 +3,9 @@
 
 function output_pgpFingerprint($s) {
   $stripped_fingerprint = str_replace(" ", "", $s);
-  $inner_text = '<a target="_blank" style="font-size: 12px;" href="http://gpg.mozilla.org/pks/lookup?search=0x' . $stripped_fingerprint . '&op=vindex">' . $stripped_fingerprint . '</a>';
+  $inner_text = '<a target="_blank" class="pgpfingerprintfont" href="http://gpg.mozilla.org/pks/lookup?search=0x' . $stripped_fingerprint . '&op=vindex">' . $stripped_fingerprint . '</a>';
   $return_string = '<div class="pgpfingerprint">';
-  $return_string .= 'PGP Fingerprint: <span style="font-size: 12px;">' . $inner_text . '</span>';
+  $return_string .= 'PGP Fingerprint: <span class="pgpfingerprintfont">' . $inner_text . '</span>';
   $return_string .= '</div>';
   return $return_string;
 }

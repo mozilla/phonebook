@@ -713,3 +713,19 @@ div.photo-frame {
 body.lightbox #overlay {
   display: block;
   }
+
+.ohnoes {
+    text-align: center;
+    margin-top: 5em;
+}
+
+.pgpfingerprintfont {
+    font-size: 12px;
+}
+
+.office-city-display-hide {
+    display: none;
+}
+.office-city-display-show {
+    display: block;
+}
