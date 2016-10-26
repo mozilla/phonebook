@@ -20,3 +20,9 @@ define('MEMCACHE_PREFIX', 'phonebook-default');
 
 // Restrict the number of results returned for user-initiated searches (0 == no limit)
 define('RESULT_SIZE_LIMIT', 0);
+
+// Should we include SRI hashes on all <script> and <link rel="stylesheet"> tags?
+define("ENABLE_SRIHASH", false);
+// Developers --
+//   'make sri' must be run to regenerate the list of hashes in 'config-srihashes.php'
+//   for all JS/CSS files listed in 'srihash_files.txt'.
