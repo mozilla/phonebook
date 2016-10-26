@@ -9,6 +9,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />
     <script type="text/javascript" src="js/prototype.js"></script>
     <script type="text/javascript" src="js/common.js"></script>
+    <link title="Mozilla Phonebook" rel="search" type="application/opensearchdescription+xml" href="opensearch.xml" />
   </head>
 
 <body>
