@@ -256,7 +256,7 @@ class MozillaTreeAdapter extends TreeAdapter {
     $leaf = $leaf ? " leaf" : '';
     $disabled = $everyone[$email]["disabled"] ? " disabled" : '';
     return "<li id=\"$id\" class=\"hr-node expanded$leaf$disabled\">".
-             "<a href=\"#search/$email\" class=\"hr-link\">$name</a> ".
+             "<a href=\"?search/$email\" class=\"hr-link\">$name</a> ".
              "<span class=\"title\">$title</span>".
            "</li>";
   }
