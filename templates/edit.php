@@ -220,7 +220,13 @@ $counter++;
   <tr>
     <td><label>MozLocation</label></td>
     <td>
-      <span><?php echo $user_data['workdaylocation'][0] ?></span><br />
+      <?php
+        $workday_location = $user_data['workdaylocation'][0];
+        if(isset($WORKDAY_LOCATION_MAP[$workday_location])){
+            $workday_location = $WORKDAY_LOCATION_MAP[$workday_location];
+        }
+      ?>
+      <span><?php echo $workday_location ?></span><br />
       <em class="description">Please contact your HRBP if this value is incorrect.</em>
     </td>
   </tr>
