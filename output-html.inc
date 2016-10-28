@@ -217,7 +217,7 @@ function output_html($search_result, $is_admin=FALSE) {
     if (isset($entry["workdaycostcenter"])) {
         $entry["workdaycostcenter"] = '<ul><li>Cost Center: ' . htmlspecialchars($entry['workdaycostcenter']) . '</li></ul>';
     }
-    $entry["org_chart"] = ' <a class="org-chart" href="tree.php#search/'. $entry["mail"] .'">(Org)</a>';
+    $entry["org_chart"] = ' <a class="org-chart" href="tree.php?search/'. $entry["mail"] .'">(Org)</a>';
     $entry["vcard_export"] = '<a class="vcard-export" href="./search.php?format=vcard&query='. $entry["mail"] .'">vCard</a>';
     $entry["edit"] = $is_admin ? ' <a href="edit.php?edit_mail='. escape($entry["mail"]) .'">(edit)</a>' : '';
     if (isset($entry["physicaldeliveryofficename"])) {

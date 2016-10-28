@@ -9,7 +9,7 @@ $(document).observe("dom:loaded", function() {
 
   $("phonebook-search").observe("submit", function(e) {
     e.stop();
-    window.location = "./#search/" + $F("text");
+    window.location = "./?search/" + $F("text");
   });
 
   $("office-city-select").observe("change", function(e) {

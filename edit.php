@@ -101,9 +101,9 @@ if (!empty($_POST)) {
                   $new_user_data)) {
     $uri = explode("/",$_SERVER['REQUEST_URI']);
     if ($uri[1] != 'edit.php'){
-        $location_redirect = '/' . $uri[1] . "/#search/" . $edit_user;
+        $location_redirect = '/' . $uri[1] . "/?search/" . $edit_user;
     } else {
-        $location_redirect = "/#search/" . $edit_user;
+        $location_redirect = "/?search/" . $edit_user;
     }
     header("Location: $location_redirect");
   } else {
