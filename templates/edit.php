@@ -227,28 +227,28 @@ $counter++;
         }
       ?>
       <span><?php echo $workday_location ?></span><br />
-      <em class="description">Please contact your HRBP if this value is incorrect.</em>
+      <em class="description">Please contact HR Ops at hrops@mozilla.com if this value is incorrect.</em>
     </td>
   </tr>
   <tr>
     <td><label>Timezone</label></td>
     <td>
       <span><?php echo $user_data['workdaytimezone'][0] ?></span><br />
-      <em class="description">Please contact your HRBP if this value is incorrect.</em>
+      <em class="description">Please contact HR Ops at hrops@mozilla.com if this value is incorrect.</em>
     </td>
   </tr>
   <tr>
     <td><label>Team</label></td>
     <td>
       <span><?php echo $user_data['deptname'][0] ?></span><br />
-      <em class="description">Please contact your HRBP if this value is incorrect.</em>
+      <em class="description">Please contact HR Ops at hrops@mozilla.com if this value is incorrect.</em>
     </td>
   </tr>
   <tr>
     <td><label>Cost Center</label></td>
     <td>
       <span><?php echo $user_data['workdaycostcenter'][0] ?></span><br />
-      <em class="description">Please contact your HRBP if this value is incorrect.</em>
+      <em class="description">Please contact HR Ops at hrops@mozilla.com if this value is incorrect.</em>
     </td>
   </tr>
   <tr>
