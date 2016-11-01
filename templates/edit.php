@@ -252,13 +252,6 @@ $counter++;
     </td>
   </tr>
   <tr>
-    <td><label>Employee ID</label></td>
-    <td>
-      <span><?php echo $user_data['employeenumber'][0] ?></span><br />
-      <em class="description">Please contact your HRBP if this value is incorrect.</em>
-    </td>
-  </tr>
-  <tr>
     <td><label>Other</label></td>
     <td>
       <textarea cols="40" rows="5" name="other[]"><?php echo $user_data['other'][0] ?></textarea><br />
