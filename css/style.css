@@ -340,18 +340,6 @@ a:hover {
       border-bottom: none !important;
       margin-bottom: -8px;
       }
-    .vcard .employeenumber:before {
-        position:absolute;
-        font-family: FontAwesome;
-        color: #CC6600;
-        top: 6px;
-        left: 1px;
-        content: "\f0ce";
-    }
-    .vcard .employeenumber {
-      position: relative;
-      width: 275px;
-    }
     .vcard .team:before {
         position:absolute;
         font-family: FontAwesome;

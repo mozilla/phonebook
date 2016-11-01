@@ -141,7 +141,6 @@ function output_html($search_result, $is_admin=FALSE) {
       '<p class="employee-type">#{employeetype}</p>',
       '#{manager}',
     '</div>',
-    '#{employeenumber}',
     '#{deptname}',
     '#{workdaycostcenter}',
     '#{locality}',
@@ -207,9 +206,6 @@ function output_html($search_result, $is_admin=FALSE) {
     }
     if(isset($entry["workdaytimezone"])){
         $entry["workdaylocation"] .= '<ul class="timezone"><li>' . htmlspecialchars($entry["workdaytimezone"]) . '</li></ul>';
-    }
-    if (isset($entry["employeenumber"])) {
-        $entry["employeenumber"] = '<ul class="employeenumber"><li>Employee ID: ' . htmlspecialchars($entry['employeenumber']) . '</li></ul>';
     }
     if (isset($entry["deptname"])) {
         $entry["deptname"] = '<ul class="team"><li>Team: ' . htmlspecialchars($entry['deptname']) . '</li></ul>';
