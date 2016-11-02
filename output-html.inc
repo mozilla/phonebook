@@ -203,7 +203,7 @@ function output_html($search_result, $is_admin=FALSE) {
             $workday_location = $entry["workdaylocation"];
 
         }
-        $entry["workdaylocation"] = '<ul><li>' . htmlspecialchars($workday_location) . '</li></ul>';
+        $entry["workdaylocation"] = '<ul class="wdloc"><li>' . htmlspecialchars($workday_location) . '</li></ul>';
     }
     if(isset($entry["workdaytimezone"])){
         $entry["workdaylocation"] .= '<ul class="timezone"><li>' . htmlspecialchars($entry["workdaytimezone"]) . '</li></ul>';
@@ -215,7 +215,7 @@ function output_html($search_result, $is_admin=FALSE) {
         $entry["deptname"] = '<ul class="team"><li>Team: ' . htmlspecialchars($entry['deptname']) . '</li></ul>';
     }
     if (isset($entry["workdaycostcenter"])) {
-        $entry["workdaycostcenter"] = '<ul><li>Cost Center: ' . htmlspecialchars($entry['workdaycostcenter']) . '</li></ul>';
+        $entry["workdaycostcenter"] = '<ul class="wdcc"><li>Cost Center: ' . htmlspecialchars($entry['workdaycostcenter']) . '</li></ul>';
     }
     $entry["org_chart"] = ' <a class="org-chart" href="tree.php?search/'. $entry["mail"] .'">(Org)</a>';
     $entry["vcard_export"] = '<a class="vcard-export" href="./search.php?format=vcard&query='. $entry["mail"] .'">vCard</a>';
