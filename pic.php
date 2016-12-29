@@ -17,7 +17,7 @@ if (false === filter_var($_GET['mail'], FILTER_VALIDATE_EMAIL)) {
 }
 
 
-/** Picture dimensions */
+/** Thumb picture dimensions */
 $width = "140";
 $height = "175";
 
@@ -61,24 +61,23 @@ if ($pic == NULL) {
 
 $gd_pic = imagecreatefromstring($pic);
 
-$width_orig = imagesx($gd_pic);
-$height_orig = imagesy($gd_pic);
-
-$ratio_orig = $width_orig / $height_orig;
-
-if (($width / $height) > $ratio_orig) {
-   $width = $height * $ratio_orig;
-} else {
-   $height = $width / $ratio_orig;
-}
-
-// Resample
-$image_p = imagecreatetruecolor($width, $height);
-imagecopyresampled($image_p, $gd_pic, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
-
 // Output
 ob_start();
 if ($_GET['type'] == 'thumb') {
+  $width_orig = imagesx($gd_pic);
+  $height_orig = imagesy($gd_pic);
+
+  $ratio_orig = $width_orig / $height_orig;
+
+  if (($width / $height) > $ratio_orig) {
+    $width = $height * $ratio_orig;
+  } else {
+    $height = $width / $ratio_orig;
+  }
+
+  // Resample
+  $image_p = imagecreatetruecolor($width, $height);
+  imagecopyresampled($image_p, $gd_pic, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
   imagejpeg($image_p, NULL, 100);
 } else {
   imagejpeg($gd_pic, NULL, 100);
