@@ -727,11 +727,11 @@ body.lightbox #overlay {
   display: block;
   }
 
-.no-results-template {
+.no-results-template, .error-result-template {
   display: none;
 }
 
-.no-results {
+.no-results, .error-result {
   margin-top: 5em;
   text-align: center;
   }
@@ -745,4 +745,9 @@ body.lightbox #overlay {
 }
 .office-city-display-show {
     display: block;
+}
+
+.reload-page {
+    cursor: pointer;
+    color: red !important;
 }
