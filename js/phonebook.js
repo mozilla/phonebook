@@ -64,6 +64,17 @@ Page.prototype.linkifyCard = function($parent) {
   });
 };
 
+Page.prototype.errorResult = function($parent, jx, textStatus, errorThrown) {
+  // display "error result" message in parent
+  $parent.html(
+    $('.error-result-template')
+      .clone()
+      .attr('class', 'error-result')
+  );
+
+  $parent.find('.reload-page').on('click', function () { window.location.reload(); });
+};
+
 Page.prototype.noResults = function($parent) {
   // display "no results" message in parent
   $parent.html(
@@ -108,11 +119,18 @@ CardPage.prototype.search = function(query) {
   var page = this;
   return new Promise(function(resolve, reject) {
     var url = './search.php?format=html&query=' + encodeURIComponent(query);
-    $('#results').load(url, function() {
-      if (!$('#results').text()) {
-        page.noResults($('#results'));
-      } else {
-        page.linkifyCard($('#results'));
+    $('#results').load(url, function(responseText, textStatus, jqXHR) {
+      switch(textStatus) {
+        case 'success':
+        case 'notmodified':
+          if (!$('#results').text()) {
+            page.noResults($('#results'));
+          } else {
+            page.linkifyCard($('#results'));
+          }
+          break;
+        default:
+          page.errorResult($('#results'));
       }
       resolve();
     });
@@ -180,6 +198,9 @@ WallPage.prototype.search = function(query) {
       });
 
       resolve();
+    }).fail(function(jx, textStatus, errorThrown) {
+     page.errorResult($('#results'), jx, textStatus, errorThrown);
+     resolve();
     });
   });
 };
@@ -200,6 +221,11 @@ WallPage.prototype.showCard = function(event) {
             $('#overlay').click();
           })
         );
+    },
+    error: function() {
+      page.errorResult($('#overlay'));
+      $('body').addClass('lightbox');
+      page.hideThrobber();
     },
     complete: function() {
       page.hideThrobber();
@@ -349,6 +375,11 @@ TreePage.prototype.search = function(query) {
       $('html').animate({ scrollTop: $person.first().offset().top - 2 });
 
       resolve();
+    }).fail(function(jx, textStatus, errorThrown) {
+     page.errorResult($('#person'), jx, textStatus, errorThrown);
+     // bring error pane into view
+     $('html').animate({ scrollTop: 0 });
+     resolve();
     });
   });
 };
@@ -373,6 +404,10 @@ TreePage.prototype.showCard = function(mail) {
       $(window).scroll();
     },
     complete: function() {
+      page.hideThrobber();
+    },
+    error: function() {
+      page.errorResult($('#person'));
       page.hideThrobber();
     }
   });

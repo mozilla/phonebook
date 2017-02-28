@@ -36,3 +36,8 @@
   <img src="img/ohnoes.jpg">
   <h2>OH NOES! No ones were foundz.</h2>
 </div>
+
+<div class="error-result-template">
+  <img src="img/searcherror.png">
+  <h2>ERROR! <a class="reload-page">Reload the page</a> to resubmit your search.</h2>
+</div>
