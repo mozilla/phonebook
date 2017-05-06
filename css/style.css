@@ -25,7 +25,7 @@ html {
   font: 16px "Lucida Grande", "Droid Sans", "Trebuchet MS", sans-serif;
   font-weight: normal;
   font-style: normal;
-  background: url(../img/bg.png) #67a7c7 repeat-x fixed;
+  background-color: rgb(39, 103, 135);
   color: #fff;
   }
 
