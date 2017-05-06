@@ -16,7 +16,6 @@ if (!defined('MEMCACHE_ENABLED'))
 require_once("config.php");
 require_once("functions.php");
 require_once("constants.php");
-require_once("FirePHPCore/fb.php");
 ob_start();
 
 if (class_exists("Memcache") && MEMCACHE_ENABLED) {
