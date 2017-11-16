@@ -338,6 +338,7 @@ TreePage.prototype.search = function(query) {
     $.getJSON(url, function(searchResult) {
       // no results
       if (searchResult.count === 0) {
+        page.clear();
         page.noResults($('#person'));
         resolve();
         return;
@@ -355,15 +356,8 @@ TreePage.prototype.search = function(query) {
         $(id).addClass('highlighted');
       });
 
-      // collapse
-      page.expandAllNodes();
-      $('#orgchart li:not(.leaf)').each(function() {
-        var $parent = $(this);
-        var $children = page.childNodes($parent);
-        if ($children.find('.highlighted').length === 0) {
-          page.collapseNode($parent);
-        }
-      });
+      // collapse all non-highlighted nodes
+      page.collapseAllNodes();
 
       // expand matches
       var $person = $('#orgchart li.highlighted');
@@ -373,6 +367,13 @@ TreePage.prototype.search = function(query) {
 
       // and bring into view
       $('html').animate({ scrollTop: $person.first().offset().top - 2 });
+
+      // display the precise email match, if any
+      $.each(searchResult.users, function() {
+          if (this.mail == query) {
+              page.showCard(this.mail);
+          }
+      });
 
       resolve();
     }).fail(function(jx, textStatus, errorThrown) {
@@ -384,9 +385,21 @@ TreePage.prototype.search = function(query) {
   });
 };
 
+TreePage.prototype.collapseAllNodes = function() {
+  var page = this;
+  page.expandAllNodes();
+  $('#orgchart li:not(.leaf)').each(function() {
+    var $parent = $(this);
+    var $children = page.childNodes($parent);
+    if ($children.find('.highlighted').length === 0) {
+      page.collapseNode($parent);
+    }
+  });
+};
+
 TreePage.prototype.showCard = function(mail) {
   var page = this;
-  page.clear();
+  page.deselectAllNodes();
   window.history.pushState({}, '',
     window.location.pathname + '?search/' + mail);
 
@@ -394,6 +407,10 @@ TreePage.prototype.showCard = function(mail) {
   $person.addClass('selected');
   $('html').animate({ scrollTop: $person.offset().top - 2 });
   $('#text').val(mail).keyup();
+
+  // highlight matches
+  $('#orgchart').addClass('filter-view');
+  $person.addClass('highlighted');
 
   page.showThrobber();
   $.ajax({
@@ -413,16 +430,28 @@ TreePage.prototype.showCard = function(mail) {
   });
 };
 
-TreePage.prototype.clear = function() {
+TreePage.prototype.deselectAllNodes = function() {
+  $('#person').empty();
+  $('#search-limited').remove();
   function reset(id) {
     $(id).removeClass('filter-view');
     $(id + ' li.selected').removeClass('selected');
-    $(id + ' li.highlighted').removeClass('highlighted');
   }
-  $('#person').empty();
-  $('#search-limited').remove();
   reset('#orgchart');
   reset('#orphans');
+}
+
+TreePage.prototype.dehighlightAllNodes = function() {
+  function reset(id) {
+    $(id + ' li.highlighted').removeClass('highlighted');
+  }
+  reset('#orgchart');
+  reset('#orphans');
+}
+
+TreePage.prototype.clear = function() {
+  this.deselectAllNodes();
+  this.dehighlightAllNodes();
   this.expandAllNodes();
   this.collapseNode($('#managerless'));
 };
