@@ -702,7 +702,7 @@ div.photo-frame {
   padding: 50px 0;
   background-color: rgba(32, 32, 32, 0.5);
   text-align: center;
-  vertical-align: center;
+  vertical-align: middle;
   display: none;
   overflow: hidden;
   z-index: 2;
