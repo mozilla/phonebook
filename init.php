@@ -6,7 +6,7 @@
 if (!defined('RESULT_SIZE_LIMIT'))
     define("RESULT_SIZE_LIMIT", 0);
 
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED);
 ini_set("display_errors", 1);
 ini_set("memory_limit", "64M");
 
