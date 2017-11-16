@@ -70,11 +70,6 @@ a:hover {
     border-right: none;
     background: #fff;
     border-radius: .5em 0 0 .5em;
-    -moz-border-radius: .5em 0 0 .5em;
-    -webkit-border-top-left-radius: .5em;
-    -webkit-border-top-right-radius: 0;
-    -webkit-border-bottom-right-radius: 0;
-    -webkit-border-bottom-left-radius: .5em;
     }
     #search-region input.with-clear-button {
       padding-right: 24px;
@@ -87,11 +82,6 @@ a:hover {
       }
   #search-region button {
     border-radius: 0 .5em .5em 0;
-    -moz-border-radius: 0 .5em .5em 0;
-    -webkit-border-top-left-radius: 0;
-    -webkit-border-top-right-radius: .5em;
-    -webkit-border-bottom-right-radius: .5em;
-    -webkit-border-bottom-left-radius: 0;
     background: transparent url(../img/button.png) repeat-x scroll left center;
     border: 1px solid #FFF;
     cursor: pointer;
@@ -150,8 +140,6 @@ a:hover {
     color: #acd1e3;
     padding: 0.25em 0.75em;
     border-radius: 0.5em;
-    -moz-border-radius: 0.5em;
-    -webkit-border-radius: 0.5em;
     }
   #menu a:hover {
     background-color: rgba(172, 209, 227, 0.25);
@@ -226,9 +214,6 @@ a:hover {
   .vcard .footer {
   }
   .vcard .header {
-    -moz-border-image: url(../img/vcard_header_bg.png) 0 132 0 16 repeat stretch;
-    -moz-border-image: url(../img/vcard_header_bg.png) 0 132 0 16 fill repeat stretch;
-    -webkit-border-image: url(../img/vcard_header_bg.png) 0 132 0 16 repeat stretch;
     border-image: url(../img/vcard_header_bg.png) 0 132 0 16 fill repeat stretch;
     border-style: solid;
     border-width: 0 132px 0 16px;
@@ -250,9 +235,6 @@ a:hover {
       float: right;
       }
   .vcard .body {
-    -moz-border-image: url(../img/vcard_body_bg.png) 0 16 0 16 repeat repeat;
-    -moz-border-image: url(../img/vcard_body_bg.png) 0 16 0 16 fill repeat repeat;
-    -webkit-border-image: url(../img/vcard_body_bg.png) 0 16 0 16 repeat repeat;
     border-image: url(../img/vcard_body_bg.png) 0 16 0 16 fill repeat repeat;
     border-style: solid;
     border-width: 0 16px;
@@ -525,8 +507,6 @@ table.edit-table {
   table.edit-table button[type="submit"] {
     margin-top: 2em;
     border-radius: 0.5em;
-    -moz-border-radius: 0.5em;
-    -webkit-border-radius: 0.5em;
     background: transparent url(../img/button.png) repeat-x scroll left center;
     border: 1px solid #999999;
     cursor: pointer;
@@ -549,11 +529,7 @@ table.edit-table {
   width: 32em;
   background-color: #FFF;
   border-radius: 0.5em;
-  -moz-border-radius: 0.5em;
-  -webkit-border-radius: 0.5em;
   box-shadow: 0 0 16px #000;
-  -moz-box-shadow: 0 0 16px #000;
-  -webkit-box-shadow: 0 0 16px #000;
   }
 
   #orgchart.filter-view,
@@ -583,8 +559,6 @@ span.title {
 div.tree > ul {
   /*
   border-image: url(../img/org_bg.png) 21 24 25 24 repeat repeat;
-  -moz-border-image: url(../img/org_bg.png) 21 24 25 24 repeat repeat;
-  -webkit-border-image: url(../img/org_bg.png) 21 24 25 24 repeat repeat;
   border-width: 21px 24px 25px;
   */
   }
@@ -627,11 +601,7 @@ div.tree ul {
 
     div.tree ul li.highlighted {
       box-shadow: 0 0 16px #FFF;
-      -moz-box-shadow: 0 0 16px #FFF;
-      -webkit-box-shadow: 0 0 16px #FFF;
       border-radius: 0.4em;
-      -moz-border-radius: 0.4em;
-      -webkit-border-radius: 0.4em;
       background-color: #FFF;
       }
 
@@ -688,8 +658,6 @@ div.photo-frame {
 
   div.photo-frame img {
     box-shadow: 0 0 16px #333;
-    -moz-box-shadow: 0 0 16px #333;
-    -webkit-box-shadow: 0 0 16px #333;
     }
 
 #overlay {
