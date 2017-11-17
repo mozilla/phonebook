@@ -630,8 +630,8 @@ $(function() {
       this.href = this.pathname + queryString;
     });
 
-    // don't rerun identical queries
-    if (filter === $text.data('last')) {
+    // don't rerun identical queries, except for the empty-string query
+    if (filter !== '' && filter === $text.data('last')) {
       return;
     }
     $text.data('last', filter);
