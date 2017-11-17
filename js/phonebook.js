@@ -333,6 +333,13 @@ TreePage.prototype.mailToID = function(mail) {
 TreePage.prototype.search = function(query) {
   var page = this;
   return new Promise(function(resolve, reject) {
+    // this function is overloaded to clear an active search with an empty search term
+    // so we process that case first, to avoid .getJSON and all that.
+    if (this.query === '') {
+      page.clear();
+      resolve();
+      return;
+    }
     var url = 'search.php?format=json&query=' + encodeURIComponent(query);
     $('#orgchart').removeClass('filter-view');
     $('#person').empty();
