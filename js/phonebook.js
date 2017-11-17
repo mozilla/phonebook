@@ -409,7 +409,6 @@ TreePage.prototype.showCard = function(mail) {
   $('#text').val(mail).keyup();
 
   // highlight matches
-  $('#orgchart').addClass('filter-view');
   $person.addClass('highlighted');
 
   page.showThrobber();
@@ -434,7 +433,6 @@ TreePage.prototype.deselectAllNodes = function() {
   $('#person').empty();
   $('#search-limited').remove();
   function reset(id) {
-    $(id).removeClass('filter-view');
     $(id + ' li.selected').removeClass('selected');
   }
   reset('#orgchart');
@@ -442,6 +440,7 @@ TreePage.prototype.deselectAllNodes = function() {
 }
 
 TreePage.prototype.dehighlightAllNodes = function() {
+  $('#orgchart').removeClass('filter-view');
   function reset(id) {
     $(id + ' li.highlighted').removeClass('highlighted');
   }
