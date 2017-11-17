@@ -408,9 +408,6 @@ TreePage.prototype.showCard = function(mail) {
   $('html').animate({ scrollTop: $person.offset().top - 2 });
   $('#text').val(mail).keyup();
 
-  // highlight matches
-  $person.addClass('highlighted');
-
   page.showThrobber();
   $.ajax({
     url: 'search.php?format=html&exact_search=true&query=' + encodeURIComponent(mail),
