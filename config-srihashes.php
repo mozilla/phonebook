@@ -4,6 +4,6 @@ $GLOBALS["SRIHASHES"] = array(
 "css/font-awesome.min.css" => "sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN",
 "css/style.css" => "sha384-z/7yjLk4ZM385XlR7p5ls6weH8F8S7OTEpi2AOxcRAQ8WbN4vgZ+84Xitfh3h+up",
 "js/jquery-min.js" => "sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f",
-"js/phonebook.js" => "sha384-2zx64UISwefSVHWMejsUEcQyxMlMaYZ9nz0IlYudw3K64KA+A2Qq62jS7a23I0MW",
+"js/phonebook.js" => "sha384-zBnSL70GoBGd7GUjwtkCMdi6T39nm680i7/2sxmn9IzSJhmaDsMnbxywAjoU9dei",
 );
 ?>
