@@ -111,8 +111,6 @@ CardPage.prototype.init = function() {
   if (query) {
     $('#text').val(query).keyup();
     $('#search').click();
-  } else {
-    $('#text').focus().select();
   }
 };
 
@@ -253,8 +251,6 @@ TreePage.prototype.init = function() {
   if (query) {
     $('#text').val(query).keyup();
     $('#search').click();
-  } else {
-    $('#text').focus().select();
   }
 
   // clicking on a name -> show card
