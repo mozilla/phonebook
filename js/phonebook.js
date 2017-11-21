@@ -73,6 +73,7 @@ Page.prototype.errorResult = function($parent, jx, textStatus, errorThrown) {
   );
 
   $parent.find('.reload-page').on('click', function () { window.location.reload(); });
+  $('html').animate({ scrollTop: $parent.find('.error-result').offset().top - 2 });
 };
 
 Page.prototype.noResults = function($parent) {
