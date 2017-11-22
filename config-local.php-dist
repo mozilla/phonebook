@@ -26,3 +26,8 @@ define("ENABLE_SRIHASH", false);
 // Developers --
 //   'make sri' must be run to regenerate the list of hashes in 'config-srihashes.php'
 //   for all JS/CSS files listed in 'srihash_files.txt'.
+
+// If this is uncommented, desk locations will be linked.
+// For example, SF1234 is parsed into ("SF", "1234") which is then passed to this format.
+// This must be a valid printf format with precisely two %s only.
+// define('DESK_URL_TEMPLATE', 'https://desks.map/%s/%s');
