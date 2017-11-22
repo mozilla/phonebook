@@ -39,14 +39,14 @@ if ($memcache_on && ($cached_pic = $memcache->get(MEMCACHE_PREFIX . $_GET['mail'
 }
 
 $search = ldap_search(
-  $ldapconn, 'dc=mozilla', "(mail=". $_GET['mail'] .")", array('jpegPhoto')
+  $ldapconn, 'dc=mozilla', "(mail=". $_GET['mail'] .")", array('jpegPhoto', 'employeeType')
 );
 
 if ($search) {
   $entry = ldap_first_entry($ldapconn, $search);
   if ($entry) {
     $attributes = ldap_get_attributes($ldapconn, $entry);
-    if (!empty($attributes['jpegPhoto'])) {
+    if ($attributes['employeeType'] != 'DISABLED' && !empty($attributes['jpegPhoto'])) {
       $jpeg = ldap_get_values_len($ldapconn, $entry, 'jpegPhoto');
       if ($jpeg) {
         $pic = $jpeg[0];
