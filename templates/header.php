@@ -40,3 +40,16 @@
 <div class="error-result-template">
   <h2>An error occurred while trying to access Phonebook.<br>Please <a class="reload-page">reload the page</a> to resubmit your search.</h2>
 </div>
+
+<div id="preload">
+    <br>
+    <img src="img/vcard.png">
+    <img src="img/vcard_body.png">
+    <img src="img/vcard_body_bg.png">
+    <img src="img/vcard_footer.png">
+    <img src="img/vcard_footer_bg.png">
+    <img src="img/vcard_footer_edge.png">
+    <img src="img/vcard_footer_middle.png">
+    <img src="img/vcard_header.png">
+    <img src="img/vcard_header_bg.png">
+</div>
