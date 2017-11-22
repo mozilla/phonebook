@@ -726,3 +726,7 @@ body.lightbox #overlay {
     cursor: pointer;
     color: red !important;
 }
+
+DIV#preload {
+    display: block; position: absolute; height: 1px; width: 1px; overflow: hidden;
+}
