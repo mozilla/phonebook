@@ -38,6 +38,5 @@
 </div>
 
 <div class="error-result-template">
-  <img src="img/searcherror.png">
-  <h2>ERROR! <a class="reload-page">Reload the page</a> to resubmit your search.</h2>
+  <h2>An error occurred while trying to access Phonebook.<br>Please <a class="reload-page">reload the page</a> to resubmit your search.</h2>
 </div>

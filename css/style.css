@@ -704,6 +704,13 @@ body.lightbox #overlay {
   text-align: center;
   }
 
+.error-result {
+  background-color: #fff;
+  color: #333;
+  width: 496px;
+  margin-left: 0.5em;
+  }
+
 .pgpfingerprintfont {
     font-size: 12px;
 }
