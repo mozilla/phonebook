@@ -93,6 +93,20 @@ function output_html_cn($s){
 
 }
 
+function output_desk_html_link($s) {
+    // create a copy of the desk number that's HTML-safe
+    $desk = htmlspecialchars($s);
+    // if we have a desk URL template, and we can find a valid desk number:
+    if (defined('DESK_URL_TEMPLATE') && preg_match('/(^[A-Z]+)([0-9]+$)/', $s, $m)) {
+	// apply the desk number to the template, with URL-safe encoding
+	$url = sprintf(DESK_URL_TEMPLATE, urlencode($m[1]), urlencode($m[2]));
+	// wrap the html-ized desk location with a link to that URL
+	$desk = "<a href=\"$url\">$desk</a>";
+    }
+    // return desk html, with or without link
+    return $desk;
+}
+
 function interpolate($s, $o, $pattern="/(^|.|\\r|\\n)(#\\{(.*?)\\})/") {
   $clone = $s;
   $matches = array();
@@ -179,9 +193,9 @@ function output_html($search_result, $is_admin=FALSE) {
       $entry["picture"] = "<a class=\"photo\" href=\"{$entry['picture']}\" target=\"_blank\"><img class=\"photo\" src=\"{$entry['picture']}&amp;type=thumb\" alt=\"Photo of {$photo_name}\" /></a>";
     }
     if (isset($entry["wprdesknumber"]) && $entry["wprdesknumber"] != 'Off-Site') {
-        $entry["wprdesknumber"] = '<ul class="desk"><li>' . htmlspecialchars($entry['wprdesknumber']) . '</li>';
+        $entry["wprdesknumber"] = '<ul class="desk"><li>' . output_desk_html_link($entry['wprdesknumber']) . '</li>';
         if (isset($entry["wprdesknumbernotes"])) {
-            $entry["wprdesknumber"] .= '<li>' . htmlspecialchars($entry['wprdesknumbernotes']) . '</li>';
+            $entry["wprdesknumber"] .= '<li>' . output_desk_html_link($entry['wprdesknumbernotes']) . '</li>';
         }
         $entry["wprdesknumber"] .= '</ul>';
     } else {
