@@ -730,3 +730,21 @@ body.lightbox #overlay {
 DIV#preload {
     display: block; position: absolute; height: 1px; width: 1px; overflow: hidden;
 }
+
+DIV.view-as-cards, DIV.view-as-faces {
+    -moz-user-select: -moz-none;
+    text-align: center;
+    padding-bottom: 5ex;
+}
+
+DIV.view-as-faces {
+    padding-top: 2.5ex;
+}
+
+A.view-as {
+    cursor: pointer;
+}
+
+A.view-as:hover {
+    text-decoration: none;
+}

@@ -32,6 +32,8 @@ Page.prototype.init = function() {
       $('#text').val('').keyup();
       $('#search').click();
     });
+  $('.view-as-faces').hide();
+  $('.view-as-cards').hide();
 };
 
 Page.prototype.searchQuery = function(loc) {
@@ -112,6 +114,14 @@ CardPage.prototype.init = function() {
     $('#text').val(query).keyup();
     $('#search').click();
   }
+  $('.view-as-faces').click(function() {
+    $('.view-as-faces').hide();
+    $('.wall')[0].click();
+  });
+  $('.view-as-cards').click(function() {
+    $('.view-as-cards').hide();
+    $('.card')[0].click();
+  });
 };
 
 CardPage.prototype.search = function(query) {
@@ -125,6 +135,7 @@ CardPage.prototype.search = function(query) {
           if (!$('#results').text()) {
             page.noResults($('#results'));
           } else {
+            $('.view-as-faces').show();
             page.linkifyCard($('#results'));
           }
           break;
@@ -137,6 +148,8 @@ CardPage.prototype.search = function(query) {
 };
 
 CardPage.prototype.clear = function() {
+  $('.view-as-faces').hide();
+  $('.view-as-cards').hide();
   $('#results').empty();
   $('#search-limited').remove();
 };
@@ -195,6 +208,9 @@ WallPage.prototype.search = function(query) {
             .click(page, page.showCard)
         );
       });
+
+      // link the user to non-faces search
+      $('.view-as-cards').show();
 
       resolve();
     }).fail(function(jx, textStatus, errorThrown) {
