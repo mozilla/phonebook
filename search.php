@@ -5,8 +5,8 @@ require_once("preprocessors-attr.inc");
 
 $auth = new MozillaAuthAdapter();
 $search = new MozillaSearchAdapter($ldapconn);
-$keyword = isset($_GET["query"]) ? $_GET["query"] : '';
-$exact = isset($_GET["exact_search"]) ? true : false;
+$keyword = isset($_POST["query"]) ? $_POST["query"] : (isset($_GET["query"]) ? $_GET["query"] : '');
+$exact = isset($_POST["exact_search"]) ? true : (isset($_GET["exact_search"]) ? true : false);
 $search_result = $search->search_users($keyword, $exact=$exact);
 $search_result['users'] = normalize($search_result['users']);
 $attr_preps = get_attr_preprocessors();
@@ -25,7 +25,7 @@ foreach ($search_result['users'] as &$entry) {
   $search->preprocess_entry($entry);
 }
 
-$format = isset($_GET["format"]) ? $_GET["format"] : "json";
+$format = isset($_POST["format"]) ? $_POST["format"] : (isset($_GET["format"]) ? $_GET["format"] : "json");
 if (!in_array($format, $output_formats) || !file_exists("output-$format.inc")) {
   $format = "json";
 }

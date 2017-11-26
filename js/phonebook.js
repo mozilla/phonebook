@@ -127,8 +127,7 @@ CardPage.prototype.init = function() {
 CardPage.prototype.search = function(query) {
   var page = this;
   return new Promise(function(resolve, reject) {
-    var url = './search.php?format=html&query=' + encodeURIComponent(query);
-    $('#results').load(url, function(responseText, textStatus, jqXHR) {
+    $('#results').load('search.php', { 'query': query, 'format': 'html' }, function(responseText, textStatus, jqXHR) {
       switch(textStatus) {
         case 'success':
         case 'notmodified':
@@ -176,8 +175,7 @@ WallPage.prototype.init = function() {
 WallPage.prototype.search = function(query) {
   var page = this;
   return new Promise(function(resolve, reject) {
-    var url = 'search.php?format=json&query=' + encodeURIComponent(query);
-    $.getJSON(url, function(searchResult) {
+    $.post('search.php', { 'query': query, 'format': 'json' }, function(searchResult) {
       var $results = $('#results');
       $results.empty();
 
@@ -213,7 +211,7 @@ WallPage.prototype.search = function(query) {
       $('.view-as-cards').show();
 
       resolve();
-    }).fail(function(jx, textStatus, errorThrown) {
+    }, 'json').fail(function(jx, textStatus, errorThrown) {
      page.errorResult($('#results'), jx, textStatus, errorThrown);
      resolve();
     });
@@ -225,7 +223,9 @@ WallPage.prototype.showCard = function(event) {
   var mail = $(this).data('mail');
   page.showThrobber();
   $.ajax({
-    url: 'search.php?format=html&query=' + encodeURIComponent(mail),
+    method: 'POST',
+    url: 'search.php',
+    data: { 'query': mail, 'format': 'html' },
     success: function(html) {
       $('body').addClass('lightbox');
       $('#overlay').html(html);
@@ -352,10 +352,9 @@ TreePage.prototype.search = function(query) {
       resolve();
       return;
     }
-    var url = 'search.php?format=json&query=' + encodeURIComponent(query);
     $('#orgchart').removeClass('filter-view');
     $('#person').empty();
-    $.getJSON(url, function(searchResult) {
+    $.post('search.php', { 'query': query, 'format': 'json' }, function(searchResult) {
       // no results
       if (searchResult.count === 0) {
         page.clear();
@@ -396,7 +395,7 @@ TreePage.prototype.search = function(query) {
       });
 
       resolve();
-    }).fail(function(jx, textStatus, errorThrown) {
+    }, 'json').fail(function(jx, textStatus, errorThrown) {
      page.errorResult($('#person'), jx, textStatus, errorThrown);
      // bring error pane into view
      $('html').animate({ scrollTop: 0 });
@@ -430,7 +429,9 @@ TreePage.prototype.showCard = function(mail) {
 
   page.showThrobber();
   $.ajax({
-    url: 'search.php?format=html&exact_search=true&query=' + encodeURIComponent(mail),
+    method: 'POST',
+    url: 'search.php',
+    data: { 'query': mail, 'format': 'html', 'exact_search': 'true' },
     success: function(html) {
       $('#person').html(html);
       page.linkifyCard($('#person'));
