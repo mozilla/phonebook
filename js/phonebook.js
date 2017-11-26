@@ -453,7 +453,7 @@ TreePage.prototype.showCard = function(mail) {
   $.ajax({
     method: 'POST',
     url: 'search.php',
-    data: { 'query': mail, 'mode': 'mail', 'format': 'html', 'exact_search': 'true' },
+    data: { 'query': mail, 'mode': 'mail', 'format': 'html' },
     success: function(html) {
       $('#person').html(html);
       page.linkifyCard($('#person'));

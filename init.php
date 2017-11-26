@@ -105,7 +105,7 @@ abstract class SearchAdapter {
    * optionally pass query_users() different filters or even bases, depending
    * on the search string.
    */
-  abstract public function search_users($search);
+  abstract public function search_users($search, $exact=false, $mode);
 
   /*
    * A callback / hook to modify the returned LDAP data structure 
