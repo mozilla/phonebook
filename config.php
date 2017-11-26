@@ -205,6 +205,14 @@ class MozillaSearchAdapter extends SearchAdapter {
         $escaped = escape_ldap_filter_value($search);
         $filter = "(mail=$escaped)";
         break;
+      case 'locsearch':
+        $escaped = escape_ldap_filter_value($search);
+        $filter = "(&(objectClass=mozComPerson)(workdaylocation=*$escaped*))";
+        break;
+      case 'loc':
+        $escaped = escape_ldap_filter_value($search);
+        $filter = "(&(objectClass=mozComPerson)(workdaylocation=$escaped))";
+        break;
     }
 
     if (!$this->phonebook_admin) {
