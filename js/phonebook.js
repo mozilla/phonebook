@@ -36,15 +36,19 @@ Page.prototype.init = function() {
   $('.view-as-cards').hide();
 };
 
-Page.prototype.searchQuery = function(loc) {
-  // load search query from hash (legacy) or query string
+Page.prototype.searchParams = function(loc) {
+  // load search mode and query from hash (legacy) or query string
+  // http://phonebook/blah.php#search/term
+  // http://phonebook/blah.php?search/term
   loc = loc || window.location;
-  if (loc.hash.startsWith('#search/')) {
-    return loc.hash.substring(8).trim();
-  } else if (loc.search.startsWith('?search/')) {
-    return loc.search.substring(8).trim();
+  // we support a single mode, preferring modern query over legacy hash
+  loc = loc.search || loc.hash;
+  var matches = loc.match(/^[#?](.*?)\/(.*$)/);
+  if (matches && matches.length == 3) {
+    return { "mode": decodeURIComponent(matches[1]), "query": decodeURIComponent(matches[2]).trim() };
   } else {
-    return '';
+    // the regex match fail above is used here to detect http://phonebook/ (neither # nor ")
+    return { "mode": "", "query": "" };
   }
 };
 
@@ -61,8 +65,11 @@ Page.prototype.linkifyCard = function($parent) {
   var page = this;
   $parent.find('.manager a:not(.org-chart)').click(function(event) {
     event.preventDefault();
-    $('#text').val(page.searchQuery(this)).keyup();
+    var modequery = page.searchParams(this);
+    $('#text').val(modequery.query).keyup();
+    // TODO: ensure handling of modequery["mode"] is correct here
     $('#search').click();
+    // TODO: why does this work differently than TreePage.prototype.linkifyCard?
   });
 };
 
@@ -100,16 +107,20 @@ Page.prototype.tooManyResults = function($parent, found, showing) {
 function CardPage() {
   this.id = this.id || 'card';
   Page.call(this);
-  if (!this.searchQuery()) {
+  var modequery = this.searchParams();
+  if (!modequery.query) {
     $('#phonebook-search').addClass('large');
   }
+  // TODO: review handling of modequery["mode"] here
 }
 CardPage.prototype = Object.create(Page.prototype);
 CardPage.prototype.constructor = CardPage;
 
 CardPage.prototype.init = function() {
   Page.prototype.init.call(this);
-  var query = this.searchQuery();
+  var modequery = this.searchParams();
+  var mode = modequery["mode"];
+  var query = modequery.query;
   if (query) {
     $('#text').val(query).keyup();
     $('#search').click();
@@ -263,7 +274,9 @@ TreePage.prototype.init = function() {
   Page.prototype.init.call(this);
   var page = this;
 
-  var query = this.searchQuery();
+  var modequery = this.searchParams();
+  var mode = modequery["mode"];
+  var query = modequery.query;
   if (query) {
     $('#text').val(query).keyup();
     $('#search').click();
@@ -478,7 +491,9 @@ TreePage.prototype.linkifyCard = function($parent) {
   // change card links to js handlers
   $parent.find('.manager a').click(function(event) {
     event.preventDefault();
-    page.showCard(page.searchQuery(this));
+    var modequery = page.searchParams(this);
+    page.showCard(modequery.query);
+    // TODO: ensure handling of modequery["mode"] is correct here
   });
 };
 
