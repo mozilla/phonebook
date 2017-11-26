@@ -72,7 +72,7 @@ function output_html_dn_to_email($dn) {
 function output_html_manager($m) {
   $m["email"] = htmlspecialchars(output_html_dn_to_email($m["dn"]));
   $clean_cn = htmlspecialchars($m['cn']);
-  return "<p class=\"manager\">Manager: <a href=\"?search/{$m['email']}\">{$clean_cn}</a><a class='org-chart' href='tree.php?search/{$m['email']}'>(Org)</a></p>";
+  return "<p class=\"manager\">Manager: <a href=\"?mail/{$m['email']}\">{$clean_cn}</a><a class='org-chart' href='tree.php?mail/{$m['email']}'>(Org)</a></p>";
 }
 
 function output_html_title($t) {
@@ -227,7 +227,7 @@ function output_html($search_result, $is_admin=FALSE) {
     if (isset($entry["workdaycostcenter"])) {
         $entry["workdaycostcenter"] = '<ul class="wdcc"><li>Cost Center: ' . htmlspecialchars($entry['workdaycostcenter']) . '</li></ul>';
     }
-    $entry["org_chart"] = ' <a class="org-chart" href="tree.php?search/'. $entry["mail"] .'">(Org)</a>';
+    $entry["org_chart"] = ' <a class="org-chart" href="tree.php?mail/'. $entry["mail"] .'">(Org)</a>';
     $entry["vcard_export"] = '<a class="vcard-export" href="./search.php?format=vcard&query='. $entry["mail"] .'">vCard</a>';
     $entry["edit"] = $is_admin ? ' <a href="edit.php?edit_mail='. escape($entry["mail"]) .'">(edit)</a>' : '';
     if (isset($entry["physicaldeliveryofficename"])) {

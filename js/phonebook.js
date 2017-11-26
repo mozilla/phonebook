@@ -19,6 +19,8 @@ Page.prototype.init = function() {
       if (event.which === 27) {  // esc
         $('#clear-button').click();
       }
+      // user input in the search field resets the search type
+      $('#mode').val('search');
     });
   $('#clear-button')
     .hide()
@@ -29,7 +31,8 @@ Page.prototype.init = function() {
       $(this).removeClass('active');
     })
     .click(function() {
-      $('#text').val('').keyup();
+      $('#text').val('');
+      $('#clear-button').hide();
       $('#search').click();
     });
   $('.view-as-faces').hide();
@@ -65,11 +68,16 @@ Page.prototype.linkifyCard = function($parent) {
   var page = this;
   $parent.find('.manager a:not(.org-chart)').click(function(event) {
     event.preventDefault();
+    // convert the hyperlink into parameters and write them into the form.
     var modequery = page.searchParams(this);
-    $('#text').val(modequery.query).keyup();
-    // TODO: ensure handling of modequery["mode"] is correct here
+    // set the search value to the exact email address
+    $('#text').val(modequery.query);
+    // show the clear button, skip the keyup handler
+    $('#clear-button').show();
+    // we override the mode to one-person ('mail').
+    $('#mode').val('mail');
+    // form is complete, submit it.
     $('#search').click();
-    // TODO: why does this work differently than TreePage.prototype.linkifyCard?
   });
 };
 
@@ -111,7 +119,6 @@ function CardPage() {
   if (!modequery.query) {
     $('#phonebook-search').addClass('large');
   }
-  // TODO: review handling of modequery["mode"] here
 }
 CardPage.prototype = Object.create(Page.prototype);
 CardPage.prototype.constructor = CardPage;
@@ -119,10 +126,10 @@ CardPage.prototype.constructor = CardPage;
 CardPage.prototype.init = function() {
   Page.prototype.init.call(this);
   var modequery = this.searchParams();
-  var mode = modequery["mode"];
-  var query = modequery.query;
-  if (query) {
-    $('#text').val(query).keyup();
+  if (modequery.query) {
+    $('#text').val(modequery.query);
+    $('#clear-button').show();
+    $('#mode').val(modequery.mode);
     $('#search').click();
   }
   $('.view-as-faces').click(function() {
@@ -275,10 +282,10 @@ TreePage.prototype.init = function() {
   var page = this;
 
   var modequery = this.searchParams();
-  var mode = modequery["mode"];
-  var query = modequery.query;
-  if (query) {
-    $('#text').val(query).keyup();
+  if (modequery.query) {
+    $('#text').val(modequery.query);
+    $('#clear-button').show();
+    $('#mode').val(modequery.mode);
     $('#search').click();
   }
 
@@ -286,7 +293,7 @@ TreePage.prototype.init = function() {
   $('.hr-link').click(function(event) {
     event.preventDefault();
     event.stopPropagation();
-    var mail = $(this).attr('href').substring(8);
+    var mail = $(this).attr('href').substring('mail/'.length + 1);
     page.showCard(mail);
   });
 
@@ -433,12 +440,14 @@ TreePage.prototype.showCard = function(mail) {
   var page = this;
   page.deselectAllNodes();
   window.history.pushState({}, '',
-    window.location.pathname + '?search/' + mail);
+    window.location.pathname + '?mail/' + mail);
 
   var $person = $(page.mailToID(mail));
   $person.addClass('selected');
   $('html').animate({ scrollTop: $person.offset().top - 2 });
-  $('#text').val(mail).keyup();
+  $('#text').val(mail);
+  $('#clear-button').show();
+  $('#mode').val('mail');
 
   page.showThrobber();
   $.ajax({
@@ -491,9 +500,10 @@ TreePage.prototype.linkifyCard = function($parent) {
   // change card links to js handlers
   $parent.find('.manager a').click(function(event) {
     event.preventDefault();
+    // convert the hyperlink into parameters
     var modequery = page.searchParams(this);
+    // showCard assumes one-person mode ('mail') and writes appropriate values into the form.
     page.showCard(modequery.query);
-    // TODO: ensure handling of modequery["mode"] is correct here
   });
 };
 
@@ -577,7 +587,7 @@ EditPage.prototype.init = function() {
 EditPage.prototype.clear = function() {};
 
 EditPage.prototype.search = function(query) {
-  window.location = window.location.pathname.replace('edit.php', '?search/' + query);
+  window.location = window.location.pathname.replace('edit.php', '?edit/' + query);
   return new Promise(function() {});
 };
 
@@ -652,7 +662,8 @@ $(function() {
 
     var $text = $('#text');
     var filter = $text.val().trim();
-    var queryString = filter === '' ? '' : '?search/' + filter;
+    var mode = $('#mode').val() || 'search';
+    var queryString = filter === '' ? '' : '?' + mode + '/' + filter;
 
     // update url
     window.history.pushState({}, '',
