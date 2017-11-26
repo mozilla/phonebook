@@ -18,6 +18,7 @@
     <div id="search-region">
       <input type="hidden" name="format" value="html">
       <div id="text-wrapper">
+        <input type="hidden" name="mode" id="mode" value="search">
         <input type="text" name="query" class="with-clear-button" id="text" size="18" autofocus="true">
         <div id="clear-button" title="Clear"></div>
       </div><button type="submit" id="search">Search</button>

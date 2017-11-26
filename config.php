@@ -181,25 +181,32 @@ class MozillaSearchAdapter extends SearchAdapter {
     "ldap_sort_order" => "sn"
   );
 
-  public function search_users($search, $exact=false) {
-    if($exact == false){
-      $terms = array_map("escape_ldap_filter_value", preg_split('/\s+/', trim($search)));
-      $filter = "(objectClass=mozComPerson)";
-      foreach ($terms as $escaped_term) {
-          $subfilter = "";
-          foreach ($this->search_fields as $field) {
-              $subfilter .= "($field=*$escaped_term*)";
-          }
-          $filter .= "(|$subfilter)";
-      }
-      if (LDAP_EXCLUDE != '') {
-          $filter = $filter . LDAP_EXCLUDE;
-      }
-      $filter = "(&$filter)";
-    } else {
-      $escaped = escape_ldap_filter_value($search);
-      $filter = "(mail=$escaped)";
+  public function search_users($search, $exact=false, $mode) {
+    if ($exact == true) {
+      $mode = 'mail';
     }
+    switch($mode) {
+      case 'search':
+        $terms = array_map("escape_ldap_filter_value", preg_split('/\s+/', trim($search)));
+        $filter = "(objectClass=mozComPerson)";
+        foreach ($terms as $escaped_term) {
+            $subfilter = "";
+            foreach ($this->search_fields as $field) {
+                $subfilter .= "($field=*$escaped_term*)";
+            }
+            $filter .= "(|$subfilter)";
+        }
+        if (LDAP_EXCLUDE != '') {
+            $filter = $filter . LDAP_EXCLUDE;
+        }
+        $filter = "(&$filter)";
+        break;
+      case 'mail':
+        $escaped = escape_ldap_filter_value($search);
+        $filter = "(mail=$escaped)";
+        break;
+    }
+
     if (!$this->phonebook_admin) {
       $filter = '(&(!(employeeType=DISABLED))' . $filter . ')';
     }
@@ -256,7 +263,7 @@ class MozillaTreeAdapter extends TreeAdapter {
     $leaf = $leaf ? " leaf" : '';
     $disabled = $everyone[$email]["disabled"] ? " disabled" : '';
     return "<li id=\"$id\" class=\"hr-node expanded$leaf$disabled\">".
-             "<a href=\"?search/$email\" class=\"hr-link\">$name</a> ".
+             "<a href=\"?mail/$email\" class=\"hr-link\">$name</a> ".
              "<span class=\"title\">$title</span>".
            "</li>";
   }

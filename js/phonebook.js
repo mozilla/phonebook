@@ -19,6 +19,8 @@ Page.prototype.init = function() {
       if (event.which === 27) {  // esc
         $('#clear-button').click();
       }
+      // user input in the search field resets the search type
+      $('#mode').val('search');
     });
   $('#clear-button')
     .hide()
@@ -29,22 +31,27 @@ Page.prototype.init = function() {
       $(this).removeClass('active');
     })
     .click(function() {
-      $('#text').val('').keyup();
+      $('#text').val('');
+      $('#clear-button').hide();
       $('#search').click();
     });
   $('.view-as-faces').hide();
   $('.view-as-cards').hide();
 };
 
-Page.prototype.searchQuery = function(loc) {
-  // load search query from hash (legacy) or query string
+Page.prototype.searchParams = function(loc) {
+  // load search mode and query from hash (legacy) or query string
+  // http://phonebook/blah.php#search/term
+  // http://phonebook/blah.php?search/term
   loc = loc || window.location;
-  if (loc.hash.startsWith('#search/')) {
-    return loc.hash.substring(8).trim();
-  } else if (loc.search.startsWith('?search/')) {
-    return loc.search.substring(8).trim();
+  // we support a single mode, preferring modern query over legacy hash
+  loc = loc.search || loc.hash;
+  var matches = loc.match(/^[#?](.*?)\/(.*$)/);
+  if (matches && matches.length == 3) {
+    return { "mode": decodeURIComponent(matches[1]), "query": decodeURIComponent(matches[2]).trim() };
   } else {
-    return '';
+    // the regex match fail above is used here to detect http://phonebook/ (neither # nor ")
+    return { "mode": "", "query": "" };
   }
 };
 
@@ -61,7 +68,15 @@ Page.prototype.linkifyCard = function($parent) {
   var page = this;
   $parent.find('.manager a:not(.org-chart)').click(function(event) {
     event.preventDefault();
-    $('#text').val(page.searchQuery(this)).keyup();
+    // convert the hyperlink into parameters and write them into the form.
+    var modequery = page.searchParams(this);
+    // set the search value to the exact email address
+    $('#text').val(modequery.query);
+    // show the clear button, skip the keyup handler
+    $('#clear-button').show();
+    // we override the mode to one-person ('mail').
+    $('#mode').val('mail');
+    // form is complete, submit it.
     $('#search').click();
   });
 };
@@ -100,7 +115,8 @@ Page.prototype.tooManyResults = function($parent, found, showing) {
 function CardPage() {
   this.id = this.id || 'card';
   Page.call(this);
-  if (!this.searchQuery()) {
+  var modequery = this.searchParams();
+  if (!modequery.query) {
     $('#phonebook-search').addClass('large');
   }
 }
@@ -109,9 +125,11 @@ CardPage.prototype.constructor = CardPage;
 
 CardPage.prototype.init = function() {
   Page.prototype.init.call(this);
-  var query = this.searchQuery();
-  if (query) {
-    $('#text').val(query).keyup();
+  var modequery = this.searchParams();
+  if (modequery.query) {
+    $('#text').val(modequery.query);
+    $('#clear-button').show();
+    $('#mode').val(modequery.mode);
     $('#search').click();
   }
   $('.view-as-faces').click(function() {
@@ -124,10 +142,10 @@ CardPage.prototype.init = function() {
   });
 };
 
-CardPage.prototype.search = function(query) {
+CardPage.prototype.search = function(query, mode) {
   var page = this;
   return new Promise(function(resolve, reject) {
-    $('#results').load('search.php', { 'query': query, 'format': 'html' }, function(responseText, textStatus, jqXHR) {
+    $('#results').load('search.php', { 'query': query, 'mode': mode, 'format': 'html' }, function(responseText, textStatus, jqXHR) {
       switch(textStatus) {
         case 'success':
         case 'notmodified':
@@ -172,10 +190,10 @@ WallPage.prototype.init = function() {
     });
 };
 
-WallPage.prototype.search = function(query) {
+WallPage.prototype.search = function(query, mode) {
   var page = this;
   return new Promise(function(resolve, reject) {
-    $.post('search.php', { 'query': query, 'format': 'json' }, function(searchResult) {
+    $.post('search.php', { 'query': query, 'mode': mode, 'format': 'json' }, function(searchResult) {
       var $results = $('#results');
       $results.empty();
 
@@ -225,7 +243,7 @@ WallPage.prototype.showCard = function(event) {
   $.ajax({
     method: 'POST',
     url: 'search.php',
-    data: { 'query': mail, 'format': 'html' },
+    data: { 'query': mail, 'mode': 'mail', 'format': 'html' },
     success: function(html) {
       $('body').addClass('lightbox');
       $('#overlay').html(html);
@@ -263,9 +281,11 @@ TreePage.prototype.init = function() {
   Page.prototype.init.call(this);
   var page = this;
 
-  var query = this.searchQuery();
-  if (query) {
-    $('#text').val(query).keyup();
+  var modequery = this.searchParams();
+  if (modequery.query) {
+    $('#text').val(modequery.query);
+    $('#clear-button').show();
+    $('#mode').val(modequery.mode);
     $('#search').click();
   }
 
@@ -273,7 +293,7 @@ TreePage.prototype.init = function() {
   $('.hr-link').click(function(event) {
     event.preventDefault();
     event.stopPropagation();
-    var mail = $(this).attr('href').substring(8);
+    var mail = $(this).attr('href').substring('mail/'.length + 1);
     page.showCard(mail);
   });
 
@@ -342,7 +362,7 @@ TreePage.prototype.mailToID = function(mail) {
   return '#' + mail.replace('@', '-at-').replace('.', '_');
 };
 
-TreePage.prototype.search = function(query) {
+TreePage.prototype.search = function(query, mode) {
   var page = this;
   return new Promise(function(resolve, reject) {
     // this function is overloaded to clear an active search with an empty search term
@@ -354,7 +374,7 @@ TreePage.prototype.search = function(query) {
     }
     $('#orgchart').removeClass('filter-view');
     $('#person').empty();
-    $.post('search.php', { 'query': query, 'format': 'json' }, function(searchResult) {
+    $.post('search.php', { 'query': query, 'mode': mode, 'format': 'json' }, function(searchResult) {
       // no results
       if (searchResult.count === 0) {
         page.clear();
@@ -420,18 +440,20 @@ TreePage.prototype.showCard = function(mail) {
   var page = this;
   page.deselectAllNodes();
   window.history.pushState({}, '',
-    window.location.pathname + '?search/' + mail);
+    window.location.pathname + '?mail/' + mail);
 
   var $person = $(page.mailToID(mail));
   $person.addClass('selected');
   $('html').animate({ scrollTop: $person.offset().top - 2 });
-  $('#text').val(mail).keyup();
+  $('#text').val(mail);
+  $('#clear-button').show();
+  $('#mode').val('mail');
 
   page.showThrobber();
   $.ajax({
     method: 'POST',
     url: 'search.php',
-    data: { 'query': mail, 'format': 'html', 'exact_search': 'true' },
+    data: { 'query': mail, 'mode': 'mail', 'format': 'html' },
     success: function(html) {
       $('#person').html(html);
       page.linkifyCard($('#person'));
@@ -478,7 +500,10 @@ TreePage.prototype.linkifyCard = function($parent) {
   // change card links to js handlers
   $parent.find('.manager a').click(function(event) {
     event.preventDefault();
-    page.showCard(page.searchQuery(this));
+    // convert the hyperlink into parameters
+    var modequery = page.searchParams(this);
+    // showCard assumes one-person mode ('mail') and writes appropriate values into the form.
+    page.showCard(modequery.query);
   });
 };
 
@@ -562,7 +587,7 @@ EditPage.prototype.init = function() {
 EditPage.prototype.clear = function() {};
 
 EditPage.prototype.search = function(query) {
-  window.location = window.location.pathname.replace('edit.php', '?search/' + query);
+  window.location = window.location.pathname.replace('edit.php', '?edit/' + query);
   return new Promise(function() {});
 };
 
@@ -637,7 +662,8 @@ $(function() {
 
     var $text = $('#text');
     var filter = $text.val().trim();
-    var queryString = filter === '' ? '' : '?search/' + filter;
+    var mode = $('#mode').val() || 'search';
+    var queryString = filter === '' ? '' : '?' + mode + '/' + filter;
 
     // update url
     window.history.pushState({}, '',
@@ -662,7 +688,7 @@ $(function() {
     } else {
       $('#phonebook-search').removeClass('large');
       pb_page.showThrobber();
-      pb_page.search(filter).then(pb_page.hideThrobber);
+      pb_page.search(filter, mode).then(pb_page.hideThrobber);
     }
   });
 

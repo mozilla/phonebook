@@ -6,8 +6,9 @@ require_once("preprocessors-attr.inc");
 $auth = new MozillaAuthAdapter();
 $search = new MozillaSearchAdapter($ldapconn);
 $keyword = isset($_POST["query"]) ? $_POST["query"] : (isset($_GET["query"]) ? $_GET["query"] : '');
+$mode = isset($_POST["mode"]) ? $_POST["mode"] : (isset($_GET["mode"]) ? $_GET["mode"] : '');
 $exact = isset($_POST["exact_search"]) ? true : (isset($_GET["exact_search"]) ? true : false);
-$search_result = $search->search_users($keyword, $exact=$exact);
+$search_result = $search->search_users($keyword, $exact=$exact, $mode);
 $search_result['users'] = normalize($search_result['users']);
 $attr_preps = get_attr_preprocessors();
 
