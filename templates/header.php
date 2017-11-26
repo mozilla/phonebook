@@ -28,6 +28,15 @@
       <li><a class="card persist" href=".">Cards</a></li>
       <li><a class="wall persist" href="faces.php">Faces</a></li>
       <li><a class="tree persist" href="tree.php">Org Chart</a></li>
+      <?php if (count($locations_dropdown) > 0): ?>
+      <li class="location">
+        <select name="locations" id="locations">
+          <option value="">Locations:</option>
+          <?php foreach ($locations_dropdown as $l): ?>
+          <option value="<?php echo escape($l); ?>"><?php echo escape($l); ?></option>
+          <?php endforeach; ?>
+        </select>
+      <?php endif; ?>
       <li class="edit"><a class="edit" href="edit.php" id="edit-entry">Edit My Entry</a></li>
     </ul>
   </form>
