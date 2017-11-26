@@ -142,10 +142,10 @@ CardPage.prototype.init = function() {
   });
 };
 
-CardPage.prototype.search = function(query) {
+CardPage.prototype.search = function(query, mode) {
   var page = this;
   return new Promise(function(resolve, reject) {
-    $('#results').load('search.php', { 'query': query, 'format': 'html' }, function(responseText, textStatus, jqXHR) {
+    $('#results').load('search.php', { 'query': query, 'mode': mode, 'format': 'html' }, function(responseText, textStatus, jqXHR) {
       switch(textStatus) {
         case 'success':
         case 'notmodified':
@@ -190,10 +190,10 @@ WallPage.prototype.init = function() {
     });
 };
 
-WallPage.prototype.search = function(query) {
+WallPage.prototype.search = function(query, mode) {
   var page = this;
   return new Promise(function(resolve, reject) {
-    $.post('search.php', { 'query': query, 'format': 'json' }, function(searchResult) {
+    $.post('search.php', { 'query': query, 'mode': mode, 'format': 'json' }, function(searchResult) {
       var $results = $('#results');
       $results.empty();
 
@@ -243,7 +243,7 @@ WallPage.prototype.showCard = function(event) {
   $.ajax({
     method: 'POST',
     url: 'search.php',
-    data: { 'query': mail, 'format': 'html' },
+    data: { 'query': mail, 'mode': 'mail', 'format': 'html' },
     success: function(html) {
       $('body').addClass('lightbox');
       $('#overlay').html(html);
@@ -362,7 +362,7 @@ TreePage.prototype.mailToID = function(mail) {
   return '#' + mail.replace('@', '-at-').replace('.', '_');
 };
 
-TreePage.prototype.search = function(query) {
+TreePage.prototype.search = function(query, mode) {
   var page = this;
   return new Promise(function(resolve, reject) {
     // this function is overloaded to clear an active search with an empty search term
@@ -374,7 +374,7 @@ TreePage.prototype.search = function(query) {
     }
     $('#orgchart').removeClass('filter-view');
     $('#person').empty();
-    $.post('search.php', { 'query': query, 'format': 'json' }, function(searchResult) {
+    $.post('search.php', { 'query': query, 'mode': mode, 'format': 'json' }, function(searchResult) {
       // no results
       if (searchResult.count === 0) {
         page.clear();
@@ -453,7 +453,7 @@ TreePage.prototype.showCard = function(mail) {
   $.ajax({
     method: 'POST',
     url: 'search.php',
-    data: { 'query': mail, 'format': 'html', 'exact_search': 'true' },
+    data: { 'query': mail, 'mode': 'mail', 'format': 'html', 'exact_search': 'true' },
     success: function(html) {
       $('#person').html(html);
       page.linkifyCard($('#person'));
@@ -688,7 +688,7 @@ $(function() {
     } else {
       $('#phonebook-search').removeClass('large');
       pb_page.showThrobber();
-      pb_page.search(filter).then(pb_page.hideThrobber);
+      pb_page.search(filter, mode).then(pb_page.hideThrobber);
     }
   });
 
