@@ -208,7 +208,7 @@ $counter++;
     <td><label>T-Shirt Size</label></td>
     <td>
     <select name="shirtsize">
-    <option value="">Non Selected</option>
+    <option value="">None Selected</option>
     <?php
         for($i=0;$i<count($shirt_sizes);$i++){
             echo "<option value=\"". $shirt_sizes[$i] . "\"";
