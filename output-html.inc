@@ -85,7 +85,7 @@ function output_html_telephonenumber($s) {
 
 function output_html_bugzillaemail($s) {
   $s = htmlspecialchars($s);
-  return "<div class=\"bugmail\">Bugmail: <a title=\"Bugmail\" href=\"mailto:$s\">$s</a></div>";
+  return "<div class=\"bugmail\">Bugmail: <a title=\"Bugmail\" href=\"https://bugzilla.mozilla.org/user_profile?login=$s\">$s</a></div>";
 }
 
 function output_html_cn($s){
