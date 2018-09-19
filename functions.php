@@ -92,7 +92,11 @@ if (!function_exists('ldap_escape')) {
 function get_ldap_connection() {
   $ldapconn = ldap_connect(LDAP_HOST);
   $auth = new MozillaAuthAdapter();
+  ldap_set_option($ldapconn, LDAP_OPT_PROTOCOL_VERSION, 3);
 
+  if (!@ldap_start_tls($ldapconn)) {
+    wail_and_bail();
+  }
   if (!isset($_SERVER["REMOTE_USER"])) {
     wail_and_bail();
   }
